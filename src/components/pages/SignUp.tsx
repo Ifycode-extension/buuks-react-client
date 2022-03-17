@@ -8,7 +8,7 @@ const SignUp = (): JSX.Element => {
 
   const signupUser = async (e: any): Promise<void> => {
     e.preventDefault();
-    const response = await fetch(`http://localhost:8000/users/signup`, {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
