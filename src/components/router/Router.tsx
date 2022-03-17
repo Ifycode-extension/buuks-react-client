@@ -14,8 +14,8 @@ const Router = (): JSX.Element => (
         <Route path="/" element={<Navigate replace to="/home" />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/books" element={<Books />} />
       </Route>
+      <Route path="/books" element={<Books />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>

@@ -1,12 +1,11 @@
 import { Fragment } from 'react';
 import { Outlet } from 'react-router-dom';
+import Header from './components/Header';
 
 function App() {
   return (
     <Fragment>
-      <header>
-        <h1 className="text-3xl font-bold underline">Header: Buuks React Client!</h1>
-      </header>
+      <Header />
       <Outlet />
     </Fragment>
   );
