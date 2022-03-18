@@ -5,7 +5,7 @@ import Header from './components/Header';
 
 // TODO: Prevent NOT logged in user from Accessing /books page (through changing browser url)
 
-const AppWelcome = () => {
+const AppWelcome = (): JSX.Element => {
   return (
     <AuthContainer.Provider>
       <SignUpContainer.Provider>
