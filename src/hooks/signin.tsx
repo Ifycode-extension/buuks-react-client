@@ -1,31 +1,35 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { createContainer } from "unstated-next"
+import { createContainer } from "unstated-next";
 
-export const useAuth = () => {
+export const useSignup = () => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState('');
 
-  const loginUser = async (e: any) => {
+  const signupUser = async (e: any) => {
     e.preventDefault();
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/signup`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         email,
-        password
+        password,
+        passwordConfirmation: confirmPassword,
+        name,
       })
     });
 
     const data = await response.json();
 
     // TODO: This works but include a property with boolean value of true/false in the API for use here instead
-    if (data.user) {
-      navigate('/books');
+    if (data.email) {
+      navigate('/login');
     }
 
     console.log(data);
@@ -39,13 +43,25 @@ export const useAuth = () => {
     setPassword(eventTargetValue);
   }
 
+  const handleConfirmPassword = (eventTargetValue: string) => {
+    setConfirmPassword(eventTargetValue);
+  }
+
+  const handleName = (eventTargetValue: string) => {
+    setName(eventTargetValue);
+  }
+
   return {
     email,
     password,
-    loginUser,
+    confirmPassword,
+    name,
+    signupUser,
     handleEmail,
-    handlePassword
+    handlePassword,
+    handleConfirmPassword,
+    handleName
   }
 }
 
-export const AuthContainer = createContainer(useAuth);
+export const SignUpContainer = createContainer(useSignup);
