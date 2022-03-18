@@ -1,4 +1,5 @@
-import { Fragment } from 'react';
+import { AuthContainer } from './hooks/auth';
+import { SignUpContainer } from './hooks/signin';
 import { Outlet } from 'react-router-dom';
 import Header from './components/Header';
 
@@ -6,10 +7,12 @@ import Header from './components/Header';
 
 function App() {
   return (
-    <Fragment>
-      <Header />
-      <Outlet />
-    </Fragment>
+    <AuthContainer.Provider>
+      <SignUpContainer.Provider>
+        <Header />
+        <Outlet />
+      </SignUpContainer.Provider>
+    </AuthContainer.Provider>
   );
 }
 
