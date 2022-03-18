@@ -1,4 +1,5 @@
 import { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import { SignUpContainer } from '../../hooks/signin';
 
 const SignUp = (): JSX.Element => {
@@ -35,6 +36,10 @@ const SignUp = (): JSX.Element => {
           {/* Temporary style for button. Use tailwind later */}
           <button style={{ padding: '10px', color: 'white', background: '#961656', borderRadius: '3px' }}>Signup</button>
         </form>
+        <div>
+          <span>Have an account already?</span>
+          <Link to="/login" style={{ textDecoration: 'underline', color: 'blue', marginLeft: '10px' }}>Login.</Link>
+        </div>
       </section>
     </Fragment>
   );
