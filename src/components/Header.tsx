@@ -16,6 +16,7 @@ const Header = (): JSX.Element => {
           <Fragment>
             <Link to="/signup" style={{ textDecoration: 'underline', color: 'blue' }}>Signup page</Link>
             <Link to="/login" style={{ textDecoration: 'underline', color: 'blue' }}>Login page</Link>
+            {/* Remove /books header link once you have prevented access to pages through the /login and /signup links */}
             <Link to="/books" style={{ textDecoration: 'underline', color: 'blue' }}>User Account books page</Link>
           </Fragment>
         }
