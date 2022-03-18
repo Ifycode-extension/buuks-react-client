@@ -1,10 +1,15 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Login = (): JSX.Element => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const loginUser = async (e: any): Promise<void> => {
+  // TODO: Transform the content here into reusable react hook
+
+  const loginUser = async (e: any) => {
     e.preventDefault();
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
       method: 'POST',
@@ -18,6 +23,12 @@ const Login = (): JSX.Element => {
     });
 
     const data = await response.json();
+
+     // TODO: This works but include a property with boolean value of true/false in the API for use here instead
+    if (data.user) {
+      navigate('/books');
+    }
+
     console.log(data);
   }
 

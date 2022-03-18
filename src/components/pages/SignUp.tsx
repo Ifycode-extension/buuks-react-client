@@ -1,12 +1,17 @@
-import { Fragment, useState } from "react";
+import { Fragment, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = (): JSX.Element => {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [name, setName] = useState('');
 
-  const signupUser = async (e: any): Promise<void> => {
+  // TODO: Transform the content here into reusable react hook
+
+  const signupUser = async (e: any) => {
     e.preventDefault();
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/signup`, {
       method: 'POST',
@@ -22,6 +27,12 @@ const SignUp = (): JSX.Element => {
     });
 
     const data = await response.json();
+
+    // TODO: This works but include a property with boolean value of true/false in the API for use here instead
+    if (data.email) {
+      navigate('/login');
+    }
+
     console.log(data);
   }
 
