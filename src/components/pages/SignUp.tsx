@@ -54,7 +54,8 @@ const SignUp = (): JSX.Element => {
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
-          <button>Signup</button>
+          {/* Temporary style for button. Use tailwind later */}
+          <button style={{ padding: '10px', color: 'white', background: '#961656', borderRadius: '3px' }}>Signup</button>
         </form>
       </section>
     </Fragment>

@@ -38,7 +38,8 @@ const Login = (): JSX.Element => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <button>Login</button>
+          {/* Temporary style for button. Use tailwind later */}
+          <button style={{ padding: '10px', color: 'white', background: '#961656', borderRadius: '3px' }}>Login</button>
         </form>
       </section>
     </Fragment>
