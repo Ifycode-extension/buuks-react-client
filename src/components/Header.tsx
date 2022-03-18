@@ -9,17 +9,21 @@ const Header = (): JSX.Element => {
     <Fragment>
       <header style={{ display: 'flex', justifyContent: 'space-between' }}>
         {/* Temporary style: Use tailwind later on */}
-        {!homePage &&
-          <Link to="/" style={{ textDecoration: 'underline', color: 'blue' }}>Buuks Home</Link>
-        }
-        {homePage &&
-          <Fragment>
-            <Link to="/signup" style={{ textDecoration: 'underline', color: 'blue' }}>Signup page</Link>
-            <Link to="/login" style={{ textDecoration: 'underline', color: 'blue' }}>Login page</Link>
-            {/* Remove /books header link once you have prevented access to pages through the /login and /signup links */}
-            <Link to="/books" style={{ textDecoration: 'underline', color: 'blue' }}>User Account books page</Link>
-          </Fragment>
-        }
+        <div>
+          <Link to="/" style={{ color: 'blue' }}>Buuks App Logo</Link>
+        </div>
+        <nav>
+          {!homePage &&
+            <Link to="/" style={{ textDecoration: 'underline', color: 'blue' }}>Buuks Home</Link>
+          }
+          {homePage &&
+            <Fragment>
+              <Link to="/signup" style={{ textDecoration: 'underline', color: 'blue' }}>Signup page</Link>
+              <Link to="/login" style={{ textDecoration: 'underline', color: 'blue', marginLeft: '10px' }}>Login page</Link>
+              {/* <Link to="/books" style={{ textDecoration: 'underline', color: 'blue',  marginLeft: '10px' }}>User Account books page</Link> */}
+            </Fragment>
+          }
+        </nav>
       </header>
     </Fragment>
   );
