@@ -20,7 +20,6 @@ const Header = (): JSX.Element => {
             <Fragment>
               <Link to="/signup" style={{ textDecoration: 'underline', color: 'blue' }}>Signup page</Link>
               <Link to="/login" style={{ textDecoration: 'underline', color: 'blue', marginLeft: '10px' }}>Login page</Link>
-              {/* <Link to="/books" style={{ textDecoration: 'underline', color: 'blue',  marginLeft: '10px' }}>User Account books page</Link> */}
             </Fragment>
           }
         </nav>
