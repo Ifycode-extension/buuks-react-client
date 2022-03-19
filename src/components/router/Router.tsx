@@ -16,9 +16,6 @@ const Router = (): JSX.Element => (
         <Route path="/login" element={<Login />} />
         <Route path="/books" element={<Books />} />
       </Route>
-      {/* <Route element={<App />}>
-        <Route path="/books" element={<Books />} />
-      </Route> */}
       <Route path="*" element={<NotFound />} />
     </Routes>
   </BrowserRouter>
