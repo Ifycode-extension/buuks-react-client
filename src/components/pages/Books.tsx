@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Books = (): JSX.Element => {
   const navigate = useNavigate();
+  // TODO: const [userName, setUserName] = useState(''); // add name property to the get response on the backend so that you can display this at the top of the page
   const [books, setBooks] = useState([]);
   const [booksCount, setBooksCount] = useState(0);
 
@@ -53,6 +54,7 @@ const Books = (): JSX.Element => {
     <section>
       <h1>Books page!</h1>
       <p>Welcome (user name will go here)!</p>
+      <b>(Please pardon my ugly UI for now.  Will work on that once I'm done with functionality)</b>
       {
         booksCount !== 0 ? books.map(((book: any) => {
           return (
@@ -60,7 +62,7 @@ const Books = (): JSX.Element => {
             <div key={book._id} style={{ border: '1px solid grey' }}>
               <h3>{book.title}</h3>
               <h3>{book.description}</h3>
-              <a href={book.pdf} >Preview or download PDF</a>
+              <a href={book.pdf} style={{ color: 'blue' }}>Preview or download PDF</a>
             </div>
           )
         })) :
