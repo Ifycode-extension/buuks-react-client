@@ -4,6 +4,7 @@ import { AuthContainer } from '../../hooks/auth';
 
 const Login = (): JSX.Element => {
   const auth = AuthContainer.useContainer();
+  // console.log(auth.userData);
   return (
     <Fragment>
       <section>
@@ -28,6 +29,8 @@ const Login = (): JSX.Element => {
           <span>Don't have an accout yet?</span>
           <Link to="/signup" style={{ textDecoration: 'underline', color: 'blue', marginLeft: '10px' }}>Signup!</Link>
         </div>
+        <div>{auth.email}</div>
+        <div>{auth.userData.user?.name}</div>
       </section>
     </Fragment>
   );

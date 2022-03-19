@@ -8,8 +8,15 @@ export const useAuth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const [clicked, setClicked] = useState(false);
+
+  const [userData, setUserData] = useState<Record<string, any>>({});
+
   const loginUser = async (e: any) => {
     e.preventDefault();
+
+    setClicked(true);
+
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
       method: 'POST',
       headers: {
@@ -21,14 +28,33 @@ export const useAuth = () => {
       })
     });
 
+    // try {
+    //   if (response.ok) {
+    //     const data = await response.json();
+
+    //     console.log('OK: ', data);
+    //     setUserData(data);
+    //   }
+    // } catch (err) {
+    //   console.log('ERROR: ', err);
+    // }
+
+
     const data = await response.json();
+
+    console.log(data);
+    setUserData(data);
+    console.log('userData from click: ', userData);
 
     // TODO: This works but include a property with boolean value of true/false in the API for use here instead
     if (data.user) {
       navigate('/books');
     }
 
-    console.log(data);
+
+    // console.log(data);
+    // setUserData(data);
+    // console.log('userData from click: ', userData);
   }
 
   const handleEmail = (eventTargetValue: string) => {
@@ -39,12 +65,16 @@ export const useAuth = () => {
     setPassword(eventTargetValue);
   }
 
+  // console.log(clicked);
+
   return {
     email,
     password,
     loginUser,
     handleEmail,
-    handlePassword
+    handlePassword,
+    clicked,
+    userData
   }
 }
 
