@@ -30,7 +30,7 @@ const Login = (): JSX.Element => {
       navigate('/books');
     }
 
-    console.log(data);
+    // console.log(data);
   }
 
   const handleEmail = (eventTargetValue: string) => {
