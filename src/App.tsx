@@ -1,5 +1,4 @@
 import { AuthContainer } from './hooks/auth';
-import { SignUpContainer } from './hooks/signin';
 import { Outlet } from 'react-router-dom';
 import Header from './components/Header';
 
@@ -8,10 +7,8 @@ import Header from './components/Header';
 const App = (): JSX.Element => {
   return (
     <AuthContainer.Provider>
-      <SignUpContainer.Provider>
-        <Header />
-        <Outlet />
-      </SignUpContainer.Provider>
+      <Header />
+      <Outlet />
     </AuthContainer.Provider>
   );
 }
