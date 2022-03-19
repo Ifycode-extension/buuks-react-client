@@ -42,14 +42,13 @@ export const useAuth = () => {
 
     const data = await response.json();
 
-    console.log(data);
-    setUserData(data);
-    console.log('userData from click: ', userData);
-
     // TODO: This works but include a property with boolean value of true/false in the API for use here instead
     if (data.user) {
+      setUserData(data);
       navigate('/books');
     }
+
+    console.log(data);
 
 
     // console.log(data);
