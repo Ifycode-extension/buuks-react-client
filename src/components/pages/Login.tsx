@@ -1,26 +1,60 @@
-import { Fragment } from 'react';
-import { Link } from 'react-router-dom';
-import { AuthContainer } from '../../hooks/auth';
+import { Fragment, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = (): JSX.Element => {
-  const auth = AuthContainer.useContainer();
-  // console.log(auth.userData);
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const loginUser = async (e: any) => {
+    e.preventDefault();
+
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/auth/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        email,
+        password
+      })
+    });
+
+    const data = await response.json();
+
+    // TODO: This works but include a property with boolean value of true/false in the API for use here instead
+    if (data.user) {
+      navigate('/books');
+    }
+
+    console.log(data);
+  }
+
+  const handleEmail = (eventTargetValue: string) => {
+    setEmail(eventTargetValue);
+  }
+
+  const handlePassword = (eventTargetValue: string) => {
+    setPassword(eventTargetValue);
+  }
+
   return (
     <Fragment>
       <section>
         <h1>Login page!</h1>
-        <form onSubmit={auth.loginUser}>
+        <form onSubmit={loginUser}>
           <input
             type="text"
             placeholder="Email"
-            value={auth.email}
-            onChange={(e) => auth.handleEmail(e.target.value)}
+            value={email}
+            onChange={(e) => handleEmail(e.target.value)}
           />
           <input
             type="password"
             placeholder="Password"
-            value={auth.password}
-            onChange={(e) => auth.handlePassword(e.target.value)}
+            value={password}
+            onChange={(e) => handlePassword(e.target.value)}
           />
           {/* Temporary style for button. Use tailwind later */}
           <button style={{ padding: '10px', color: 'white', background: '#961656', borderRadius: '3px' }}>Login</button>
@@ -29,8 +63,7 @@ const Login = (): JSX.Element => {
           <span>Don't have an accout yet?</span>
           <Link to="/signup" style={{ textDecoration: 'underline', color: 'blue', marginLeft: '10px' }}>Signup!</Link>
         </div>
-        <div>{auth.email}</div>
-        <div>{auth.userData.user?.name}</div>
+        <div>{email}</div>
       </section>
     </Fragment>
   );
