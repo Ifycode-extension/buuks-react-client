@@ -1,6 +1,23 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 
 const Books = (): JSX.Element => {
+  const navigate = useNavigate();
+
+  // const getUserBooks = async () => {
+  //   await fetch(`${process.env.REACT_APP_BASE_URL}/auth/login`);
+  // }
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem('accessToken');
+    // const refreshToken = localStorage.getItem('refreshToken');
+    if (!accessToken) {
+      navigate('/login');
+    } else {
+      console.log('You\'re logged in!');
+      // getUserBooks();
+    }
+  });
   return (
     <section>
       <h1>Books page!</h1>

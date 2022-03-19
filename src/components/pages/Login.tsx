@@ -25,6 +25,8 @@ const Login = (): JSX.Element => {
 
     // TODO: This works but include a property with boolean value of true/false in the API for use here instead
     if (data.user) {
+      localStorage.setItem('accessToken', data.accessToken);
+      //localStorage.setItem('refreshToken', data.refreshToken);
       navigate('/books');
     }
 
