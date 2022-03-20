@@ -2,13 +2,19 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import Modal from "../Modal";
 
-// Rough work... Arrange code, and reduce the code in this file later.
+// Rough work... Fix repetition and arrange code, and reduce the code in this file later.
 
 const Books = (): JSX.Element => {
   const navigate = useNavigate();
   // TODO: const [userName, setUserName] = useState(''); // add name property to the get response on the backend so that you can display this at the top of the page
   const [books, setBooks] = useState([]);
   const [booksCount, setBooksCount] = useState(0);
+
+  const [modal, setModal] = useState(false);
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [pdf, setPdf] = useState<File>();
 
   //---------------------------------------------------------
   const getUserBooks = async (userId: string) => {
@@ -56,6 +62,48 @@ const Books = (): JSX.Element => {
 
   //----------------------------------------------------------------
 
+  const postNewBook = async (e: any) => {
+    e.preventDefault();
+    // console.log(localStorage.accessToken);
+    if (localStorage.accessToken) {
+      let formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('pdf', pdf as File);
+
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/books`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.accessToken}`,
+          'x-access-token': `${localStorage.accessToken}`
+        },
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data) {
+        setModal(false);
+      }
+
+      console.log(data);
+    }
+  }
+
+  const handleTitle = (eventTargetValue: string) => {
+    setTitle(eventTargetValue);
+  }
+
+  const handleDescription = (eventTargetValue: string) => {
+    setDescription(eventTargetValue);
+  }
+
+  const handleFileAddition = (e: any) => {
+    setPdf(e.target.files![0]);
+  }
+
+  //----------------------------------------------------------------
+  
   return (
     <section>
       <h1>Books page!</h1>
@@ -78,17 +126,31 @@ const Books = (): JSX.Element => {
         })) :
           <div>You have not added any book yet</div>
       }
-      <button className="button block">Add a new book</button>
+      <button
+        className="button block"
+        onClick={() => setModal(true)}
+      >Add a new book</button>
 
       <Modal>
-        <form>
+        <form method="post" encType="multipart/form-data" onSubmit={postNewBook}>
           <h1>Add new book (form)</h1>
           <input
             type="text"
             placeholder="New book title"
+            value={title}
+            onChange={(e) => handleTitle(e.target.value)}
           />
-          <textarea placeholder="New book description"></textarea>
-          <input type="file" />
+          <input
+            type="text"
+            placeholder="New book description"
+            value={description}
+            onChange={(e) => handleDescription(e.target.value)}
+          />
+          <input
+            type="file"
+            // accept=".pdf"
+            onChange={(e) => handleFileAddition(e)}
+          />
           <button className="button">Submit new book</button>
         </form>
       </Modal>
