@@ -45,6 +45,7 @@ const Login = (): JSX.Element => {
     <Fragment>
       <section>
         <h1>Login page!</h1>
+        <b>(Please pardon my ugly UI for now.  Will work on that once I'm done with functionality)</b>
         <form onSubmit={loginUser}>
           <input
             type="text"
@@ -59,7 +60,7 @@ const Login = (): JSX.Element => {
             onChange={(e) => handlePassword(e.target.value)}
           />
           {/* Temporary style for button. Use tailwind later */}
-          <button style={{ padding: '10px', color: 'white', background: '#961656', borderRadius: '3px' }}>Login</button>
+          <button className='button'>Login</button>
         </form>
         <div>
           <span>Don't have an accout yet?</span>

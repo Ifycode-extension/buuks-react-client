@@ -59,16 +59,20 @@ const Books = (): JSX.Element => {
         booksCount !== 0 ? books.map(((book: any) => {
           return (
             // Temporary styles use tailwind later on
-            <div key={book._id} style={{ border: '1px solid grey' }}>
+            <div key={book._id} className="cards">
               <h3>{book.title}</h3>
               <h3>{book.description}</h3>
               <a href={book.pdf} style={{ color: 'blue' }}>Preview or download PDF</a>
+              <div className="card-buttons">
+                <button className="margin-right">Update</button>
+                <button>Delete</button>
+              </div>
             </div>
           )
         })) :
           <div>You have not added any book yet</div>
       }
-      <button style={{ display: 'block', margin: '10px 0', padding: '10px', color: 'white', background: '#961656', borderRadius: '3px' }}>Add a new book</button>
+      <button className="button block">Add a new book</button>
       {/* Temporary style: Use tailwind later on */}
       <Link to="/" style={{ textDecoration: 'underline', color: 'blue' }}>Back to home page</Link>
     </section>

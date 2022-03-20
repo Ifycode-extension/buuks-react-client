@@ -1,0 +1,45 @@
+/* Temporary styles - use tailwind later */
+
+body {
+  width: 90%;
+  margin: 0 auto;
+}
+
+form input {
+  display: block;
+  border: 1px solid grey;
+  margin: 5px 0;
+  border-radius: 3px;
+}
+
+.button {
+  margin: 10px 0;
+  padding: 10px;
+  color: white;
+  background: #961656;
+  border-radius: 3px;
+}
+
+.block {
+  display: block;
+}
+
+.card-buttons > * {
+  color: white;
+  margin: 5px 0 0 0;
+  padding: 6px;
+  color: white;
+  background: #961656;
+  border-radius: 3px;
+}
+
+.margin-right {
+  margin-right: 5px;
+}
+
+.cards {
+  border: 1px solid grey;
+  margin: 10px 0;
+  padding: 6px;
+  border-radius: 3px;
+}

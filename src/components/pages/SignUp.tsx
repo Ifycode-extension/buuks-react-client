@@ -56,6 +56,7 @@ const SignUp = (): JSX.Element => {
     <Fragment>
       <section>
         <h1>Signup page!</h1>
+        <b>(Please pardon my ugly UI for now.  Will work on that once I'm done with functionality)</b>
         <form onSubmit={signupUser}>
           <input
             type="text"
@@ -82,7 +83,7 @@ const SignUp = (): JSX.Element => {
             onChange={(e) => handleName(e.target.value)}
           />
           {/* Temporary style for button. Use tailwind later */}
-          <button style={{ padding: '10px', color: 'white', background: '#961656', borderRadius: '3px' }}>Signup</button>
+          <button className="button">Signup</button>
         </form>
         <div>
           <span>Have an account already?</span>
