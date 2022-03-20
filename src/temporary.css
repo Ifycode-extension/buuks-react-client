@@ -5,7 +5,8 @@ body {
   margin: 0 auto;
 }
 
-form input {
+form input, 
+form textarea {
   display: block;
   border: 1px solid grey;
   margin: 5px 0;

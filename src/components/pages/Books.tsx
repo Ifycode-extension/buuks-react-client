@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
+import Modal from "../Modal";
+
+// Rough work... Arrange code, and reduce the code in this file later.
 
 const Books = (): JSX.Element => {
   const navigate = useNavigate();
@@ -7,6 +10,7 @@ const Books = (): JSX.Element => {
   const [books, setBooks] = useState([]);
   const [booksCount, setBooksCount] = useState(0);
 
+  //---------------------------------------------------------
   const getUserBooks = async (userId: string) => {
     console.log('Get books function! ', userId);
 
@@ -50,6 +54,8 @@ const Books = (): JSX.Element => {
     }
   }, []);
 
+  //----------------------------------------------------------------
+
   return (
     <section>
       <h1>Books page!</h1>
@@ -73,6 +79,20 @@ const Books = (): JSX.Element => {
           <div>You have not added any book yet</div>
       }
       <button className="button block">Add a new book</button>
+
+      <Modal>
+        <form>
+          <h1>Add new book (form)</h1>
+          <input
+            type="text"
+            placeholder="New book title"
+          />
+          <textarea placeholder="New book description"></textarea>
+          <input type="file" />
+          <button className="button">Submit new book</button>
+        </form>
+      </Modal>
+
       {/* Temporary style: Use tailwind later on */}
       <Link to="/" style={{ textDecoration: 'underline', color: 'blue' }}>Back to home page</Link>
     </section>
