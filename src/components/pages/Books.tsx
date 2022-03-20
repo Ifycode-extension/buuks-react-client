@@ -103,7 +103,29 @@ const Books = (): JSX.Element => {
   }
 
   //----------------------------------------------------------------
-  
+
+  const handleBookDelete = async (bookId: string) => {
+    if (localStorage.accessToken) {
+      const req = await fetch(`${process.env.REACT_APP_BASE_URL}/books/${bookId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.accessToken}`,
+          'x-access-token': localStorage.getItem('accessToken') as string,
+        }
+      });
+
+      const data = await req.json();
+
+      if (data) {
+        setModal(false);
+      }
+
+      console.log(data);
+    }
+  }
+
+  //----------------------------------------------------------------
+
   return (
     <section>
       <h1>Books page!</h1>
@@ -119,7 +141,7 @@ const Books = (): JSX.Element => {
               <a href={book.pdf} style={{ color: 'blue' }}>Preview or download PDF</a>
               <div className="card-buttons">
                 <button className="margin-right">Update</button>
-                <button>Delete</button>
+                <button onClick={(e) => handleBookDelete(book._id)}>Delete</button>
               </div>
             </div>
           )
