@@ -155,19 +155,21 @@ const Books = (): JSX.Element => {
 
 
   return (
-    <section className="h-screen">
-      <h1>Books page!</h1>
-      <p>Welcome (user name will go here)!</p>
-      <Temporary />
+    <section>
+      <div className="flex justify-between items-center py-4">
+        <p className="text-2xl ">User name</p>
+        <button
+          className="rounded bg-pink-800 text-white text-lg py-2 px-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200"
+          onClick={handleLogout}
+        >Logout</button>
+      </div>
 
-      <button
-        className="button block"
-        onClick={handleLogout}>Logout</button>
-
-      <button
-        className="absolute bottom-10 right-0 text-white text-4xl p-0 w-16 h-16 bg-pink-800 rounded-full hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200"
-        onClick={() => handleModal(true)}
-      >+</button>
+      <div className="absolute">
+        <button
+          className="fixed bottom-10 right-10 text-white text-4xl p-0 w-16 h-16 bg-pink-800 rounded-full hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200"
+          onClick={() => handleModal(true)}
+        >+</button>
+      </div>
 
       <Modal
         modal={modal}
