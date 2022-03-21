@@ -1,5 +1,6 @@
 import { Fragment, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Temporary from '../Temporary';
 
 const Login = (): JSX.Element => {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const Login = (): JSX.Element => {
     <Fragment>
       <section>
         <h1>Login page!</h1>
+        <Temporary />
         <form onSubmit={loginUser}>
           <input
             type="text"
@@ -59,7 +61,7 @@ const Login = (): JSX.Element => {
             onChange={(e) => handlePassword(e.target.value)}
           />
           {/* Temporary style for button. Use tailwind later */}
-          <button style={{ padding: '10px', color: 'white', background: '#961656', borderRadius: '3px' }}>Login</button>
+          <button className='button'>Login</button>
         </form>
         <div>
           <span>Don't have an accout yet?</span>

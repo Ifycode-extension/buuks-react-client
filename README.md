@@ -22,3 +22,11 @@ Alternatively, run the [backend repo](https://github.com/Ifycode-tasks-for-later
 - For conditional header links rendering: [MWO's answer to stackoverflow question | Hide a component in Login in react Routes](https://stackoverflow.com/a/71158389/15012852)
 
 - For navigating to another page on button click: [Mohamed MILADI's useNavigate answer | Attempted import error: 'useHistory' is not exported from 'react-router-dom'](https://stackoverflow.com/a/66971821/15012852)
+
+- For PDF and form-data upload: [StackedQ's answer to stackoverfolow question: How to send values like form-data postman - react js](https://stackoverflow.com/a/53209439/15012852)
+
+- For PDF and form-data upload: [MDN - A special case: sending files](https://developer.mozilla.org/en-US/docs/Learn/Forms/Sending_and_retrieving_form_data#a_special_case_sending_files)
+
+- For PDF and form-data upload: [handelChangeImage function from Ana Jentel's stackoverflow question](https://stackoverflow.com/q/48834530/15012852)
+
+- [window.atob() github comment](https://github.com/microsoft/TypeScript/issues/45566#issuecomment-905059122)

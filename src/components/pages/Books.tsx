@@ -1,12 +1,30 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Modal from "../Modal";
+import Temporary from "../Temporary";
+
+// TODO: (code here is rough work) Fix repetition and arrange code, clean up and reduce the code in this file later.
+
+interface BookArray {
+  _id: string;
+  title: string;
+  description: string;
+  pdf: string;
+  request: Record<string, any>
+}
 
 const Books = (): JSX.Element => {
   const navigate = useNavigate();
   // TODO: const [userName, setUserName] = useState(''); // add name property to the get response on the backend so that you can display this at the top of the page
-  const [books, setBooks] = useState([]);
-  const [booksCount, setBooksCount] = useState(0);
+  let [books, setBooks] = useState<BookArray[]>([]);
 
+  const [modal, setModal] = useState(false);
+
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [pdf, setPdf] = useState<File>();
+
+  //---------------------------------------------------------
   const getUserBooks = async (userId: string) => {
     console.log('Get books function! ', userId);
 
@@ -22,8 +40,7 @@ const Books = (): JSX.Element => {
     const data = await req.json();
 
     if (data) {
-      setBooks(data.books);
-      setBooksCount(data.count);
+      setBooks(data.books.reverse());
       console.log('data: ', data);
     } else {
       console.log('error: some error occured...');
@@ -50,27 +67,152 @@ const Books = (): JSX.Element => {
     }
   }, []);
 
+  //----------------------------------------------------------------
+
+  const postNewBook = async (e: any) => {
+    e.preventDefault();
+    // console.log(localStorage.accessToken);
+    if (localStorage.accessToken) {
+      console.log('loading...');
+
+      let formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('pdf', pdf as File);
+
+      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/books`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${localStorage.accessToken}`,
+          'x-access-token': `${localStorage.accessToken}`
+        },
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (data.book) {
+        books.unshift(data.book);
+        console.log('New book added!');
+        handleModal(false)
+      }
+
+      console.log(data);
+    }
+  }
+
+  const handleTitle = (eventTargetValue: string) => {
+    setTitle(eventTargetValue);
+  }
+
+  const handleDescription = (eventTargetValue: string) => {
+    setDescription(eventTargetValue);
+  }
+
+  const handleFileAddition = (e: any) => {
+    setPdf(e.target.files![0]);
+  }
+
+  //----------------------------------------------------------------
+
+  const handleModal = (boolean: boolean) => {
+    setModal(boolean);
+  }
+
+  //----------------------------------------------------------------
+
+  const handleBookDelete = async (bookId: string) => {
+    if (localStorage.accessToken) {
+      console.log('loading...');
+
+      const req = await fetch(`${process.env.REACT_APP_BASE_URL}/books/${bookId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.accessToken}`,
+          'x-access-token': localStorage.getItem('accessToken') as string,
+        }
+      });
+
+      const data = await req.json();
+
+      if (data.user) {
+        setBooks(books.filter(book => book._id !== bookId));
+        console.log('Deleted succesfully!');
+      }
+
+      console.log(data);
+    }
+  }
+
+  //----------------------------------------------------------------
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    navigate('/login');
+  }
+
+  //----------------------------------------------------------------
+
+
   return (
     <section>
       <h1>Books page!</h1>
       <p>Welcome (user name will go here)!</p>
-      <b>(Please pardon my ugly UI for now.  Will work on that once I'm done with functionality)</b>
+      <Temporary />
+
+      <button
+        className="button block"
+        onClick={handleLogout}>Logout</button>
+
+      <button
+        className="button block"
+        onClick={() => handleModal(true)}
+      >Add a new book</button>
+
+      <Modal
+        modal={modal}
+        handleModal={handleModal}
+      >
+        <form method="post" encType="multipart/form-data" onSubmit={postNewBook}>
+          <h1>Add new book (form)</h1>
+          <input
+            type="text"
+            placeholder="New book title"
+            value={title}
+            onChange={(e) => handleTitle(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="New book description"
+            value={description}
+            onChange={(e) => handleDescription(e.target.value)}
+          />
+          <input
+            type="file"
+            // accept=".pdf"
+            onChange={(e) => handleFileAddition(e)}
+          />
+          <button className="button">Submit new book</button>
+        </form>
+      </Modal>
+
       {
-        booksCount !== 0 ? books.map(((book: any) => {
+        books.length ? books.map(((book: any) => {
           return (
             // Temporary styles use tailwind later on
-            <div key={book._id} style={{ border: '1px solid grey' }}>
+            <div key={book._id} className="cards">
               <h3>{book.title}</h3>
               <h3>{book.description}</h3>
-              <a href={book.pdf} style={{ color: 'blue' }}>Preview or download PDF</a>
+              <a href={book.pdf} target="_blank" rel="noreferrer" style={{ color: 'blue' }}>Preview or download PDF</a>
+              <div className="card-buttons">
+                <button className="margin-right" disabled={true}>Update</button>
+                <button onClick={(e) => handleBookDelete(book._id)}>Delete</button>
+              </div>
             </div>
           )
         })) :
           <div>You have not added any book yet</div>
       }
-      <button style={{ display: 'block', margin: '10px 0', padding: '10px', color: 'white', background: '#961656', borderRadius: '3px' }}>Add a new book</button>
-      {/* Temporary style: Use tailwind later on */}
-      <Link to="/" style={{ textDecoration: 'underline', color: 'blue' }}>Back to home page</Link>
     </section>
   );
 }
