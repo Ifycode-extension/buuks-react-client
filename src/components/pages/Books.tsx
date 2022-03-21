@@ -202,7 +202,7 @@ const Books = (): JSX.Element => {
             <div key={book._id} className="cards">
               <h3>{book.title}</h3>
               <h3>{book.description}</h3>
-              <a href={book.pdf} style={{ color: 'blue' }}>Preview or download PDF</a>
+              <a href={book.pdf} target="_blank" rel="noreferrer" style={{ color: 'blue' }}>Preview or download PDF</a>
               <div className="card-buttons">
                 <button className="margin-right" disabled={true}>Update</button>
                 <button onClick={(e) => handleBookDelete(book._id)}>Delete</button>
