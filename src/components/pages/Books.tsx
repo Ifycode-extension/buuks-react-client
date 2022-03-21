@@ -4,10 +4,18 @@ import Modal from "../Modal";
 
 // TODO: (code here is rough work) Fix repetition and arrange code, clean up and reduce the code in this file later.
 
+interface BookArray {
+  _id: string;
+  title: string;
+  description: string;
+  pdf: string;
+  request: Record<string,any>
+}
+
 const Books = (): JSX.Element => {
   const navigate = useNavigate();
   // TODO: const [userName, setUserName] = useState(''); // add name property to the get response on the backend so that you can display this at the top of the page
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<BookArray[]>([]);
   const [booksCount, setBooksCount] = useState(0);
 
   const [modal, setModal] = useState(false);
@@ -83,6 +91,7 @@ const Books = (): JSX.Element => {
       const data = await response.json();
 
       if (data.book) {
+        books.unshift(data.book);
         handleModal(false)
       }
 
