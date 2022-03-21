@@ -199,14 +199,26 @@ const Books = (): JSX.Element => {
       {
         books.length ? books.map(((book: any) => {
           return (
-            // Temporary styles use tailwind later on
-            <div key={book._id} className="cards">
-              <h3>{book.title}</h3>
-              <h3>{book.description}</h3>
-              <a href={book.pdf} target="_blank" rel="noreferrer" style={{ color: 'blue' }}>Preview or download PDF</a>
-              <div className="card-buttons">
-                <button className="margin-right" disabled={true}>Update</button>
-                <button onClick={(e) => handleBookDelete(book._id)}>Delete</button>
+            <div key={book._id} className=" mb-4 rounded shadow-sm overflow-hidden">
+              <div className="p-4 border-r border-l border-t border-gray-200">
+                <h3 className="font-medium leading-tight text-2xl mt-0 mb-2 text-pink-700 mb-2">{book.title}</h3>
+                <p className="mb-1">{book.description}</p>
+                <a
+                  className="text-blue-700 underline"
+                  href={book.pdf}
+                  target="_blank"
+                  rel="noreferrer">
+                  Preview or download PDF</a>
+              </div>
+              <div className="flex">
+                <button className="flex-grow bg-gray-300 text-gray-600 p-2 cursor-not-allowed">
+                  Update
+                </button>
+                <button
+                  className="flex-grow bg-pink-800 text-white p-2 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200"
+                  onClick={(e) => handleBookDelete(book._id)}>
+                  Delete
+                </button>
               </div>
             </div>
           )

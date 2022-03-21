@@ -20,8 +20,7 @@ form textarea {
   display: block;
 }
 
-.modal-button,
-.card-buttons > * {
+.modal-button {
   color: white;
   margin: 5px 0 0 0;
   padding: 6px;
@@ -32,17 +31,4 @@ form textarea {
 
 .margin-right {
   margin-right: 5px;
-}
-
-.cards {
-  border: 1px solid grey;
-  margin: 10px 0;
-  padding: 6px;
-  border-radius: 3px;
-}
-
-button:disabled {
-  background: #dddddd;
-  color: #777777;
-  cursor: not-allowed;
 }
