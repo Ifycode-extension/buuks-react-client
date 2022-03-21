@@ -16,7 +16,6 @@ const Books = (): JSX.Element => {
   const navigate = useNavigate();
   // TODO: const [userName, setUserName] = useState(''); // add name property to the get response on the backend so that you can display this at the top of the page
   let [books, setBooks] = useState<BookArray[]>([]);
-  const [booksCount, setBooksCount] = useState(0);
 
   const [modal, setModal] = useState(false);
 
@@ -41,7 +40,6 @@ const Books = (): JSX.Element => {
 
     if (data) {
       setBooks(data.books.reverse());
-      setBooksCount(data.count);
       console.log('data: ', data);
     } else {
       console.log('error: some error occured...');
@@ -198,7 +196,7 @@ const Books = (): JSX.Element => {
       </Modal>
 
       {
-        booksCount !== 0 ? books.map(((book: any) => {
+        books.length ? books.map(((book: any) => {
           return (
             // Temporary styles use tailwind later on
             <div key={book._id} className="cards">
@@ -206,7 +204,7 @@ const Books = (): JSX.Element => {
               <h3>{book.description}</h3>
               <a href={book.pdf} style={{ color: 'blue' }}>Preview or download PDF</a>
               <div className="card-buttons">
-                <button className="margin-right">Update</button>
+                <button className="margin-right" disabled={true}>Update</button>
                 <button onClick={(e) => handleBookDelete(book._id)}>Delete</button>
               </div>
             </div>

@@ -45,3 +45,9 @@ form textarea {
   padding: 6px;
   border-radius: 3px;
 }
+
+button:disabled {
+  background: #dddddd;
+  color: #777777;
+  cursor: not-allowed;
+}
