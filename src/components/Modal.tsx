@@ -1,10 +1,22 @@
-import { ReactChild, ReactElement } from 'react';
+import { Fragment, ReactChild, ReactElement } from 'react';
 
-const Modal = ({ children }: {children: ReactChild}): ReactElement => {
+const Modal = ({ children, modal, handleModal }: {
+  children: ReactChild,
+  modal: boolean,
+  handleModal: (boolean: boolean) => void
+}): ReactElement => {
   return (
-    <section>
-      {children}
-    </section>
+    <Fragment>
+      {modal && (
+        <section>
+          <button
+            className="modal-button"
+            onClick={() => handleModal(false)}
+          >Close Modal</button>
+          {children}
+        </section>
+      )}
+    </Fragment>
   );
 }
 

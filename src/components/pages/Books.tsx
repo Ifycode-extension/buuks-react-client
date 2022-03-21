@@ -82,8 +82,8 @@ const Books = (): JSX.Element => {
 
       const data = await response.json();
 
-      if (data) {
-        setModal(false);
+      if (data.book) {
+        handleModal(false)
       }
 
       console.log(data);
@@ -104,6 +104,12 @@ const Books = (): JSX.Element => {
 
   //----------------------------------------------------------------
 
+  const handleModal = (boolean: boolean) => {
+    setModal(boolean);
+  }
+
+  //----------------------------------------------------------------
+
   const handleBookDelete = async (bookId: string) => {
     if (localStorage.accessToken) {
       const req = await fetch(`${process.env.REACT_APP_BASE_URL}/books/${bookId}`, {
@@ -115,16 +121,9 @@ const Books = (): JSX.Element => {
       });
 
       const data = await req.json();
-
-      if (data) {
-        setModal(false);
-      }
-
       console.log(data);
     }
   }
-
-  //----------------------------------------------------------------
 
   return (
     <section>
@@ -150,10 +149,13 @@ const Books = (): JSX.Element => {
       }
       <button
         className="button block"
-        onClick={() => setModal(true)}
+        onClick={() => handleModal(true)}
       >Add a new book</button>
 
-      <Modal>
+      <Modal 
+        modal={modal}
+        handleModal={handleModal}
+        >
         <form method="post" encType="multipart/form-data" onSubmit={postNewBook}>
           <h1>Add new book (form)</h1>
           <input
