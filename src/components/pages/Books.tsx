@@ -9,13 +9,13 @@ interface BookArray {
   title: string;
   description: string;
   pdf: string;
-  request: Record<string,any>
+  request: Record<string, any>
 }
 
 const Books = (): JSX.Element => {
   const navigate = useNavigate();
   // TODO: const [userName, setUserName] = useState(''); // add name property to the get response on the backend so that you can display this at the top of the page
-  const [books, setBooks] = useState<BookArray[]>([]);
+  let [books, setBooks] = useState<BookArray[]>([]);
   const [booksCount, setBooksCount] = useState(0);
 
   const [modal, setModal] = useState(false);
@@ -74,6 +74,8 @@ const Books = (): JSX.Element => {
     e.preventDefault();
     // console.log(localStorage.accessToken);
     if (localStorage.accessToken) {
+      console.log('loading...');
+
       let formData = new FormData();
       formData.append('title', title);
       formData.append('description', description);
@@ -92,6 +94,7 @@ const Books = (): JSX.Element => {
 
       if (data.book) {
         books.unshift(data.book);
+        console.log('New book added!');
         handleModal(false)
       }
 
