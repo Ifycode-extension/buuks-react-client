@@ -124,6 +124,8 @@ const Books = (): JSX.Element => {
 
   const handleBookDelete = async (bookId: string) => {
     if (localStorage.accessToken) {
+      console.log('loading...');
+
       const req = await fetch(`${process.env.REACT_APP_BASE_URL}/books/${bookId}`, {
         method: 'DELETE',
         headers: {
@@ -133,6 +135,12 @@ const Books = (): JSX.Element => {
       });
 
       const data = await req.json();
+
+      if (data.user) {
+        setBooks(books.filter(book => book._id !== bookId));
+        console.log('Deleted succesfully!');
+      }
+
       console.log(data);
     }
   }
