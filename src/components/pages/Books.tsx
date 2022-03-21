@@ -32,7 +32,7 @@ const Books = (): JSX.Element => {
     const data = await req.json();
 
     if (data) {
-      setBooks(data.books);
+      setBooks(data.books.reverse());
       setBooksCount(data.count);
       console.log('data: ', data);
     } else {
@@ -140,23 +140,11 @@ const Books = (): JSX.Element => {
       <h1>Books page!</h1>
       <p>Welcome (user name will go here)!</p>
       <b>(Please pardon my ugly UI for now.  Will work on that once I'm done with functionality)</b>
-      {
-        booksCount !== 0 ? books.map(((book: any) => {
-          return (
-            // Temporary styles use tailwind later on
-            <div key={book._id} className="cards">
-              <h3>{book.title}</h3>
-              <h3>{book.description}</h3>
-              <a href={book.pdf} style={{ color: 'blue' }}>Preview or download PDF</a>
-              <div className="card-buttons">
-                <button className="margin-right">Update</button>
-                <button onClick={(e) => handleBookDelete(book._id)}>Delete</button>
-              </div>
-            </div>
-          )
-        })) :
-          <div>You have not added any book yet</div>
-      }
+
+      <button
+        className="button block"
+        onClick={handleLogout}>Logout</button>
+
       <button
         className="button block"
         onClick={() => handleModal(true)}
@@ -189,9 +177,23 @@ const Books = (): JSX.Element => {
         </form>
       </Modal>
 
-      <button
-        className="button"
-        onClick={handleLogout}>Logout</button>
+      {
+        booksCount !== 0 ? books.map(((book: any) => {
+          return (
+            // Temporary styles use tailwind later on
+            <div key={book._id} className="cards">
+              <h3>{book.title}</h3>
+              <h3>{book.description}</h3>
+              <a href={book.pdf} style={{ color: 'blue' }}>Preview or download PDF</a>
+              <div className="card-buttons">
+                <button className="margin-right">Update</button>
+                <button onClick={(e) => handleBookDelete(book._id)}>Delete</button>
+              </div>
+            </div>
+          )
+        })) :
+          <div>You have not added any book yet</div>
+      }
     </section>
   );
 }
