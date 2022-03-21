@@ -155,7 +155,7 @@ const Books = (): JSX.Element => {
 
 
   return (
-    <section>
+    <section className="h-screen">
       <h1>Books page!</h1>
       <p>Welcome (user name will go here)!</p>
       <Temporary />
@@ -165,9 +165,9 @@ const Books = (): JSX.Element => {
         onClick={handleLogout}>Logout</button>
 
       <button
-        className="button block"
+        className="absolute bottom-10 right-0 text-white text-4xl p-0 w-16 h-16 bg-pink-800 rounded-full hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200"
         onClick={() => handleModal(true)}
-      >Add a new book</button>
+      >+</button>
 
       <Modal
         modal={modal}
