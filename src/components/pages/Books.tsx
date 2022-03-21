@@ -162,10 +162,10 @@ const Books = (): JSX.Element => {
         onClick={() => handleModal(true)}
       >Add a new book</button>
 
-      <Modal 
+      <Modal
         modal={modal}
         handleModal={handleModal}
-        >
+      >
         <form method="post" encType="multipart/form-data" onSubmit={postNewBook}>
           <h1>Add new book (form)</h1>
           <input
@@ -189,9 +189,9 @@ const Books = (): JSX.Element => {
         </form>
       </Modal>
 
-      <button 
-      className="button"
-      onClick={handleLogout}>Logout</button>
+      <button
+        className="button"
+        onClick={handleLogout}>Logout</button>
     </section>
   );
 }
