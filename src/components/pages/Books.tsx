@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Modal from "../Modal";
+import Temporary from "../Temporary";
 
 // TODO: (code here is rough work) Fix repetition and arrange code, clean up and reduce the code in this file later.
 
@@ -157,7 +158,7 @@ const Books = (): JSX.Element => {
     <section>
       <h1>Books page!</h1>
       <p>Welcome (user name will go here)!</p>
-      <b>(Please pardon my ugly UI for now.  Will work on that once I'm done with functionality)</b>
+      <Temporary />
 
       <button
         className="button block"

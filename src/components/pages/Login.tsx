@@ -1,5 +1,6 @@
 import { Fragment, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import Temporary from '../Temporary';
 
 const Login = (): JSX.Element => {
   const navigate = useNavigate();
@@ -45,7 +46,7 @@ const Login = (): JSX.Element => {
     <Fragment>
       <section>
         <h1>Login page!</h1>
-        <b>(Please pardon my ugly UI for now.  Will work on that once I'm done with functionality)</b>
+        <Temporary />
         <form onSubmit={loginUser}>
           <input
             type="text"

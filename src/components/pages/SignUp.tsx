@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import Temporary from '../Temporary';
 
 const SignUp = (): JSX.Element => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const SignUp = (): JSX.Element => {
     <Fragment>
       <section>
         <h1>Signup page!</h1>
-        <b>(Please pardon my ugly UI for now.  Will work on that once I'm done with functionality)</b>
+        <Temporary />
         <form onSubmit={signupUser}>
           <input
             type="text"
