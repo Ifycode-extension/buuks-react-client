@@ -125,6 +125,16 @@ const Books = (): JSX.Element => {
     }
   }
 
+  //----------------------------------------------------------------
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    navigate('/login');
+  }
+
+  //----------------------------------------------------------------
+
+
   return (
     <section>
       <h1>Books page!</h1>
@@ -179,8 +189,9 @@ const Books = (): JSX.Element => {
         </form>
       </Modal>
 
-      {/* Temporary style: Use tailwind later on */}
-      <Link to="/" style={{ textDecoration: 'underline', color: 'blue' }}>Back to home page</Link>
+      <button 
+      className="button"
+      onClick={handleLogout}>Logout</button>
     </section>
   );
 }
