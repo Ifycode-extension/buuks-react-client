@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Modal from "../Modal";
 
-// Rough work... Fix repetition and arrange code, and reduce the code in this file later.
+// TODO: (code here is rough work) Fix repetition and arrange code, clean up and reduce the code in this file later.
 
 const Books = (): JSX.Element => {
   const navigate = useNavigate();
