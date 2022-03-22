@@ -201,7 +201,7 @@ const Books = (): JSX.Element => {
           books.length ? books.map(((book: any) => {
             return (
               <div key={book._id} className="grid grid-rows-1 mb-4 shadow-sm">
-                <div className="rounded-tl rounded-tr p-4 border-r border-l border-t border-gray-300">
+                <div className="bg-white rounded-tl rounded-tr p-4 border-r border-l border-t border-gray-300">
                   <h3 className="font-medium leading-tight text-2xl mt-0 mb-2 text-pink-700 mb-2">{book.title}</h3>
                   <p className="mb-1">{book.description}</p>
                   <a
