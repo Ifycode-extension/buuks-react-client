@@ -43,10 +43,10 @@ const Login = (): JSX.Element => {
 
   return (
     <section>
-      <div className="rounded mx-auto my-4 py-10 max-w-xs md:max-w-md bg-white border border-pink-800">
+      <div className="rounded mx-auto my-4 py-10 max-w-sm md:max-w-md bg-white border border-pink-800">
         <form onSubmit={loginUser}>
           <div>
-            <h1 className="font-medium leading-tight text-2xl mt-0 mb-8 text-pink-800 mb-2">Login form</h1>
+            <h1 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-8 text-pink-800 mb-2">Login form</h1>
             <input
               type="text"
               placeholder="Email"

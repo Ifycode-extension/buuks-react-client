@@ -174,7 +174,7 @@ const Books = (): JSX.Element => {
       >
         <form method="post" encType="multipart/form-data" onSubmit={postNewBook}>
           <div>
-            <h1 className="font-medium leading-tight text-2xl mt-0 mb-8 text-pink-800 mb-2">
+            <h1 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-8 text-pink-800 mb-2">
               New Book - Form
             </h1>
             <input
