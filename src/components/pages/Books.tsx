@@ -156,7 +156,7 @@ const Books = (): JSX.Element => {
   return (
     <section>
       <div className="flex justify-between items-center py-4">
-        <p className="text-2xl ">User name</p>
+        <p className="text-xl md:text-2xl ">User name</p>
         <button
           className="rounded bg-pink-800 text-white text-lg py-2 px-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200"
           onClick={handleLogout}
@@ -164,7 +164,7 @@ const Books = (): JSX.Element => {
       </div>
 
       <button
-        className="rounded mb-6 py-2 px-4 bg-white text-pink-800 text-xl p-2 border border-pink-800 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100"
+        className="rounded mb-6 py-2 px-4 bg-white text-pink-800 text-lg md:text-xl p-2 border border-pink-800 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100"
         onClick={() => handleModal(true)}
       >+ Add book</button>
 
@@ -206,7 +206,7 @@ const Books = (): JSX.Element => {
             return (
               <div key={book._id} className="grid grid-rows-1 mb-4 shadow-sm">
                 <div className="bg-white rounded-tl rounded-tr p-4 border-r border-l border-t border-gray-300">
-                  <h3 className="font-medium leading-tight text-2xl mt-0 mb-2 text-pink-700 mb-2">{book.title}</h3>
+                  <h3 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-2 text-pink-700 mb-2">{book.title}</h3>
                   <p className="mb-1">{book.description}</p>
                   <a
                     className="text-blue-700 underline"
