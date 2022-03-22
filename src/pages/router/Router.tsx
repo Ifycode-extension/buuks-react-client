@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import App from '../../App';
-import Books from '../pages/Books';
-import Home from '../pages/Home';
-import Login from '../pages/Login';
-import NotFound from '../pages/NotFound';
-import SignUp from '../pages/SignUp';
+import Books from '../Books';
+import Home from '../Home';
+import Login from '../Login';
+import NotFound from '../NotFound';
+import SignUp from '../SignUp';
 
 const Router = (): JSX.Element => (
   <BrowserRouter>
