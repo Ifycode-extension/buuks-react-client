@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Modal from "../Modal";
-import Temporary from "../Temporary";
 
 // TODO: (code here is rough work) Fix repetition and arrange code, clean up and reduce the code in this file later.
 
