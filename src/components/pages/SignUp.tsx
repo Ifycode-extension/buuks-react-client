@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
 const SignUp = (): JSX.Element => {
@@ -53,7 +52,6 @@ const SignUp = (): JSX.Element => {
   }
 
   return (
-    <Fragment>
       <section>
         <h1>Signup page!</h1>
         <form onSubmit={signupUser}>
@@ -81,15 +79,13 @@ const SignUp = (): JSX.Element => {
             value={name}
             onChange={(e) => handleName(e.target.value)}
           />
-          {/* Temporary style for button. Use tailwind later */}
-          <button className="button">Signup</button>
+          <button>Signup</button>
         </form>
         <div>
           <span>Have an account already?</span>
           <Link to="/login" style={{ textDecoration: 'underline', color: 'blue', marginLeft: '10px' }}>Login.</Link>
         </div>
       </section>
-    </Fragment>
   );
 }
 

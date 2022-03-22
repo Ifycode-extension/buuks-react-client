@@ -1,4 +1,3 @@
-/* Temporary styles - use tailwind later */
 
 form input, 
 form textarea {
@@ -6,25 +5,4 @@ form textarea {
   border: 1px solid grey;
   margin: 5px 0;
   border-radius: 3px;
-}
-
-.button {
-  margin: 10px 0;
-  padding: 10px;
-  color: white;
-  background: #961656;
-  border-radius: 3px;
-}
-
-.modal-button {
-  color: white;
-  margin: 5px 0 0 0;
-  padding: 6px;
-  color: white;
-  background: #961656;
-  border-radius: 3px;
-}
-
-.margin-right {
-  margin-right: 5px;
 }

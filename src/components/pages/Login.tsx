@@ -42,32 +42,28 @@ const Login = (): JSX.Element => {
   }
 
   return (
-    <Fragment>
-      <section>
-        <h1>Login page!</h1>
-        <form onSubmit={loginUser}>
-          <input
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => handleEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => handlePassword(e.target.value)}
-          />
-          {/* Temporary style for button. Use tailwind later */}
-          <button className='button'>Login</button>
-        </form>
-        <div>
-          <span>Don't have an accout yet?</span>
-          <Link to="/signup" style={{ textDecoration: 'underline', color: 'blue', marginLeft: '10px' }}>Signup!</Link>
-        </div>
-        <div>{email}</div>
-      </section>
-    </Fragment>
+    <section>
+      <h1>Login page!</h1>
+      <form onSubmit={loginUser}>
+        <input
+          type="text"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => handleEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => handlePassword(e.target.value)}
+        />
+        <button>Login</button>
+      </form>
+      <div>
+        <span>Don't have an accout yet?</span>
+        <Link to="/signup" style={{ textDecoration: 'underline', color: 'blue', marginLeft: '10px' }}>Signup!</Link>
+      </div>
+    </section>
   );
 }
 
