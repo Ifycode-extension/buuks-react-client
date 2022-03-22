@@ -1,7 +1,7 @@
-import { Fragment } from 'react';
+import { Fragment, ReactElement } from 'react';
 import { Link } from 'react-router-dom';
 
-const NotFound = (): JSX.Element => {
+const NotFound = (): ReactElement => {
   return (
     <Fragment>
       <section>

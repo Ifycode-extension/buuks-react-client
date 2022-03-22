@@ -1,7 +1,7 @@
-import { Fragment, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Login = (): JSX.Element => {
+const Login = (): ReactElement => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');

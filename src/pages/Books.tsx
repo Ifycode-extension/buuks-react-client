@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Modal from "../components/Modal";
 
@@ -12,7 +12,7 @@ interface BookArray {
   request: Record<string, any>
 }
 
-const Books = (): JSX.Element => {
+const Books = (): ReactElement => {
   const navigate = useNavigate();
   // TODO: const [userName, setUserName] = useState(''); // add name property to the get response on the backend so that you can display this at the top of the page
   let [books, setBooks] = useState<BookArray[]>([]);

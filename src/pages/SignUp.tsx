@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-const SignUp = (): JSX.Element => {
+const SignUp = (): ReactElement => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
