@@ -55,32 +55,32 @@ const SignUp = (): JSX.Element => {
     <section>
       <div className="rounded mx-auto my-4 py-10 max-w-xs md:max-w-md bg-white border border-pink-800">
         <form onSubmit={signupUser}>
-          <h1 className="font-medium leading-tight text-2xl mt-0 mb-8 text-pink-800 mb-2">Signup form</h1>
-          <input
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => handleEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => handlePassword(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Confirm password"
-            value={confirmPassword}
-            onChange={(e) => handleConfirmPassword(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => handleName(e.target.value)}
-          />
           <div>
+            <h1 className="font-medium leading-tight text-2xl mt-0 mb-8 text-pink-800 mb-2">Signup form</h1>
+            <input
+              type="text"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => handleEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => handlePassword(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Confirm password"
+              value={confirmPassword}
+              onChange={(e) => handleConfirmPassword(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => handleName(e.target.value)}
+            />
             <button className="rounded bg-pink-800 text-white text-lg py-2 px-4 mt-2 mb-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200">
               Signup
             </button>

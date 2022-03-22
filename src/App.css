@@ -1,14 +1,13 @@
 form input, 
 form textarea {
   display: block;
+  width: 100%; /* w-full */
   border: 1px solid grey;
-  margin: 0.75rem auto;
-  padding: 0.25rem;
-  width: 70%;
+  margin: 0.75rem auto; /* my-3 mx-auto */
+  padding: 0.25rem; /* p-1 */
   border-radius: 3px;
 }
 
-form > h1,
 form > div {
   width: 70%;
   margin-left: auto;
