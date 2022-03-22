@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Modal from "../Modal";
-import Temporary from "../Temporary";
 
 // TODO: (code here is rough work) Fix repetition and arrange code, clean up and reduce the code in this file later.
 
@@ -156,63 +155,82 @@ const Books = (): JSX.Element => {
 
   return (
     <section>
-      <h1>Books page!</h1>
-      <p>Welcome (user name will go here)!</p>
-      <Temporary />
+      <div className="flex justify-between items-center py-4">
+        <p className="text-xl md:text-2xl ">User name</p>
+        <button
+          className="rounded bg-pink-800 text-white text-lg py-2 px-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200"
+          onClick={handleLogout}
+        >Logout</button>
+      </div>
 
       <button
-        className="button block"
-        onClick={handleLogout}>Logout</button>
-
-      <button
-        className="button block"
+        className="rounded py-2 px-4 bg-white text-pink-800 text-lg md:text-xl p-2 border border-pink-800 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100"
         onClick={() => handleModal(true)}
-      >Add a new book</button>
+      >+ Add book</button>
 
       <Modal
         modal={modal}
         handleModal={handleModal}
       >
         <form method="post" encType="multipart/form-data" onSubmit={postNewBook}>
-          <h1>Add new book (form)</h1>
-          <input
-            type="text"
-            placeholder="New book title"
-            value={title}
-            onChange={(e) => handleTitle(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="New book description"
-            value={description}
-            onChange={(e) => handleDescription(e.target.value)}
-          />
-          <input
-            type="file"
-            // accept=".pdf"
-            onChange={(e) => handleFileAddition(e)}
-          />
-          <button className="button">Submit new book</button>
+          <div>
+            <h1 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-8 text-pink-800 mb-2">
+              New Book - Form
+            </h1>
+            <input
+              type="text"
+              placeholder="New book title"
+              value={title}
+              onChange={(e) => handleTitle(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="New book description"
+              value={description}
+              onChange={(e) => handleDescription(e.target.value)}
+            />
+            <input
+              type="file"
+              onChange={(e) => handleFileAddition(e)}
+            />
+            <button className="rounded bg-pink-800 text-white text-lg py-2 px-4 mt-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200">
+              Submit new book
+            </button>
+          </div>
         </form>
       </Modal>
 
-      {
-        books.length ? books.map(((book: any) => {
-          return (
-            // Temporary styles use tailwind later on
-            <div key={book._id} className="cards">
-              <h3>{book.title}</h3>
-              <h3>{book.description}</h3>
-              <a href={book.pdf} target="_blank" rel="noreferrer" style={{ color: 'blue' }}>Preview or download PDF</a>
-              <div className="card-buttons">
-                <button className="margin-right" disabled={true}>Update</button>
-                <button onClick={(e) => handleBookDelete(book._id)}>Delete</button>
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-6 my-6">
+        {
+          books.length ? books.map(((book: any) => {
+            return (
+              <div key={book._id} className="grid grid-rows-1 shadow-sm">
+                <div className="bg-white rounded-tl rounded-tr p-4 border-x border-t border-gray-300">
+                  <h3 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-2 text-pink-700 mb-2">{book.title}</h3>
+                  <p className="mb-1">{book.description}</p>
+                  <a
+                    className="text-blue-700 underline"
+                    href={book.pdf}
+                    target="_blank"
+                    rel="noreferrer">
+                    Preview or download PDF</a>
+                </div>
+                <div className="flex">
+                  <button className="flex-grow bg-white text-pink-800 p-2 border border-pink-900 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100">
+                    Edit
+                  </button>
+                  <button
+                    className="flex-grow bg-pink-800 text-white p-2 border border-transparent hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-100"
+                    onClick={(e) => handleBookDelete(book._id)}>
+                    Delete
+                  </button>
+                </div>
               </div>
-            </div>
-          )
-        })) :
-          <div>You have not added any book yet</div>
-      }
+            )
+          })) :
+            <div>You have not added any book yet</div>
+        }
+      </div>
     </section>
   );
 }

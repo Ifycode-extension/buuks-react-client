@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import Temporary from '../Temporary';
 
 const SignUp = (): JSX.Element => {
   const navigate = useNavigate();
@@ -54,44 +52,46 @@ const SignUp = (): JSX.Element => {
   }
 
   return (
-    <Fragment>
-      <section>
-        <h1>Signup page!</h1>
-        <Temporary />
+    <section>
+      <div className="rounded mx-auto my-4 py-10 max-w-sm md:max-w-md bg-white border border-pink-800">
         <form onSubmit={signupUser}>
-          <input
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => handleEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => handlePassword(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Confirm password"
-            value={confirmPassword}
-            onChange={(e) => handleConfirmPassword(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Name"
-            value={name}
-            onChange={(e) => handleName(e.target.value)}
-          />
-          {/* Temporary style for button. Use tailwind later */}
-          <button className="button">Signup</button>
+          <div>
+            <h1 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-8 text-pink-800 mb-2">Signup form</h1>
+            <input
+              type="text"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => handleEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => handlePassword(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Confirm password"
+              value={confirmPassword}
+              onChange={(e) => handleConfirmPassword(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Name"
+              value={name}
+              onChange={(e) => handleName(e.target.value)}
+            />
+            <button className="rounded bg-pink-800 text-white text-lg py-2 px-4 mt-2 mb-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200">
+              Signup
+            </button>
+          </div>
+          <div>
+            <span>Have an account already?</span>
+            <Link to="/login" className="text-pink-800 underline ml-2">Login.</Link>
+          </div>
         </form>
-        <div>
-          <span>Have an account already?</span>
-          <Link to="/login" style={{ textDecoration: 'underline', color: 'blue', marginLeft: '10px' }}>Login.</Link>
-        </div>
-      </section>
-    </Fragment>
+      </div>
+    </section>
   );
 }
 

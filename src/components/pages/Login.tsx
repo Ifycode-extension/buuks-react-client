@@ -1,6 +1,5 @@
 import { Fragment, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Temporary from '../Temporary';
 
 const Login = (): JSX.Element => {
   const navigate = useNavigate();
@@ -43,33 +42,34 @@ const Login = (): JSX.Element => {
   }
 
   return (
-    <Fragment>
-      <section>
-        <h1>Login page!</h1>
-        <Temporary />
+    <section>
+      <div className="rounded mx-auto my-4 py-10 max-w-sm md:max-w-md bg-white border border-pink-800">
         <form onSubmit={loginUser}>
-          <input
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => handleEmail(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => handlePassword(e.target.value)}
-          />
-          {/* Temporary style for button. Use tailwind later */}
-          <button className='button'>Login</button>
+          <div>
+            <h1 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-8 text-pink-800 mb-2">Login form</h1>
+            <input
+              type="text"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => handleEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => handlePassword(e.target.value)}
+            />
+            <button className="rounded bg-pink-800 text-white text-lg py-2 px-4 mt-2 mb-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200">
+              Login
+            </button>
+          </div>
+          <div>
+            <span>Don't have an account yet?</span>
+            <Link to="/signup" className="text-pink-800 underline ml-2">Signup!</Link>
+          </div>
         </form>
-        <div>
-          <span>Don't have an accout yet?</span>
-          <Link to="/signup" style={{ textDecoration: 'underline', color: 'blue', marginLeft: '10px' }}>Signup!</Link>
-        </div>
-        <div>{email}</div>
-      </section>
-    </Fragment>
+      </div>
+    </section>
   );
 }
 

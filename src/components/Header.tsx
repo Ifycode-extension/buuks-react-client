@@ -1,30 +1,27 @@
-import { Fragment } from "react";
+import { Fragment, ReactElement } from "react";
 import { Link } from "react-router-dom";
 import { useLocation } from 'react-router-dom';
 
-const Header = (): JSX.Element => {
+const Header = (): ReactElement => {
   const location = useLocation();
   const homePage = location.pathname === '/' || location.pathname === '/home';
   return (
-    <Fragment>
-      <header style={{ display: 'flex', justifyContent: 'space-between' }}>
-        {/* Temporary style: Use tailwind later on */}
-        <div>
-          <Link to="/" style={{ color: 'blue' }}>Buuks App Logo</Link>
-        </div>
-        <nav>
-          {!homePage &&
-            <Link to="/" style={{ textDecoration: 'underline', color: 'blue' }}>Buuks Home</Link>
-          }
-          {homePage &&
-            <Fragment>
-              <Link to="/signup" style={{ textDecoration: 'underline', color: 'blue' }}>Signup page</Link>
-              <Link to="/login" style={{ textDecoration: 'underline', color: 'blue', marginLeft: '10px' }}>Login page</Link>
-            </Fragment>
-          }
-        </nav>
-      </header>
-    </Fragment>
+    <header className="flex justify-between text-lg md:text-xl py-4">
+      <div>
+        <Link to="/" className="text-pink-800 text-xl md:text-2xl">Buuks Logo</Link>
+      </div>
+      <nav>
+        {!homePage &&
+          <Link to="/" className="text-pink-800 underline">Buuks Home</Link>
+        }
+        {homePage &&
+          <Fragment>
+            <Link to="/signup" className="text-pink-800 underline">Signup</Link>
+            <Link to="/login" className="ml-3 text-pink-800 underline">Login</Link>
+          </Fragment>
+        }
+      </nav>
+    </header>
   );
 }
 
