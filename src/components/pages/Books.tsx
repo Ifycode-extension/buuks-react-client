@@ -200,11 +200,11 @@ const Books = (): JSX.Element => {
         </form>
       </Modal>
 
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 md:gap-6">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-6">
         {
           books.length ? books.map(((book: any) => {
             return (
-              <div key={book._id} className="grid grid-rows-1 mb-4 shadow-sm">
+              <div key={book._id} className="grid grid-rows-1 shadow-sm">
                 <div className="bg-white rounded-tl rounded-tr p-4 border-r border-l border-t border-gray-300">
                   <h3 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-2 text-pink-700 mb-2">{book.title}</h3>
                   <p className="mb-1">{book.description}</p>
