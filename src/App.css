@@ -8,8 +8,8 @@ form textarea {
   border-radius: 3px;
 }
 
-form h1,
-form div {
+form > h1,
+form > div {
   width: 70%;
   margin-left: auto;
   margin-right: auto;
