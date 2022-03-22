@@ -6,8 +6,7 @@ const NotFound = (): JSX.Element => {
     <Fragment>
       <section>
         <h1>Page not found - 404</h1>
-        {/* Temporary style: Use tailwind later on */}
-        <Link to="/" style={{ textDecoration: 'underline', color: 'blue' }}>Back to home page</Link>
+        <Link to="/" className="text-pink-800 underline">Back to home page</Link>
       </section>
     </Fragment>
   );

@@ -87,7 +87,7 @@ const SignUp = (): JSX.Element => {
           </div>
           <div>
             <span>Have an account already?</span>
-            <Link to="/login" style={{ textDecoration: 'underline', color: 'blue', marginLeft: '10px' }}>Login.</Link>
+            <Link to="/login" className="text-pink-800 underline ml-2">Login.</Link>
           </div>
         </form>
       </div>

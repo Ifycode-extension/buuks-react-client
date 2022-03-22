@@ -8,7 +8,7 @@ const Header = (): ReactElement => {
   return (
     <header className="flex justify-between text-lg md:text-xl py-4">
       <div>
-        <Link to="/" className="text-pink-800 text-xl md:text-2xl">Buuks App Logo</Link>
+        <Link to="/" className="text-pink-800 text-xl md:text-2xl">Buuks Logo</Link>
       </div>
       <nav>
         {!homePage &&
@@ -16,8 +16,8 @@ const Header = (): ReactElement => {
         }
         {homePage &&
           <Fragment>
-            <Link to="/signup" className="text-pink-800 underline">Signup page</Link>
-            <Link to="/login" className="ml-3 text-pink-800 underline">Login page</Link>
+            <Link to="/signup" className="text-pink-800 underline">Signup</Link>
+            <Link to="/login" className="ml-3 text-pink-800 underline">Login</Link>
           </Fragment>
         }
       </nav>
