@@ -1,85 +1,38 @@
-import { ReactElement, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContainer } from '../hooks/useAuth';
 
 const SignUp = (): ReactElement => {
-  const navigate = useNavigate();
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [name, setName] = useState('');
-
-  const signupUser = async (e: any) => {
-    e.preventDefault();
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/signup`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email,
-        password,
-        passwordConfirmation: confirmPassword,
-        name,
-      })
-    });
-
-    const data = await response.json();
-
-    // TODO: This works but include a property with boolean value of true/false in the API for use here instead
-    if (data.email) {
-      navigate('/login');
-    }
-
-    console.log(data);
-  }
-
-  const handleEmail = (eventTargetValue: string) => {
-    setEmail(eventTargetValue);
-  }
-
-  const handlePassword = (eventTargetValue: string) => {
-    setPassword(eventTargetValue);
-  }
-
-  const handleConfirmPassword = (eventTargetValue: string) => {
-    setConfirmPassword(eventTargetValue);
-  }
-
-  const handleName = (eventTargetValue: string) => {
-    setName(eventTargetValue);
-  }
-
+  const auth = AuthContainer.useContainer();
   return (
     <section>
       <div className="rounded mx-auto my-4 py-10 max-w-sm md:max-w-md bg-white border border-pink-800">
-        <form onSubmit={signupUser}>
+        <form onSubmit={auth.signupUser}>
           <div>
             <h1 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-8 text-pink-800 mb-2">Signup form</h1>
             <input
               type="text"
               placeholder="Email"
-              value={email}
-              onChange={(e) => handleEmail(e.target.value)}
+              value={auth.email}
+              onChange={(e) => auth.handleEmail(e)}
             />
             <input
               type="password"
               placeholder="Password"
-              value={password}
-              onChange={(e) => handlePassword(e.target.value)}
+              value={auth.password}
+              onChange={(e) => auth.handlePassword(e)}
             />
             <input
               type="password"
               placeholder="Confirm password"
-              value={confirmPassword}
-              onChange={(e) => handleConfirmPassword(e.target.value)}
+              value={auth.confirmPassword}
+              onChange={(e) => auth.handleConfirmPassword(e)}
             />
             <input
               type="text"
               placeholder="Name"
-              value={name}
-              onChange={(e) => handleName(e.target.value)}
+              value={auth.name}
+              onChange={(e) => auth.handleName(e)}
             />
             <button className="rounded bg-pink-800 text-white text-lg py-2 px-4 mt-2 mb-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200">
               Signup
