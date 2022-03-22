@@ -52,9 +52,10 @@ const SignUp = (): JSX.Element => {
   }
 
   return (
-      <section>
-        <h1>Signup page!</h1>
+    <section>
+      <div className="rounded mx-auto my-4 py-10 max-w-xs md:max-w-md bg-white border border-pink-800">
         <form onSubmit={signupUser}>
+          <h1 className="font-medium leading-tight text-2xl mt-0 mb-8 text-pink-800 mb-2">Signup form</h1>
           <input
             type="text"
             placeholder="Email"
@@ -79,13 +80,18 @@ const SignUp = (): JSX.Element => {
             value={name}
             onChange={(e) => handleName(e.target.value)}
           />
-          <button>Signup</button>
+          <div>
+            <button className="rounded bg-pink-800 text-white text-lg py-2 px-4 mt-2 mb-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200">
+              Signup
+            </button>
+          </div>
+          <div>
+            <span>Have an account already?</span>
+            <Link to="/login" style={{ textDecoration: 'underline', color: 'blue', marginLeft: '10px' }}>Login.</Link>
+          </div>
         </form>
-        <div>
-          <span>Have an account already?</span>
-          <Link to="/login" style={{ textDecoration: 'underline', color: 'blue', marginLeft: '10px' }}>Login.</Link>
-        </div>
-      </section>
+      </div>
+    </section>
   );
 }
 

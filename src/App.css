@@ -2,6 +2,15 @@ form input,
 form textarea {
   display: block;
   border: 1px solid grey;
-  margin: 5px 0;
+  margin: 0.75rem auto;
+  padding: 0.25rem;
+  width: 70%;
   border-radius: 3px;
+}
+
+form h1,
+form div {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
 }
