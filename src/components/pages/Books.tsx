@@ -164,12 +164,10 @@ const Books = (): JSX.Element => {
         >Logout</button>
       </div>
 
-      <div className="absolute">
-        <button
-          className="fixed bottom-10 right-10 text-white text-4xl p-0 w-16 h-16 bg-pink-800 rounded-full hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200"
+      <button
+          className="rounded mb-6 py-2 px-4 bg-white text-pink-800 text-xl p-2 border border-pink-800 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100"
           onClick={() => handleModal(true)}
-        >+</button>
-      </div>
+        >+ Add book</button>
 
       <Modal
         modal={modal}
