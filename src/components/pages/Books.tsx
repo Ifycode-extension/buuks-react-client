@@ -165,34 +165,40 @@ const Books = (): JSX.Element => {
       </div>
 
       <button
-          className="rounded mb-6 py-2 px-4 bg-white text-pink-800 text-xl p-2 border border-pink-800 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100"
-          onClick={() => handleModal(true)}
-        >+ Add book</button>
+        className="rounded mb-6 py-2 px-4 bg-white text-pink-800 text-xl p-2 border border-pink-800 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100"
+        onClick={() => handleModal(true)}
+      >+ Add book</button>
 
       <Modal
         modal={modal}
         handleModal={handleModal}
       >
         <form method="post" encType="multipart/form-data" onSubmit={postNewBook}>
-          <h1>Add new book (form)</h1>
+          <h1 className="font-medium leading-tight text-2xl mt-0 mb-6 text-pink-800 mb-2">
+            New Book - Form
+          </h1>
           <input
+            className="w-full p-1 my-3"
             type="text"
             placeholder="New book title"
             value={title}
             onChange={(e) => handleTitle(e.target.value)}
           />
           <input
+            className="w-full p-1 my-3"
             type="text"
             placeholder="New book description"
             value={description}
             onChange={(e) => handleDescription(e.target.value)}
           />
           <input
+            className="w-full p-1 my-1"
             type="file"
-            // accept=".pdf"
             onChange={(e) => handleFileAddition(e)}
           />
-          <button className="button">Submit new book</button>
+          <button className="rounded bg-pink-800 text-white text-lg py-2 px-4 mt-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200">
+            Submit new book
+          </button>
         </form>
       </Modal>
 
