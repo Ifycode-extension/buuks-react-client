@@ -205,7 +205,7 @@ const Books = (): JSX.Element => {
           books.length ? books.map(((book: any) => {
             return (
               <div key={book._id} className="grid grid-rows-1 shadow-sm">
-                <div className="bg-white rounded-tl rounded-tr p-4 border-r border-l border-t border-gray-300">
+                <div className="bg-white rounded-tl rounded-tr p-4 border-x border-t border-gray-300">
                   <h3 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-2 text-pink-700 mb-2">{book.title}</h3>
                   <p className="mb-1">{book.description}</p>
                   <a
@@ -216,11 +216,11 @@ const Books = (): JSX.Element => {
                     Preview or download PDF</a>
                 </div>
                 <div className="flex">
-                  <button className="flex-grow bg-white text-pink-800 p-2 border-b border-l border-t border-r border-pink-900 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100">
+                  <button className="flex-grow bg-white text-pink-800 p-2 border border-pink-900 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100">
                     Edit
                   </button>
                   <button
-                    className="flex-grow bg-pink-800 text-white p-2 border-b border-l border-t border-r border-transparent hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-100"
+                    className="flex-grow bg-pink-800 text-white p-2 border border-transparent hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-100"
                     onClick={(e) => handleBookDelete(book._id)}>
                     Delete
                   </button>
