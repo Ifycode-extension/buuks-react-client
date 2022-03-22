@@ -164,7 +164,7 @@ const Books = (): JSX.Element => {
       </div>
 
       <button
-        className="rounded mb-6 py-2 px-4 bg-white text-pink-800 text-lg md:text-xl p-2 border border-pink-800 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100"
+        className="rounded py-2 px-4 bg-white text-pink-800 text-lg md:text-xl p-2 border border-pink-800 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100"
         onClick={() => handleModal(true)}
       >+ Add book</button>
 
@@ -200,7 +200,7 @@ const Books = (): JSX.Element => {
         </form>
       </Modal>
 
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-6">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-6 my-6">
         {
           books.length ? books.map(((book: any) => {
             return (
