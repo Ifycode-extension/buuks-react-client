@@ -1,4 +1,5 @@
 import { ChangeEvent, useState } from "react";
+import { fetchOptions } from "../lib/books";
 import { BooksObject, PostForm } from "../interfaces/books";
 // import { AuthContainer } from "./useAuth";
 export const useBooks = () => {
@@ -15,30 +16,7 @@ export const useBooks = () => {
     if (method === 'POST' /* or 'UPDATE' */) e.preventDefault();
     console.log('loading...');
     let response: Response;
-    let options: any;
-
-    if (method !== 'GET') {
-      options = {
-        method: method,
-        headers: {
-          'Authorization': `Bearer ${localStorage.accessToken}`,
-          'x-access-token': `${localStorage.accessToken}`
-        }
-      }
-    }
-
-    if (method === 'POST') {
-      let formData = new FormData();
-      formData.append('title', form.title);
-      formData.append('description', form.description);
-      formData.append('pdf', form.pdf as File);
-      options = {
-        ...options,
-        body: formData
-      }
-    }
-
-    response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, options);
+    response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, fetchOptions(method, form));
     if (response.ok) {
       const data = await response.json();
       if (method === 'GET') setBooks(data.books.reverse());

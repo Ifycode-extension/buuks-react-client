@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { Location, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { createContainer } from "unstated-next";
 import { AuthForm, AuthForm2 } from "../interfaces/auth";
-import { formBody } from "./helpers/auth";
+import { formBody } from "../lib/auth";
 
 // TODO: Persist isAuthenticated state on page reload
 
