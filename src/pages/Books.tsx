@@ -24,26 +24,45 @@ const Books = (): ReactElement => {
   const [pdf, setPdf] = useState<File>();
 
   //---------------------------------------------------------
-  const getUserBooks = async (userId: string) => {
-    console.log('Get books function! ', userId);
+  const fetchBookData = async (e: any, method: string, endpoint: string, bookId: string | null) => {
+    if (method === 'POST' /* or 'UPDATE' */) e.preventDefault();
+    console.log('loading...');
+    let response: Response;
+    let options: any;
 
-    const req = await fetch(`${process.env.REACT_APP_BASE_URL}/books/user/${userId}`, {
-      // headers: new Headers({ //this also works
-      //   'x-access-token': `${localStorage.getItem('accessToken')}`
-      // })
-      headers: {
-        'x-access-token': localStorage.getItem('accessToken') as string,
+    if (method !== 'GET') {
+      options = {
+        method: method,
+        headers: {
+          'Authorization': `Bearer ${localStorage.accessToken}`,
+          'x-access-token': `${localStorage.accessToken}`
+        }
       }
-    });
-
-    const data = await req.json();
-
-    if (data) {
-      setBooks(data.books.reverse());
-      console.log('data: ', data);
-    } else {
-      console.log('error: some error occured...');
     }
+
+    if (method === 'POST') {
+      let formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('pdf', pdf as File);
+      options = {
+        ...options,
+        body: formData
+      }
+    }
+    
+    response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, options);
+    if (response.ok) {
+      const data = await response.json();
+      if (method === 'GET') setBooks(data.books.reverse());
+      if (method === 'DELETE') setBooks(books.filter(book => book._id !== bookId));
+      if (method === 'POST') {
+        books.unshift(data.book);
+        handleModal(false);
+      }
+      console.log('data: ', data);
+    }
+    console.log(response.statusText);
   }
 
   useEffect(() => {
@@ -55,7 +74,7 @@ const Books = (): ReactElement => {
       if (user) {
         console.log('You\'re logged in!');
         console.log(user);
-        getUserBooks(user._id);
+        fetchBookData(null, 'GET', `books/user/${user._id}`, null);
       } else {
         auth.setIsAuthenticated(false);
         navigate('/login');
@@ -69,38 +88,6 @@ const Books = (): ReactElement => {
   }, []);
 
   //----------------------------------------------------------------
-
-  const postNewBook = async (e: any) => {
-    e.preventDefault();
-    // console.log(localStorage.accessToken);
-    if (localStorage.accessToken) {
-      console.log('loading...');
-
-      let formData = new FormData();
-      formData.append('title', title);
-      formData.append('description', description);
-      formData.append('pdf', pdf as File);
-
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/books`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${localStorage.accessToken}`,
-          'x-access-token': `${localStorage.accessToken}`
-        },
-        body: formData
-      });
-
-      const data = await response.json();
-
-      if (data.book) {
-        books.unshift(data.book);
-        console.log('New book added!');
-        handleModal(false)
-      }
-
-      console.log(data);
-    }
-  }
 
   const handleTitle = (eventTargetValue: string) => {
     setTitle(eventTargetValue);
@@ -118,31 +105,6 @@ const Books = (): ReactElement => {
 
   const handleModal = (boolean: boolean) => {
     setModal(boolean);
-  }
-
-  //----------------------------------------------------------------
-
-  const handleBookDelete = async (bookId: string) => {
-    if (localStorage.accessToken) {
-      console.log('loading...');
-
-      const req = await fetch(`${process.env.REACT_APP_BASE_URL}/books/${bookId}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${localStorage.accessToken}`,
-          'x-access-token': localStorage.getItem('accessToken') as string,
-        }
-      });
-
-      const data = await req.json();
-
-      if (data.user) {
-        setBooks(books.filter(book => book._id !== bookId));
-        console.log('Deleted succesfully!');
-      }
-
-      console.log(data);
-    }
   }
 
   //----------------------------------------------------------------
@@ -175,7 +137,7 @@ const Books = (): ReactElement => {
         modal={modal}
         handleModal={handleModal}
       >
-        <form method="post" encType="multipart/form-data" onSubmit={postNewBook}>
+        <form method="post" encType="multipart/form-data" onSubmit={(e) => fetchBookData(e, 'POST', `books`, null)}>
           <div>
             <h1 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-8 text-pink-800 mb-2">
               New Book - Form
@@ -224,7 +186,7 @@ const Books = (): ReactElement => {
                   </button>
                   <button
                     className="flex-grow bg-pink-800 text-white p-2 border border-transparent hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-100"
-                    onClick={(e) => handleBookDelete(book._id)}>
+                    onClick={(e) => fetchBookData(null, 'DELETE', `books/${book._id}`, book._id)}>
                     Delete
                   </button>
                 </div>
