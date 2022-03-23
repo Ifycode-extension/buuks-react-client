@@ -34,24 +34,13 @@ const Books = (): ReactElement => {
     }
   }, []);
 
-  //----------------------------------------------------------------
-
-  const handleLogout = () => {
-    auth.setIsAuthenticated(false);
-    localStorage.removeItem('accessToken');
-    navigate('/login');
-  }
-
-  //----------------------------------------------------------------
-
-
   return (
     <section>
       <div className="flex justify-between items-center py-4">
         <p className="text-xl md:text-2xl ">User name</p>
         <button
           className="rounded bg-pink-800 text-white text-lg py-2 px-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200"
-          onClick={handleLogout}
+          onClick={auth.handleLogout}
         >Logout</button>
       </div>
 

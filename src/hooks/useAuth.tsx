@@ -48,12 +48,19 @@ export const useAuth = () => {
     if (authPage === '/login') setForm2({ ...form2, [name]: value } as Pick<AuthForm2, keyof AuthForm2>);
   }
 
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem('accessToken');
+    navigate('/login');
+  }
+
   return {
     form,
     form2,
     authPage,
     authenticateUser,
     handleInputChange,
+    handleLogout,
     isAuthenticated,
     setIsAuthenticated
   }
