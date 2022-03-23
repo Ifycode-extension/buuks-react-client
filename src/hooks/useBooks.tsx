@@ -1,9 +1,8 @@
 import { ChangeEvent, useState } from "react";
 import { fetchOptions } from "../lib/books";
 import { BooksObject, PostForm } from "../interfaces/books";
-// import { AuthContainer } from "./useAuth";
+
 export const useBooks = () => {
-  // const auth = AuthContainer.useContainer();
   let [books, setBooks] = useState<BooksObject[]>([]);
   const [modal, setModal] = useState(false);
   const [form, setForm] = useState<PostForm>({

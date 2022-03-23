@@ -4,18 +4,13 @@ import Modal from "../components/Modal";
 import { useBooks } from "../hooks/useBooks";
 import { AuthContainer } from "../hooks/useAuth";
 
-// TODO: (code here is rough work) Fix repetition and arrange code, clean up and reduce the code in this file later.
-
 const Books = (): ReactElement => {
   const auth = AuthContainer.useContainer();
   const hook = useBooks();
   const navigate = useNavigate();
-  // TODO: const [userName, setUserName] = useState(''); // add name property to the get response on the backend so that you can display this at the top of the page
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
-    // const refreshToken = localStorage.getItem('refreshToken');
-
     if (accessToken) {
       const user = JSON.parse(window.atob(accessToken.split('.')[1]));
       if (user) {
