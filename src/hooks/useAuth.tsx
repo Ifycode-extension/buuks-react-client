@@ -13,9 +13,9 @@ export const useAuth = () => {
     name: ''
   });
 
-  const authenticateUser = async (e: any) => {
+  const authenticateUser = async (e: any, endpoint: string, pageroute: string) => {
     e.preventDefault();
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/signup`, {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ export const useAuth = () => {
     const data = await response.json();
 
     if (data.user) {
-      navigate('/login');
+      navigate(`/${pageroute}`);
     }
 
     console.log(data);
