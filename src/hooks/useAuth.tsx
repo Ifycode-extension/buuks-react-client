@@ -52,7 +52,8 @@ export const useAuth = () => {
     authPage,
     authenticateUser,
     handleInputChange,
-    isAuthenticated
+    isAuthenticated,
+    setIsAuthenticated
   }
 }
 

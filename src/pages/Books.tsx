@@ -1,11 +1,18 @@
 import { ReactElement, useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import Modal from "../components/Modal";
+// import { useBooks } from "../hooks/useBooks";
+import { AuthContainer } from "../hooks/useAuth";
 import { BooksObject } from "../interfaces/books";
 
 // TODO: (code here is rough work) Fix repetition and arrange code, clean up and reduce the code in this file later.
 
 const Books = (): ReactElement => {
+  const auth = AuthContainer.useContainer();
+
+  // const booksHook = useBooks();
+  // console.log(booksHook.test);
+
   const navigate = useNavigate();
   // TODO: const [userName, setUserName] = useState(''); // add name property to the get response on the backend so that you can display this at the top of the page
   let [books, setBooks] = useState<BooksObject[]>([]);
@@ -50,10 +57,12 @@ const Books = (): ReactElement => {
         console.log(user);
         getUserBooks(user._id);
       } else {
+        auth.setIsAuthenticated(false);
         navigate('/login');
         console.log('This is just for debugging, does this ever happen?: Access token, but no user');
       }
     } else {
+      auth.setIsAuthenticated(false);
       navigate('/login');
       console.log('Da pa da!');
     }
@@ -139,6 +148,7 @@ const Books = (): ReactElement => {
   //----------------------------------------------------------------
 
   const handleLogout = () => {
+    auth.setIsAuthenticated(false);
     localStorage.removeItem('accessToken');
     navigate('/login');
   }
