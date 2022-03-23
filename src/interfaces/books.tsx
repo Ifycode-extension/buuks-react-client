@@ -5,3 +5,9 @@ export interface BooksObject {
   pdf: string;
   request: Record<string, any>
 }
+
+export interface PostForm {
+  title: string;
+  description: string;
+  pdf: File | string;
+}

@@ -61,18 +61,21 @@ const Books = (): ReactElement => {
             <input
               type="text"
               placeholder="New book title"
-              value={hook.title}
-              onChange={(e) => hook.handleTitle(e.target.value)}
+              name="title"
+              value={hook.form.title}
+              onChange={(e) => hook.handleInputChange(e)}
             />
             <input
               type="text"
               placeholder="New book description"
-              value={hook.description}
-              onChange={(e) => hook.handleDescription(e.target.value)}
+              name="description"
+              value={hook.form.description}
+              onChange={(e) => hook.handleInputChange(e)}
             />
             <input
               type="file"
-              onChange={(e) => hook.handleFileAddition(e)}
+              name="pdf"
+              onChange={(e) => hook.handleInputChange(e)}
             />
             <button className="rounded bg-pink-800 text-white text-lg py-2 px-4 mt-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200">
               Submit new book

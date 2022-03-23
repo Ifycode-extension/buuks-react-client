@@ -1,16 +1,15 @@
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
+import { BooksObject, PostForm } from "../interfaces/books";
 // import { AuthContainer } from "./useAuth";
-import { BooksObject } from "../interfaces/books";
-
 export const useBooks = () => {
   // const auth = AuthContainer.useContainer();
   let [books, setBooks] = useState<BooksObject[]>([]);
   const [modal, setModal] = useState(false);
-
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [pdf, setPdf] = useState<File>();
-
+  const [form, setForm] = useState<PostForm>({
+    title: '',
+    description: '',
+    pdf: ''
+  });
 
   const fetchBookData = async (e: any, method: string, endpoint: string, bookId: string | null) => {
     if (method === 'POST' /* or 'UPDATE' */) e.preventDefault();
@@ -30,9 +29,9 @@ export const useBooks = () => {
 
     if (method === 'POST') {
       let formData = new FormData();
-      formData.append('title', title);
-      formData.append('description', description);
-      formData.append('pdf', pdf as File);
+      formData.append('title', form.title);
+      formData.append('description', form.description);
+      formData.append('pdf', form.pdf as File);
       options = {
         ...options,
         body: formData
@@ -53,21 +52,11 @@ export const useBooks = () => {
     console.log(response.statusText);
   }
 
-  //----------------------------------------------------------------
-
-  const handleTitle = (eventTargetValue: string) => {
-    setTitle(eventTargetValue);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value, files } = e.target;
+    if (name !== 'pdf') setForm({ ...form, [name]: value } as Pick<PostForm, keyof PostForm>);
+    if (name === 'pdf') setForm({ ...form, [name]: files![0] } as Pick<PostForm, keyof PostForm>);
   }
-
-  const handleDescription = (eventTargetValue: string) => {
-    setDescription(eventTargetValue);
-  }
-
-  const handleFileAddition = (e: any) => {
-    setPdf(e.target.files![0]);
-  }
-
-  //----------------------------------------------------------------
 
   const handleModal = (boolean: boolean) => {
     setModal(boolean);
@@ -76,14 +65,9 @@ export const useBooks = () => {
   return {
     books,
     modal,
+    form,
     handleModal,
     fetchBookData,
-
-    title,
-    description,
-    pdf,
-    handleTitle,
-    handleDescription,
-    handleFileAddition
+    handleInputChange
   }
 }
