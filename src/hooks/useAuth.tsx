@@ -1,49 +1,51 @@
 import { ChangeEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Location, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { createContainer } from "unstated-next";
-import { AuthForm } from "../interfaces/auth";
+import { AuthForm, AuthForm2 } from "../interfaces/auth";
+import { formBody } from "./helpers/auth";
 
 export const useAuth = () => {
-  const navigate = useNavigate();
-
+  const navigate: NavigateFunction = useNavigate();
+  const location: Location = useLocation();
+  const authPage: string = location.pathname;
   const [form, setForm] = useState<AuthForm>({
     email: '',
     password: '',
     confirmPassword: '',
     name: ''
   });
+  const [form2, setForm2] = useState<AuthForm2>({
+    email: '',
+    password: ''
+  });
 
-  const authenticateUser = async (e: any, endpoint: string, pageroute: string) => {
+  const authenticateUser = async (e: any, endpoint: string, authPageroute: string) => {
     e.preventDefault();
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        email: form.email,
-        password: form.password,
-        passwordConfirmation: form.confirmPassword,
-        name: form.name
-      })
+      body: JSON.stringify(formBody({ form, form2, authPage }))
     });
-
     const data = await response.json();
-
     if (data.user) {
-      navigate(`/${pageroute}`);
+      if (authPage === '/login') localStorage.setItem('accessToken', data.accessToken);
+      navigate(authPageroute);
     }
-
     console.log(data);
   }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const [name, value] = [e.target.name, e.target.value];
-    setForm({ ...form, [name]: value } as Pick<AuthForm, keyof AuthForm>);
+    if (authPage === '/signup') setForm({ ...form, [name]: value } as Pick<AuthForm, keyof AuthForm>);
+    if (authPage === '/login') setForm2({ ...form2, [name]: value } as Pick<AuthForm2, keyof AuthForm2>);
   }
 
   return {
     form,
+    form2,
+    authPage,
     authenticateUser,
     handleInputChange
   }
