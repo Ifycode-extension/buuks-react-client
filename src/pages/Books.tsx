@@ -1,69 +1,16 @@
-import { ReactElement, useEffect, useState } from "react";
+import { ReactElement, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import Modal from "../components/Modal";
-// import { useBooks } from "../hooks/useBooks";
+import { useBooks } from "../hooks/useBooks";
 import { AuthContainer } from "../hooks/useAuth";
-import { BooksObject } from "../interfaces/books";
 
 // TODO: (code here is rough work) Fix repetition and arrange code, clean up and reduce the code in this file later.
 
 const Books = (): ReactElement => {
   const auth = AuthContainer.useContainer();
-
-  // const booksHook = useBooks();
-  // console.log(booksHook.test);
-
+  const hook = useBooks();
   const navigate = useNavigate();
   // TODO: const [userName, setUserName] = useState(''); // add name property to the get response on the backend so that you can display this at the top of the page
-  let [books, setBooks] = useState<BooksObject[]>([]);
-
-  const [modal, setModal] = useState(false);
-
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [pdf, setPdf] = useState<File>();
-
-  //---------------------------------------------------------
-  const fetchBookData = async (e: any, method: string, endpoint: string, bookId: string | null) => {
-    if (method === 'POST' /* or 'UPDATE' */) e.preventDefault();
-    console.log('loading...');
-    let response: Response;
-    let options: any;
-
-    if (method !== 'GET') {
-      options = {
-        method: method,
-        headers: {
-          'Authorization': `Bearer ${localStorage.accessToken}`,
-          'x-access-token': `${localStorage.accessToken}`
-        }
-      }
-    }
-
-    if (method === 'POST') {
-      let formData = new FormData();
-      formData.append('title', title);
-      formData.append('description', description);
-      formData.append('pdf', pdf as File);
-      options = {
-        ...options,
-        body: formData
-      }
-    }
-    
-    response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, options);
-    if (response.ok) {
-      const data = await response.json();
-      if (method === 'GET') setBooks(data.books.reverse());
-      if (method === 'DELETE') setBooks(books.filter(book => book._id !== bookId));
-      if (method === 'POST') {
-        books.unshift(data.book);
-        handleModal(false);
-      }
-      console.log('data: ', data);
-    }
-    console.log(response.statusText);
-  }
 
   useEffect(() => {
     const accessToken = localStorage.getItem('accessToken');
@@ -74,7 +21,7 @@ const Books = (): ReactElement => {
       if (user) {
         console.log('You\'re logged in!');
         console.log(user);
-        fetchBookData(null, 'GET', `books/user/${user._id}`, null);
+        hook.fetchBookData(null, 'GET', `books/user/${user._id}`, null);
       } else {
         auth.setIsAuthenticated(false);
         navigate('/login');
@@ -86,26 +33,6 @@ const Books = (): ReactElement => {
       console.log('Da pa da!');
     }
   }, []);
-
-  //----------------------------------------------------------------
-
-  const handleTitle = (eventTargetValue: string) => {
-    setTitle(eventTargetValue);
-  }
-
-  const handleDescription = (eventTargetValue: string) => {
-    setDescription(eventTargetValue);
-  }
-
-  const handleFileAddition = (e: any) => {
-    setPdf(e.target.files![0]);
-  }
-
-  //----------------------------------------------------------------
-
-  const handleModal = (boolean: boolean) => {
-    setModal(boolean);
-  }
 
   //----------------------------------------------------------------
 
@@ -130,14 +57,14 @@ const Books = (): ReactElement => {
 
       <button
         className="rounded py-2 px-4 bg-white text-pink-800 text-lg md:text-xl p-2 border border-pink-800 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100"
-        onClick={() => handleModal(true)}
+        onClick={() => hook.handleModal(true)}
       >+ Add book</button>
 
       <Modal
-        modal={modal}
-        handleModal={handleModal}
+        modal={hook.modal}
+        handleModal={hook.handleModal}
       >
-        <form method="post" encType="multipart/form-data" onSubmit={(e) => fetchBookData(e, 'POST', `books`, null)}>
+        <form method="post" encType="multipart/form-data" onSubmit={(e) => hook.fetchBookData(e, 'POST', `books`, null)}>
           <div>
             <h1 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-8 text-pink-800 mb-2">
               New Book - Form
@@ -145,18 +72,18 @@ const Books = (): ReactElement => {
             <input
               type="text"
               placeholder="New book title"
-              value={title}
-              onChange={(e) => handleTitle(e.target.value)}
+              value={hook.title}
+              onChange={(e) => hook.handleTitle(e.target.value)}
             />
             <input
               type="text"
               placeholder="New book description"
-              value={description}
-              onChange={(e) => handleDescription(e.target.value)}
+              value={hook.description}
+              onChange={(e) => hook.handleDescription(e.target.value)}
             />
             <input
               type="file"
-              onChange={(e) => handleFileAddition(e)}
+              onChange={(e) => hook.handleFileAddition(e)}
             />
             <button className="rounded bg-pink-800 text-white text-lg py-2 px-4 mt-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200">
               Submit new book
@@ -167,7 +94,7 @@ const Books = (): ReactElement => {
 
       <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-6 my-6">
         {
-          books.length ? books.map(((book: any) => {
+          hook.books.length ? hook.books.map(((book: any) => {
             return (
               <div key={book._id} className="grid grid-rows-1 shadow-sm">
                 <div className="bg-white rounded-tl rounded-tr p-4 border-x border-t border-gray-300">
@@ -186,7 +113,7 @@ const Books = (): ReactElement => {
                   </button>
                   <button
                     className="flex-grow bg-pink-800 text-white p-2 border border-transparent hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-100"
-                    onClick={(e) => fetchBookData(null, 'DELETE', `books/${book._id}`, book._id)}>
+                    onClick={(e) => hook.fetchBookData(null, 'DELETE', `books/${book._id}`, book._id)}>
                     Delete
                   </button>
                 </div>
