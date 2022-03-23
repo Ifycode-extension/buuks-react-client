@@ -1,16 +1,19 @@
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createContainer } from "unstated-next";
+import { AuthForm } from "../interfaces/auth";
 
 export const useAuth = () => {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [name, setName] = useState('');
+  const [form, setForm] = useState<AuthForm>({
+    email: '',
+    password: '',
+    confirmPassword: '',
+    name: ''
+  });
 
-  const signupUser = async (e: any) => {
+  const authenticateUser = async (e: any) => {
     e.preventDefault();
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/users/signup`, {
       method: 'POST',
@@ -18,49 +21,31 @@ export const useAuth = () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        email,
-        password,
-        passwordConfirmation: confirmPassword,
-        name,
+        email: form.email,
+        password: form.password,
+        passwordConfirmation: form.confirmPassword,
+        name: form.name
       })
     });
 
     const data = await response.json();
 
-    // TODO: This works but include a property with boolean value of true/false in the API for use here instead
-    if (data.email) {
+    if (data.user) {
       navigate('/login');
     }
 
     console.log(data);
   }
 
-  const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
-    setEmail(e.target.value);
-  }
-
-  const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  }
-
-  const handleConfirmPassword = (e: ChangeEvent<HTMLInputElement>) => {
-    setConfirmPassword(e.target.value);
-  }
-
-  const handleName = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const [name, value] = [e.target.name, e.target.value];
+    setForm({ ...form, [name]: value } as Pick<AuthForm, keyof AuthForm>);
   }
 
   return {
-    email,
-    password,
-    confirmPassword,
-    name,
-    signupUser,
-    handleEmail,
-    handlePassword,
-    handleConfirmPassword,
-    handleName
+    form,
+    authenticateUser,
+    handleInputChange
   }
 }
 
