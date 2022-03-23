@@ -8,6 +8,7 @@ export const useAuth = () => {
   const navigate: NavigateFunction = useNavigate();
   const location: Location = useLocation();
   const authPage: string = location.pathname;
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [form, setForm] = useState<AuthForm>({
     email: '',
     password: '',
@@ -30,7 +31,10 @@ export const useAuth = () => {
     });
     const data = await response.json();
     if (data.user) {
-      if (authPage === '/login') localStorage.setItem('accessToken', data.accessToken);
+      if (authPage === '/login') {
+        localStorage.setItem('accessToken', data.accessToken);
+        setIsAuthenticated(true);
+      }
       navigate(authPageroute);
     }
     console.log(data);
@@ -47,7 +51,8 @@ export const useAuth = () => {
     form2,
     authPage,
     authenticateUser,
-    handleInputChange
+    handleInputChange,
+    isAuthenticated
   }
 }
 
