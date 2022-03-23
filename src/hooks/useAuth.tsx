@@ -43,7 +43,7 @@ export const useAuth = () => {
   }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const [name, value] = [e.target.name, e.target.value];
+    const { name, value } = e.target;
     if (authPage === '/signup') setForm({ ...form, [name]: value } as Pick<AuthForm, keyof AuthForm>);
     if (authPage === '/login') setForm2({ ...form2, [name]: value } as Pick<AuthForm2, keyof AuthForm2>);
   }
