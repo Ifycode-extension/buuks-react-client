@@ -4,6 +4,8 @@ import { createContainer } from "unstated-next";
 import { AuthForm, AuthForm2 } from "../interfaces/auth";
 import { formBody } from "./helpers/auth";
 
+// TODO: Persist isAuthenticated state on page reload
+
 export const useAuth = () => {
   const navigate: NavigateFunction = useNavigate();
   const location: Location = useLocation();
