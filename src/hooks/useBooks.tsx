@@ -20,7 +20,7 @@ export const useBooks = () => {
     response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, fetchOptions(method, form));
     if (response.ok) {
       const data = await response.json();
-      if (method === 'GET') setBooks(data.books.reverse());
+      if (method === 'GET') setBooks(data.books);
       if (method === 'DELETE') setBooks(books.filter(book => book._id !== bookId));
       if (method === 'POST') {
         books.unshift(data.book);
