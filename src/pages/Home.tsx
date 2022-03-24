@@ -1,5 +1,6 @@
+import { ReactElement } from 'react';
 
-const Home = (): JSX.Element => {
+const Home = (): ReactElement => {
   return (
     <section>
       <p className="text-base md:text-lg">
