@@ -8,22 +8,25 @@ export const useAuth = () => {
   const navigate: NavigateFunction = useNavigate();
   const location: Location = useLocation();
   const authPage: string = location.pathname;
-  const [user, setUser] = useState<User>({
+  const initialUser = {
     email: '',
     name: '',
     _id: ''
-  });
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [form, setForm] = useState<AuthForm>({
+  };
+  const initialForm = {
     email: '',
     password: '',
     confirmPassword: '',
     name: ''
-  });
-  const [form2, setForm2] = useState<AuthForm2>({
+  };
+  const initialForm2 = {
     email: '',
     password: ''
-  });
+  };
+  const [user, setUser] = useState<User>(initialUser);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [form, setForm] = useState<AuthForm>(initialForm);
+  const [form2, setForm2] = useState<AuthForm2>(initialForm2);
 
   const authenticateUser = async (e: any, endpoint: string, authPageroute: string) => {
     e.preventDefault();
@@ -63,11 +66,7 @@ export const useAuth = () => {
     navigate('/login');
     localStorage.removeItem('accessToken');
     localStorage.removeItem('_user');
-    setUser({
-      email: '',
-      name: '',
-      _id: ''
-    });
+    setUser(initialUser);
   }
 
   return {
