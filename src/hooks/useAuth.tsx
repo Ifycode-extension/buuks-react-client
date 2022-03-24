@@ -1,15 +1,18 @@
 import { ChangeEvent, useState } from "react";
 import { Location, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { createContainer } from "unstated-next";
-import { AuthForm, AuthForm2 } from "../interfaces/auth";
+import { AuthForm, AuthForm2, User } from "../interfaces/auth";
 import { formBody } from "../lib/auth";
-
-// TODO: Persist isAuthenticated state on page reload
 
 export const useAuth = () => {
   const navigate: NavigateFunction = useNavigate();
   const location: Location = useLocation();
   const authPage: string = location.pathname;
+  const [user, setUser] = useState<User>({
+    email: '',
+    name: '',
+    _id: ''
+  });
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [form, setForm] = useState<AuthForm>({
     email: '',
@@ -35,6 +38,8 @@ export const useAuth = () => {
     if (data.user) {
       if (authPage === '/login') {
         localStorage.setItem('accessToken', data.accessToken);
+        localStorage.setItem('_user', JSON.stringify(data.user));
+        setUser(JSON.parse(localStorage.getItem('_user') as string));
         setIsAuthenticated(true);
       }
       navigate(authPageroute);
@@ -48,10 +53,21 @@ export const useAuth = () => {
     if (authPage === '/login') setForm2({ ...form2, [name]: value } as Pick<AuthForm2, keyof AuthForm2>);
   }
 
+  const handleLogIn = () => {
+    setIsAuthenticated(true);
+    localStorage.getItem('accessToken');
+  }
+
   const handleLogout = () => {
     setIsAuthenticated(false);
-    localStorage.removeItem('accessToken');
     navigate('/login');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('_user');
+    setUser({
+      email: '',
+      name: '',
+      _id: ''
+    });
   }
 
   return {
@@ -60,9 +76,12 @@ export const useAuth = () => {
     authPage,
     authenticateUser,
     handleInputChange,
+    handleLogIn,
     handleLogout,
     isAuthenticated,
-    setIsAuthenticated
+    setIsAuthenticated,
+    user,
+    setUser
   }
 }
 

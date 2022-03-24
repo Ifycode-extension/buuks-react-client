@@ -1,5 +1,4 @@
 import { ReactElement, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 import Modal from "../components/Modal";
 import { useBooks } from "../hooks/useBooks";
 import { AuthContainer } from "../hooks/useAuth";
@@ -7,32 +6,18 @@ import { AuthContainer } from "../hooks/useAuth";
 const Books = (): ReactElement => {
   const auth = AuthContainer.useContainer();
   const hook = useBooks();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken');
-    if (accessToken) {
-      const user = JSON.parse(window.atob(accessToken.split('.')[1]));
-      if (user) {
-        console.log('You\'re logged in!');
-        console.log(user);
-        hook.fetchBookData(null, 'GET', `books/user/${user._id}`, null);
-      } else {
-        auth.setIsAuthenticated(false);
-        navigate('/login');
-        console.log('This is just for debugging, does this ever happen?: Access token, but no user');
-      }
-    } else {
-      auth.setIsAuthenticated(false);
-      navigate('/login');
-      console.log('Da pa da!');
-    }
+    const user = JSON.parse(localStorage.getItem('_user') as string);
+    auth.setUser(user);
+    hook.fetchBookData(null, 'GET', `books/user/${user._id}`, null);
+    auth.handleLogIn();
   }, []);
 
   return (
     <section>
       <div className="flex justify-between items-center py-4">
-        <p className="text-xl md:text-2xl ">User name</p>
+        <p className="text-xl md:text-2xl ">{auth.user.name}</p>
         <button
           className="rounded bg-pink-800 text-white text-lg py-2 px-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200"
           onClick={auth.handleLogout}
