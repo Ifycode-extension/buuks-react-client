@@ -26,7 +26,7 @@ const Books = (): ReactElement => {
 
       <button
         className="rounded py-2 px-4 bg-white text-pink-800 text-lg md:text-xl p-2 border border-pink-800 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100"
-        onClick={() => hook.handleModal(true)}
+        onClick={(e) => hook.handlePostRequestForm(true)}
       >+ Add book</button>
 
       <Modal
@@ -80,7 +80,8 @@ const Books = (): ReactElement => {
                     Preview or download PDF</a>
                 </div>
                 <div className="flex">
-                  <button className="flex-grow bg-white text-pink-800 p-2 border border-pink-900 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100">
+                  <button className="flex-grow bg-white text-pink-800 p-2 border border-pink-900 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100"
+                    onClick={(e) => hook.handlePostRequestForm(true)}>
                     Edit
                   </button>
                   <button

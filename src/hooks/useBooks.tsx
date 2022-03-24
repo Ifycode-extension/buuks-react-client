@@ -43,12 +43,17 @@ export const useBooks = () => {
     setModal(boolean);
   }
 
+  const handlePostRequestForm = (boolean: boolean) => {
+    handleModal(boolean);
+  }
+
   return {
     books,
     modal,
     form,
     handleModal,
     fetchBookData,
-    handleInputChange
+    handleInputChange,
+    handlePostRequestForm
   }
 }
