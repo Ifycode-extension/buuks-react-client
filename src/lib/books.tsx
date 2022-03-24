@@ -2,13 +2,11 @@ import { PostForm } from "../interfaces/books";
 
 export const fetchOptions = (method: string, form: PostForm) => {
   let options: any;
-  if (method !== 'GET') {
-    options = {
-      method: method,
-      headers: {
-        'Authorization': `Bearer ${localStorage.accessToken}`,
-        'x-access-token': `${localStorage.accessToken}`
-      }
+  options = {
+    method: method,
+    headers: {
+      'Authorization': `Bearer ${localStorage.accessToken}`,
+      'x-access-token': `${localStorage.accessToken}`
     }
   }
   if (method === 'POST') {
