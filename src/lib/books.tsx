@@ -19,5 +19,17 @@ export const fetchOptions = (method: string, form: PostForm) => {
       body: formData
     }
   }
+
+  if (method === 'PUT') {
+    let formData = new FormData();
+    if (form.title !== '') formData.append('title', form.title);
+    if (form.description !== '') formData.append('description', form.description);
+    if (form.pdf !== '') formData.append('pdf', form.pdf as File);
+    options = {
+      ...options,
+      body: formData
+    }
+  }
+
   return options;
 }

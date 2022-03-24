@@ -11,3 +11,11 @@ export interface PostForm {
   description: string;
   pdf: File | string;
 }
+
+export interface ModalForm {
+  title: string;
+  buttonText: string;
+  method: string;
+  endpoint: string;
+  bookId: string | null;
+}

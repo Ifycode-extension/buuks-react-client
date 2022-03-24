@@ -26,17 +26,17 @@ const Books = (): ReactElement => {
 
       <button
         className="rounded py-2 px-4 bg-white text-pink-800 text-lg md:text-xl p-2 border border-pink-800 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100"
-        onClick={(e) => hook.handlePostRequestForm(true)}
+        onClick={(e) => hook.handlePostRequestForm(true, 'add', null)}
       >+ Add book</button>
 
       <Modal
         modal={hook.modal}
         handleModal={hook.handleModal}
       >
-        <form method="post" encType="multipart/form-data" onSubmit={(e) => hook.fetchBookData(e, 'POST', `books`, null)}>
+        <form method="post" encType="multipart/form-data" onSubmit={(e) => hook.fetchBookData(e, hook.modalForm.method, hook.modalForm.endpoint, hook.modalForm.bookId)}>
           <div>
             <h1 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-8 text-pink-800 mb-2">
-              New Book - Form
+              {hook.modalForm.title}
             </h1>
             <input
               type="text"
@@ -58,7 +58,7 @@ const Books = (): ReactElement => {
               onChange={(e) => hook.handleInputChange(e)}
             />
             <button className="rounded bg-pink-800 text-white text-lg py-2 px-4 mt-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200">
-              Submit new book
+              {hook.modalForm.buttonText}
             </button>
           </div>
         </form>
@@ -81,7 +81,7 @@ const Books = (): ReactElement => {
                 </div>
                 <div className="flex">
                   <button className="flex-grow bg-white text-pink-800 p-2 border border-pink-900 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100"
-                    onClick={(e) => hook.handlePostRequestForm(true)}>
+                    onClick={(e) => hook.handlePostRequestForm(true, 'update', book._id)}>
                     Edit
                   </button>
                   <button

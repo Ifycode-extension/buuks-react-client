@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { fetchOptions } from "../lib/books";
-import { BooksObject, PostForm } from "../interfaces/books";
+import { BooksObject, ModalForm, PostForm } from "../interfaces/books";
 import { AuthContainer } from "./useAuth";
 
 export const useBooks = () => {
@@ -12,9 +12,16 @@ export const useBooks = () => {
     description: '',
     pdf: ''
   });
+  const [modalForm, setModalForm] = useState<ModalForm>({
+    title: '',
+    buttonText: '',
+    method: '',
+    endpoint: '',
+    bookId: ''
+  });
 
   const fetchBookData = async (e: any, method: string, endpoint: string, bookId: string | null) => {
-    if (method === 'POST' /* or 'UPDATE' */) e.preventDefault();
+    if (method === 'POST' || method === 'PUT') e.preventDefault();
     console.log('loading...');
     let response: Response;
     response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, fetchOptions(method, form));
@@ -24,6 +31,14 @@ export const useBooks = () => {
       if (method === 'DELETE') setBooks(books.filter(book => book._id !== bookId));
       if (method === 'POST') {
         books.unshift(data.book);
+        handleModal(false);
+      }
+      if (method === 'PUT') {
+        const updated = books.map((book) => {
+          if (book._id === bookId) return { ...book, ...data.book };
+          return book;
+        });
+        setBooks(updated);
         handleModal(false);
       }
       console.log('data: ', data);
@@ -43,8 +58,26 @@ export const useBooks = () => {
     setModal(boolean);
   }
 
-  const handlePostRequestForm = (boolean: boolean) => {
+  const handlePostRequestForm = (boolean: boolean, operation: string, bookId: string | null) => {
     handleModal(boolean);
+    if (operation === 'add') {
+      setModalForm({
+        title: 'New Book - Form',
+        buttonText: 'Submit new book',
+        method: 'POST',
+        endpoint: 'books',
+        bookId: bookId
+      });
+    }
+    if (operation === 'update') {
+      setModalForm({
+        title: 'Update Book - Form',
+        buttonText: 'Update book',
+        method: 'PUT',
+        endpoint: `books/${bookId}`,
+        bookId: bookId
+      });
+    }
   }
 
   return {
@@ -54,6 +87,7 @@ export const useBooks = () => {
     handleModal,
     fetchBookData,
     handleInputChange,
-    handlePostRequestForm
+    handlePostRequestForm,
+    modalForm
   }
 }
