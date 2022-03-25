@@ -4,6 +4,7 @@ import { useBooks } from "../hooks/useBooks";
 import { AuthContainer } from "../hooks/useAuth";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import Toastr from "../components/Toastr";
 
 const Books = (): ReactElement => {
   const auth = AuthContainer.useContainer();
@@ -74,7 +75,7 @@ const Books = (): ReactElement => {
 
       {auth.isLoading && <Loader />}
 
-      {!hook.showBooks &&
+      {(!hook.showBooks) &&
         (<div className={hook.books.length ? 'grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-6 my-6' : 'mt-4'}>
           {
             hook.books.length ? hook.books.map(((book: any) => {
@@ -104,10 +105,14 @@ const Books = (): ReactElement => {
                 </div>
               )
             })) :
-              <div>You have not added any book yet. Click on the add button to begin.</div>
+              <div className={auth.isLoading ? 'hidden' : ''}>You have not added any book yet. Click on the add button to begin.</div>
           }
         </div>
         )}
+      <Toastr
+        success={hook.success}
+        successMessage={hook.successMessage}
+      />
     </section>
   );
 }

@@ -7,6 +7,8 @@ export const useBooks = () => {
   const auth = AuthContainer.useContainer();
   let [books, setBooks] = useState<BooksObject[]>([]);
   const [modal, setModal] = useState(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string>('');
   const [showBooks, setShowBooks] = useState<boolean | null>(null);
   const initialForm = {
     title: '',
@@ -45,6 +47,14 @@ export const useBooks = () => {
         });
         setBooks(updated);
         handleModal(false);
+      }
+      if (method !== 'GET') {
+        setSuccessMessage(data.message)
+        setSuccess(true);
+        const removeSuccessMsg = () => setSuccess(false);
+        const interval = setInterval(removeSuccessMsg, 2000);
+        const removeInterval = () => clearInterval(interval);
+        setTimeout(removeInterval, 2000);
       }
       resetForm();
     }
@@ -115,6 +125,8 @@ export const useBooks = () => {
     handleInputChange,
     handlePostRequestForm,
     modalForm,
-    showBooks
+    showBooks,
+    success,
+    successMessage
   }
 }
