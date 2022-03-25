@@ -7,11 +7,15 @@ export const useBooks = () => {
   const auth = AuthContainer.useContainer();
   let [books, setBooks] = useState<BooksObject[]>([]);
   const [modal, setModal] = useState(false);
-  const [form, setForm] = useState<PostForm>({
+  const [success, setSuccess] = useState<boolean>(false);
+  const [successMessage, setSuccessMessage] = useState<string>('');
+  const [showBooks, setShowBooks] = useState<boolean | null>(null);
+  const initialForm = {
     title: '',
     description: '',
     pdf: ''
-  });
+  }
+  const [form, setForm] = useState<PostForm>(initialForm);
   const [modalForm, setModalForm] = useState<ModalForm>({
     title: '',
     buttonText: '',
@@ -22,11 +26,14 @@ export const useBooks = () => {
 
   const fetchBookData = async (e: any, method: string, endpoint: string, bookId: string | null) => {
     if (method === 'POST' || method === 'PUT') e.preventDefault();
-    console.log('loading...');
+    if (method === 'GET' && !auth.isLoading) setShowBooks(false);
+    if (method !== 'GET' && !auth.isLoading) setShowBooks(null);
+    trackProgress(true, false, '');
     let response: Response;
     response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, fetchOptions(method, form));
+    const data = await response.json();
     if (response.ok) {
-      const data = await response.json();
+      trackProgress(false, false, '');
       if (method === 'GET') setBooks(data.books);
       if (method === 'DELETE') setBooks(books.filter(book => book._id !== bookId));
       if (method === 'POST') {
@@ -41,21 +48,53 @@ export const useBooks = () => {
         setBooks(updated);
         handleModal(false);
       }
-      console.log('data: ', data);
+      if (method !== 'GET') {
+        setSuccessMessage(data.message)
+        setSuccess(true);
+        const removeSuccessMsg = () => setSuccess(false);
+        const interval = setInterval(removeSuccessMsg, 2000);
+        const removeInterval = () => clearInterval(interval);
+        setTimeout(removeInterval, 2000);
+      }
+      resetForm();
+    }
+    if (response.status === 400) {
+      if (method === 'POST') trackProgress(false, true, 'All fields are required. Also, only PDF files are allowed.');
+      if (method === 'PUT') trackProgress(false, true, 'Only PDF files are allowed.');
+      if (method === 'POST' && data[0].code === 'too_small') trackProgress(false, true, `${data[0].message}. All fields are required. Also, only PDF files are allowed.`);
     }
     if (response.status === 401) {
-      auth.handleLogout();
+      trackProgress(false, true, 'Your session has expired, please login again');
+      auth.setUnAuthorizedError(true);
+      const removeError = () => auth.setUnAuthorizedError(false);
+      const interval = setInterval(removeError, 200);
+      const removeInterval = () => {
+        auth.handleLogout();
+        clearInterval(interval);
+      }
+      setTimeout(removeInterval, 200);
     }
+    // console.log('data: ', data);
   }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
     if (name !== 'pdf') setForm({ ...form, [name]: value } as Pick<PostForm, keyof PostForm>);
     if (name === 'pdf') setForm({ ...form, [name]: files![0] } as Pick<PostForm, keyof PostForm>);
+    trackProgress(false, false, '');
+  }
+
+  const trackProgress = (loading: boolean, errBool: boolean, errString: string) => {
+    auth.setIsLoading(loading);
+    auth.handleError(errBool, errString);
   }
 
   const handleModal = (boolean: boolean) => {
     setModal(boolean);
+    if (!boolean) {
+      auth.handleError(false, '');
+      resetForm();
+    }
   }
 
   const handlePostRequestForm = (boolean: boolean, operation: string, bookId: string | null) => {
@@ -80,6 +119,10 @@ export const useBooks = () => {
     }
   }
 
+  const resetForm = () => {
+    setForm(initialForm);
+  }
+
   return {
     books,
     modal,
@@ -88,6 +131,9 @@ export const useBooks = () => {
     fetchBookData,
     handleInputChange,
     handlePostRequestForm,
-    modalForm
+    modalForm,
+    showBooks,
+    success,
+    successMessage
   }
 }

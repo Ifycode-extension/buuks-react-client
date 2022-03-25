@@ -8,6 +8,10 @@ export const useAuth = () => {
   const navigate: NavigateFunction = useNavigate();
   const location: Location = useLocation();
   const authPage: string = location.pathname;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [unAuthorizedError, setUnAuthorizedError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const initialUser = {
     email: '',
     name: '',
@@ -46,14 +50,29 @@ export const useAuth = () => {
         setIsAuthenticated(true);
       }
       navigate(authPageroute);
+      resetForm(initialForm, initialForm2);
     }
-    console.log(data);
+
+    if (response.status === 400) {
+      handleError(true, data[0].message);
+    }
+
+    if (response.status === 409) {
+      if (data.error === 'Duplicate key') handleError(true, 'Email already exists. Use a different email.');
+      if (data.error === 'ValidationError: name: Path `name` is required.') handleError(true, 'First name is required.');
+    }
+
+    if (response.status === 401) {
+      handleError(true, data.error.message);
+    }
+    // console.log(data)
   }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (authPage === '/signup') setForm({ ...form, [name]: value } as Pick<AuthForm, keyof AuthForm>);
     if (authPage === '/login') setForm2({ ...form2, [name]: value } as Pick<AuthForm2, keyof AuthForm2>);
+    handleError(false, '');
   }
 
   const handleLogIn = () => {
@@ -63,10 +82,22 @@ export const useAuth = () => {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
+    setUnAuthorizedError(false);
     navigate('/login');
     localStorage.removeItem('accessToken');
     localStorage.removeItem('_user');
     setUser(initialUser);
+  }
+
+  const resetForm = (initialForm: AuthForm, initialForm2: AuthForm2) => {
+    setForm(initialForm);
+    setForm2(initialForm2);
+    handleError(false, '');
+  }
+
+  const handleError = (boolean: boolean, string: string) => {
+    setError(boolean);
+    setErrorMessage(string);
   }
 
   return {
@@ -80,7 +111,14 @@ export const useAuth = () => {
     isAuthenticated,
     setIsAuthenticated,
     user,
-    setUser
+    setUser,
+    isLoading,
+    error,
+    errorMessage,
+    setIsLoading,
+    handleError,
+    unAuthorizedError,
+    setUnAuthorizedError
   }
 }
 
