@@ -10,6 +10,7 @@ export const useAuth = () => {
   const authPage: string = location.pathname;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+  const [unAuthorizedError, setUnAuthorizedError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const initialUser = {
     email: '',
@@ -81,11 +82,11 @@ export const useAuth = () => {
 
   const handleLogout = () => {
     setIsAuthenticated(false);
+    setUnAuthorizedError(false);
     navigate('/login');
     localStorage.removeItem('accessToken');
     localStorage.removeItem('_user');
     setUser(initialUser);
-    handleError(true, 'Your session has expired, please login again')
   }
 
   const resetForm = (initialForm: AuthForm, initialForm2: AuthForm2) => {
@@ -115,7 +116,9 @@ export const useAuth = () => {
     error,
     errorMessage,
     setIsLoading,
-    handleError
+    handleError,
+    unAuthorizedError,
+    setUnAuthorizedError
   }
 }
 

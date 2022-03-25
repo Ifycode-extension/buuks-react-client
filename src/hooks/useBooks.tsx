@@ -64,8 +64,15 @@ export const useBooks = () => {
       if (method === 'POST' && data[0].code === 'too_small') trackProgress(false, true, `${data[0].message}. All fields are required. Also, only PDF files are allowed.`);
     }
     if (response.status === 401) {
-      trackProgress(false, true, 'testing...');
-      auth.handleLogout();
+      trackProgress(false, true, 'Your session has expired, please login again');
+      auth.setUnAuthorizedError(true);
+      const removeError = () => auth.setUnAuthorizedError(false);
+      const interval = setInterval(removeError, 200);
+      const removeInterval = () => {
+        auth.handleLogout();
+        clearInterval(interval);
+      }
+      setTimeout(removeInterval, 200);
     }
     console.log('data: ', data);
   }
