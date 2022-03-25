@@ -75,7 +75,7 @@ const Books = (): ReactElement => {
       {auth.isLoading && <Loader />}
 
       {!hook.showBooks &&
-        (<div className="grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-6 my-6">
+        (<div className={hook.books.length ? 'grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-6 my-6' : 'mt-4'}>
           {
             hook.books.length ? hook.books.map(((book: any) => {
               return (
@@ -104,7 +104,7 @@ const Books = (): ReactElement => {
                 </div>
               )
             })) :
-              <div>You have not added any book yet</div>
+              <div>You have not added any book yet. Click on the add button to begin.</div>
           }
         </div>
         )}
