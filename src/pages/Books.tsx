@@ -66,15 +66,15 @@ const Books = (): ReactElement => {
             <button className="rounded bg-pink-800 text-white text-lg py-2 px-4 mt-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200">
               {hook.modalForm.buttonText}
             </button>
-            {hook.isLoading && <Loader />}
-            {hook.error && <Error errorMessage = {hook.errorMessage}/>}
+            {auth.isLoading && <Loader />}
+            {auth.error && <Error />}
           </div>
         </form>
       </Modal>
 
-      {hook.isLoading && <Loader />}
+      {auth.isLoading && <Loader />}
 
-      {!hook.isLoading &&
+      {!auth.isLoading &&
         (<div className="grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-6 my-6">
           {
             hook.books.length ? hook.books.map(((book: any) => {

@@ -5,9 +5,6 @@ import { AuthContainer } from "./useAuth";
 
 export const useBooks = () => {
   const auth = AuthContainer.useContainer();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
   let [books, setBooks] = useState<BooksObject[]>([]);
   const [modal, setModal] = useState(false);
   const [form, setForm] = useState<PostForm>({
@@ -48,11 +45,11 @@ export const useBooks = () => {
     }
     if (response.status === 400) {
       trackProgress(false, true);
-      setErrorMessage('All fields are required. Also, only PDF files are allowed.');
+      auth.setErrorMessage('All fields are required. Also, only PDF files are allowed.');
     }
     if (response.status === 401) {
-      auth.handleLogout();
       trackProgress(false, true);
+      auth.handleLogout();
     }
     console.log('data: ', data);
   }
@@ -64,8 +61,8 @@ export const useBooks = () => {
   }
 
   const trackProgress = (loading: boolean, err: boolean) => {
-    setIsLoading(loading);
-    setError(err);
+    auth.setIsLoading(loading);
+    auth.setError(err);
   }
 
   const handleModal = (boolean: boolean) => {
@@ -102,9 +99,6 @@ export const useBooks = () => {
     fetchBookData,
     handleInputChange,
     handlePostRequestForm,
-    modalForm,
-    isLoading,
-    error,
-    errorMessage
+    modalForm
   }
 }

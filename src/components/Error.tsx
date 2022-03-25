@@ -1,8 +1,10 @@
 import { ReactElement } from "react";
+import { AuthContainer } from "../hooks/useAuth";
 
-const Error = ({ errorMessage }: { errorMessage: string }): ReactElement => {
+const Error = (): ReactElement => {
+  const auth = AuthContainer.useContainer();
   return (
-    <div className="mt-4 text-red-900 font-bold">{errorMessage}</div>
+    <div className="mt-4 text-red-900 font-bold">{auth.errorMessage}</div>
   );
 }
 

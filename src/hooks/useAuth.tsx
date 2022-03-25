@@ -8,6 +8,9 @@ export const useAuth = () => {
   const navigate: NavigateFunction = useNavigate();
   const location: Location = useLocation();
   const authPage: string = location.pathname;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const initialUser = {
     email: '',
     name: '',
@@ -67,6 +70,7 @@ export const useAuth = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('_user');
     setUser(initialUser);
+    setErrorMessage('Your session has expired, please login again');
   }
 
   return {
@@ -80,7 +84,13 @@ export const useAuth = () => {
     isAuthenticated,
     setIsAuthenticated,
     user,
-    setUser
+    setUser,
+    isLoading,
+    error,
+    errorMessage,
+    setIsLoading,
+    setError,
+    setErrorMessage
   }
 }
 
