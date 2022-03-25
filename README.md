@@ -15,9 +15,6 @@ REACT_APP_BASE_URL=https://buuks-express-api.herokuapp.com
 
 Alternatively, run the [backend repo](https://github.com/Ifycode-tasks-for-later/buuks-api) locally on your computer. Then use the localhost url you supplied as the API_HOST_URL from the backend's .env file, as the value for REACT_APP_BASE_URL in the client app's .env file.
 
-> The buuks client app is still in development. For now, the browser console is how you get to see if a request is successful or fails.
-
-
 ## Helpful resources 
 - For conditional header links rendering: [MWO's answer to stackoverflow question | Hide a component in Login in react Routes](https://stackoverflow.com/a/71158389/15012852)
 

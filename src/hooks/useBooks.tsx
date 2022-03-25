@@ -74,7 +74,7 @@ export const useBooks = () => {
       }
       setTimeout(removeInterval, 200);
     }
-    console.log('data: ', data);
+    // console.log('data: ', data);
   }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {

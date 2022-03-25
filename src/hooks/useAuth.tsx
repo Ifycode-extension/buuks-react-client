@@ -65,7 +65,7 @@ export const useAuth = () => {
     if (response.status === 401) {
       handleError(true, data.error.message);
     }
-    console.log(data)
+    // console.log(data)
   }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
