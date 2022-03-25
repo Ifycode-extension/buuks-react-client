@@ -49,7 +49,9 @@ export const useBooks = () => {
       resetForm();
     }
     if (response.status === 400) {
-      trackProgress(false, true, 'All fields are required. Also, only PDF files are allowed.');
+      if (method === 'POST') trackProgress(false, true, 'All fields are required. Also, only PDF files are allowed.');
+      if (method === 'PUT') trackProgress(false, true, 'Only PDF files are allowed.');
+      if (method === 'POST' && data[0].code === 'too_small') trackProgress(false, true, `${data[0].message}. All fields are required. Also, only PDF files are allowed.`);
     }
     if (response.status === 401) {
       trackProgress(false, true, 'testing...');
@@ -62,6 +64,7 @@ export const useBooks = () => {
     const { name, value, files } = e.target;
     if (name !== 'pdf') setForm({ ...form, [name]: value } as Pick<PostForm, keyof PostForm>);
     if (name === 'pdf') setForm({ ...form, [name]: files![0] } as Pick<PostForm, keyof PostForm>);
+    trackProgress(false, false, '');
   }
 
   const trackProgress = (loading: boolean, errBool: boolean, errString: string) => {
@@ -71,6 +74,10 @@ export const useBooks = () => {
 
   const handleModal = (boolean: boolean) => {
     setModal(boolean);
+    if (!boolean) {
+      auth.handleError(false, '');
+      resetForm();
+    }
   }
 
   const handlePostRequestForm = (boolean: boolean, operation: string, bookId: string | null) => {
