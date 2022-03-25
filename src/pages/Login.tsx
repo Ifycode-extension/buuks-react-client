@@ -31,7 +31,13 @@ const Login = (): ReactElement => {
           </div>
           <div>
             <span>Don't have an account yet?</span>
-            <Link to="/signup" className="text-pink-800 underline ml-2">Signup!</Link>
+            <Link
+              onClick={() => auth.handleError(false, '')}
+              to="/signup"
+              className="text-pink-800 underline ml-2"
+            >
+              Signup!
+            </Link>
           </div>
           {auth.error && <Error />}
         </form>

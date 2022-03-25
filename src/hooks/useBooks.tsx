@@ -8,11 +8,12 @@ export const useBooks = () => {
   let [books, setBooks] = useState<BooksObject[]>([]);
   const [modal, setModal] = useState(false);
   const [showBooks, setShowBooks] = useState<boolean | null>(null);
-  const [form, setForm] = useState<PostForm>({
+  const initialForm = {
     title: '',
     description: '',
     pdf: ''
-  });
+  }
+  const [form, setForm] = useState<PostForm>(initialForm);
   const [modalForm, setModalForm] = useState<ModalForm>({
     title: '',
     buttonText: '',
@@ -25,12 +26,12 @@ export const useBooks = () => {
     if (method === 'POST' || method === 'PUT') e.preventDefault();
     if (method === 'GET' && !auth.isLoading) setShowBooks(false);
     if (method !== 'GET' && !auth.isLoading) setShowBooks(null);
-    trackProgress(true, false);
+    trackProgress(true, false, '');
     let response: Response;
     response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, fetchOptions(method, form));
     const data = await response.json();
     if (response.ok) {
-      trackProgress(false, false);
+      trackProgress(false, false, '');
       if (method === 'GET') setBooks(data.books);
       if (method === 'DELETE') setBooks(books.filter(book => book._id !== bookId));
       if (method === 'POST') {
@@ -45,13 +46,13 @@ export const useBooks = () => {
         setBooks(updated);
         handleModal(false);
       }
+      resetForm();
     }
     if (response.status === 400) {
-      trackProgress(false, true);
-      auth.setErrorMessage('All fields are required. Also, only PDF files are allowed.');
+      trackProgress(false, true, 'All fields are required. Also, only PDF files are allowed.');
     }
     if (response.status === 401) {
-      trackProgress(false, true);
+      trackProgress(false, true, 'testing...');
       auth.handleLogout();
     }
     console.log('data: ', data);
@@ -63,9 +64,9 @@ export const useBooks = () => {
     if (name === 'pdf') setForm({ ...form, [name]: files![0] } as Pick<PostForm, keyof PostForm>);
   }
 
-  const trackProgress = (loading: boolean, err: boolean) => {
+  const trackProgress = (loading: boolean, errBool: boolean, errString: string) => {
     auth.setIsLoading(loading);
-    auth.setError(err);
+    auth.handleError(errBool, errString);
   }
 
   const handleModal = (boolean: boolean) => {
@@ -92,6 +93,10 @@ export const useBooks = () => {
         bookId: bookId
       });
     }
+  }
+
+  const resetForm = () => {
+    setForm(initialForm);
   }
 
   return {

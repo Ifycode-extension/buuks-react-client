@@ -49,8 +49,22 @@ export const useAuth = () => {
         setIsAuthenticated(true);
       }
       navigate(authPageroute);
+      resetForm(initialForm, initialForm2);
     }
-    console.log(data);
+
+    if (response.status === 400) {
+      handleError(true, data[0].message);
+    }
+
+    if (response.status === 409) {
+      if (data.error === 'Duplicate key') handleError(true, 'Email already exists. Use a different email.');
+      if (data.error === 'ValidationError: name: Path `name` is required.') handleError(true, 'First name is required.');
+    }
+
+    if (response.status === 401) {
+      handleError(true, data.error.message);
+    }
+    console.log(data)
   }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +84,18 @@ export const useAuth = () => {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('_user');
     setUser(initialUser);
-    setErrorMessage('Your session has expired, please login again');
+    handleError(true, 'Your session has expired, please login again')
+  }
+
+  const resetForm = (initialForm: AuthForm, initialForm2: AuthForm2) => {
+    setForm(initialForm);
+    setForm2(initialForm2);
+    handleError(false, '');
+  }
+
+  const handleError = (boolean: boolean, string: string) => {
+    setError(boolean);
+    setErrorMessage(string);
   }
 
   return {
@@ -89,8 +114,7 @@ export const useAuth = () => {
     error,
     errorMessage,
     setIsLoading,
-    setError,
-    setErrorMessage
+    handleError
   }
 }
 

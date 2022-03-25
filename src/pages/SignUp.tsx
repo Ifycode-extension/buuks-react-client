@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import { Link } from 'react-router-dom';
+import Error from '../components/Error';
 import { AuthContainer } from '../hooks/useAuth';
 
 const SignUp = (): ReactElement => {
@@ -33,7 +34,7 @@ const SignUp = (): ReactElement => {
             />
             <input
               type="text"
-              placeholder="Name"
+              placeholder="First name"
               name="name"
               value={auth.form.name}
               onChange={(e) => auth.handleInputChange(e)}
@@ -44,8 +45,15 @@ const SignUp = (): ReactElement => {
           </div>
           <div>
             <span>Have an account already?</span>
-            <Link to="/login" className="text-pink-800 underline ml-2">Login.</Link>
+            <Link
+              onClick={() => auth.handleError(false, '')}
+              to="/login"
+              className="text-pink-800 underline ml-2"
+            >
+              Login.
+            </Link>
           </div>
+          {auth.error && <Error />}
         </form>
       </div>
     </section>
