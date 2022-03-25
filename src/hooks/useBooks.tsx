@@ -5,6 +5,9 @@ import { AuthContainer } from "./useAuth";
 
 export const useBooks = () => {
   const auth = AuthContainer.useContainer();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   let [books, setBooks] = useState<BooksObject[]>([]);
   const [modal, setModal] = useState(false);
   const [form, setForm] = useState<PostForm>({
@@ -22,11 +25,12 @@ export const useBooks = () => {
 
   const fetchBookData = async (e: any, method: string, endpoint: string, bookId: string | null) => {
     if (method === 'POST' || method === 'PUT') e.preventDefault();
-    console.log('loading...');
+    trackProgress(true, false);
     let response: Response;
     response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, fetchOptions(method, form));
+    const data = await response.json();
     if (response.ok) {
-      const data = await response.json();
+      trackProgress(false, false);
       if (method === 'GET') setBooks(data.books);
       if (method === 'DELETE') setBooks(books.filter(book => book._id !== bookId));
       if (method === 'POST') {
@@ -41,17 +45,27 @@ export const useBooks = () => {
         setBooks(updated);
         handleModal(false);
       }
-      console.log('data: ', data);
+    }
+    if (response.status === 400) {
+      trackProgress(false, true);
+      setErrorMessage('All fields are required. Also, only PDF files are allowed.');
     }
     if (response.status === 401) {
       auth.handleLogout();
+      trackProgress(false, true);
     }
+    console.log('data: ', data);
   }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
     if (name !== 'pdf') setForm({ ...form, [name]: value } as Pick<PostForm, keyof PostForm>);
     if (name === 'pdf') setForm({ ...form, [name]: files![0] } as Pick<PostForm, keyof PostForm>);
+  }
+
+  const trackProgress = (loading: boolean, err: boolean) => {
+    setIsLoading(loading);
+    setError(err);
   }
 
   const handleModal = (boolean: boolean) => {
@@ -88,6 +102,9 @@ export const useBooks = () => {
     fetchBookData,
     handleInputChange,
     handlePostRequestForm,
-    modalForm
+    modalForm,
+    isLoading,
+    error,
+    errorMessage
   }
 }
