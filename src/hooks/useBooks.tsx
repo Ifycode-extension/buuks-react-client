@@ -7,6 +7,7 @@ export const useBooks = () => {
   const auth = AuthContainer.useContainer();
   let [books, setBooks] = useState<BooksObject[]>([]);
   const [modal, setModal] = useState(false);
+  const [showBooks, setShowBooks] = useState<boolean | null>(null);
   const [form, setForm] = useState<PostForm>({
     title: '',
     description: '',
@@ -22,6 +23,8 @@ export const useBooks = () => {
 
   const fetchBookData = async (e: any, method: string, endpoint: string, bookId: string | null) => {
     if (method === 'POST' || method === 'PUT') e.preventDefault();
+    if (method === 'GET' && !auth.isLoading) setShowBooks(false);
+    if (method !== 'GET' && !auth.isLoading) setShowBooks(null);
     trackProgress(true, false);
     let response: Response;
     response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, fetchOptions(method, form));
@@ -99,6 +102,7 @@ export const useBooks = () => {
     fetchBookData,
     handleInputChange,
     handlePostRequestForm,
-    modalForm
+    modalForm,
+    showBooks
   }
 }

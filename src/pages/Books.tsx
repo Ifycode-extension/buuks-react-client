@@ -74,7 +74,7 @@ const Books = (): ReactElement => {
 
       {auth.isLoading && <Loader />}
 
-      {!auth.isLoading &&
+      {!hook.showBooks &&
         (<div className="grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-6 my-6">
           {
             hook.books.length ? hook.books.map(((book: any) => {
