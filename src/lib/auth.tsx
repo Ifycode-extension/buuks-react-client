@@ -1,8 +1,8 @@
 import { AuthForm, AuthForm2 } from "../interfaces/auth"
 
 export const formBody = (
-{ form, form2, authPage }: { form: AuthForm; form2: AuthForm2; authPage: string }): Record<string, any> => {
-  if (authPage === '/login') {
+  { form, form2, pageRoute }: { form: AuthForm; form2: AuthForm2; pageRoute: string }): Record<string, any> => {
+  if (pageRoute === '/login') {
     return {
       email: form2.email,
       password: form2.password

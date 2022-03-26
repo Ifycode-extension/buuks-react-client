@@ -4,14 +4,15 @@ import { createContainer } from "unstated-next";
 import { AuthForm, AuthForm2, User } from "../interfaces/auth";
 import { formBody } from "../lib/auth";
 
-export const useAuth = () => {
+export const useAuth = (): Record<string, any> => {
   const navigate: NavigateFunction = useNavigate();
   const location: Location = useLocation();
-  const authPage: string = location.pathname;
+  const pageRoute: string = location.pathname;
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
-  const [unAuthorizedError, setUnAuthorizedError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [unAuthorizedError, setUnAuthorizedError] = useState<boolean>(false);
   const initialUser = {
     email: '',
     name: '',
@@ -28,7 +29,6 @@ export const useAuth = () => {
     password: ''
   };
   const [user, setUser] = useState<User>(initialUser);
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [form, setForm] = useState<AuthForm>(initialForm);
   const [form2, setForm2] = useState<AuthForm2>(initialForm2);
 
@@ -39,11 +39,11 @@ export const useAuth = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formBody({ form, form2, authPage }))
+      body: JSON.stringify(formBody({ form, form2, pageRoute }))
     });
     const data = await response.json();
     if (data.user) {
-      if (authPage === '/login') {
+      if (pageRoute === '/login') {
         localStorage.setItem('accessToken', data.accessToken);
         localStorage.setItem('_user', JSON.stringify(data.user));
         setUser(JSON.parse(localStorage.getItem('_user') as string));
@@ -70,8 +70,8 @@ export const useAuth = () => {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (authPage === '/signup') setForm({ ...form, [name]: value } as Pick<AuthForm, keyof AuthForm>);
-    if (authPage === '/login') setForm2({ ...form2, [name]: value } as Pick<AuthForm2, keyof AuthForm2>);
+    if (pageRoute === '/signup') setForm({ ...form, [name]: value } as Pick<AuthForm, keyof AuthForm>);
+    if (pageRoute === '/login') setForm2({ ...form2, [name]: value } as Pick<AuthForm2, keyof AuthForm2>);
     handleError(false, '');
   }
 
@@ -103,7 +103,7 @@ export const useAuth = () => {
   return {
     form,
     form2,
-    authPage,
+    pageRoute,
     authenticateUser,
     handleInputChange,
     handleLogIn,
