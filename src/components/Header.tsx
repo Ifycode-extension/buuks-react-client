@@ -1,6 +1,6 @@
 import { Fragment, ReactElement } from "react";
-import { Link } from "react-router-dom";
 import { AuthContainer } from "../hooks/useAuth";
+import AppLink from "./AppLink";
 
 const Header = (): ReactElement | null => {
   const auth: Record<string, any> = AuthContainer.useContainer();
@@ -10,16 +10,32 @@ const Header = (): ReactElement | null => {
   return (
     <header className="flex justify-between text-lg md:text-xl py-4">
       <div>
-        <Link to="/" className="text-pink-800 text-xl md:text-2xl">Buuks Logo</Link>
+        <AppLink
+          to="/"
+          tailwindStyle="text-pink-800 text-xl md:text-2xl"
+          text="Buuks Logo"
+        />
       </div>
       <nav>
         {!homePage &&
-          <Link to="/" className="text-pink-800 underline">Buuks Home</Link>
+          <AppLink
+            to="/"
+            tailwindStyle="text-pink-800 underline"
+            text="Home"
+          />
         }
         {homePage &&
           <Fragment>
-            <Link to="/signup" className="text-pink-800 underline">Signup</Link>
-            <Link to="/login" className="ml-3 text-pink-800 underline">Login</Link>
+            <AppLink
+              to="/signup"
+              tailwindStyle="text-pink-800 underline"
+              text="Signup"
+            />
+            <AppLink
+              to="/login"
+              tailwindStyle="ml-3 text-pink-800 underline"
+              text="Login"
+            />
           </Fragment>
         }
       </nav>

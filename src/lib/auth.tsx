@@ -1,16 +1,16 @@
-import { AuthForm, AuthForm2 } from "../interfaces/auth"
+import { AuthForm } from "../interfaces/auth";
 
 export const formBody = (
-  { form, form2, pageRoute }: { form: AuthForm; form2: AuthForm2; pageRoute: string }): Record<string, any> => {
+  { form, pageRoute }: { form: AuthForm, pageRoute: string }) => {
+  let loginReqBody = {
+    email: form.email,
+    password: form.password
+  }
   if (pageRoute === '/login') {
-    return {
-      email: form2.email,
-      password: form2.password
-    }
+    return loginReqBody;
   }
   return {
-    email: form.email,
-    password: form.password,
+    ...loginReqBody,
     passwordConfirmation: form.confirmPassword,
     name: form.name
   }

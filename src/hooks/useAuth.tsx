@@ -1,10 +1,10 @@
 import { ChangeEvent, useState } from "react";
 import { Location, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { createContainer } from "unstated-next";
-import { AuthForm, AuthForm2, User } from "../interfaces/auth";
+import { AuthForm, AuthFormContent, User } from "../interfaces/auth";
 import { formBody } from "../lib/auth";
 
-export const useAuth = (): Record<string, any> => {
+export const useAuth = () => {
   const navigate: NavigateFunction = useNavigate();
   const location: Location = useLocation();
   const pageRoute: string = location.pathname;
@@ -13,6 +13,14 @@ export const useAuth = (): Record<string, any> => {
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [unAuthorizedError, setUnAuthorizedError] = useState<boolean>(false);
+  const initialAuthFormContent = {
+    formTitle: '',
+    buttonText: '',
+    spanText: '',
+    LinkText: '',
+    apiEndpoint: '',
+    destinationPage: ''
+  };
   const initialUser = {
     email: '',
     name: '',
@@ -24,22 +32,18 @@ export const useAuth = (): Record<string, any> => {
     confirmPassword: '',
     name: ''
   };
-  const initialForm2 = {
-    email: '',
-    password: ''
-  };
+  const [authFormContent, setAuthFormContent] = useState<AuthFormContent>(initialAuthFormContent);
   const [user, setUser] = useState<User>(initialUser);
   const [form, setForm] = useState<AuthForm>(initialForm);
-  const [form2, setForm2] = useState<AuthForm2>(initialForm2);
 
-  const authenticateUser = async (e: any, endpoint: string, authPageroute: string) => {
+  const authenticateUser = async (e: any, apiEndpoint: string, destinationPage: string) => {
     e.preventDefault();
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${apiEndpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formBody({ form, form2, pageRoute }))
+      body: JSON.stringify(formBody({ form, pageRoute }))
     });
     const data = await response.json();
     if (data.user) {
@@ -49,8 +53,8 @@ export const useAuth = (): Record<string, any> => {
         setUser(JSON.parse(localStorage.getItem('_user') as string));
         setIsAuthenticated(true);
       }
-      navigate(authPageroute);
-      resetForm(initialForm, initialForm2);
+      navigate(destinationPage);
+      resetForm(initialForm);
     }
 
     if (response.status === 400) {
@@ -70,8 +74,7 @@ export const useAuth = (): Record<string, any> => {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (pageRoute === '/signup') setForm({ ...form, [name]: value } as Pick<AuthForm, keyof AuthForm>);
-    if (pageRoute === '/login') setForm2({ ...form2, [name]: value } as Pick<AuthForm2, keyof AuthForm2>);
+    setForm({ ...form, [name]: value } as Pick<AuthForm, keyof AuthForm>);
     handleError(false, '');
   }
 
@@ -89,9 +92,8 @@ export const useAuth = (): Record<string, any> => {
     setUser(initialUser);
   }
 
-  const resetForm = (initialForm: AuthForm, initialForm2: AuthForm2) => {
+  const resetForm = (initialForm: AuthForm) => {
     setForm(initialForm);
-    setForm2(initialForm2);
     handleError(false, '');
   }
 
@@ -100,9 +102,40 @@ export const useAuth = (): Record<string, any> => {
     setErrorMessage(string);
   }
 
+  const handleAppLinks = (to: string) => {
+    handleError(false, '');
+    if (to === '/login') {
+      setForm({
+        email: '',
+        password: ''
+      } as AuthForm);
+      setAuthFormContent({
+        formTitle: 'Login form',
+        buttonText: 'Login',
+        spanText: 'Don\'t have an account yet?',
+        LinkText: 'Signup!',
+        apiEndpoint: 'users/login',
+        destinationPage: '/books'
+      });
+    }
+    else if (to === '/signup') {
+      setForm(initialForm);
+      setAuthFormContent({
+        formTitle: 'Signup form',
+        buttonText: 'Signup',
+        spanText: 'Have an account already?',
+        LinkText: 'Login.',
+        apiEndpoint: 'users/signup',
+        destinationPage: '/login'
+      });
+    } else {
+      setForm({} as AuthForm);
+      setAuthFormContent({} as AuthFormContent);
+    }
+  }
+
   return {
     form,
-    form2,
     pageRoute,
     authenticateUser,
     handleInputChange,
@@ -118,7 +151,9 @@ export const useAuth = (): Record<string, any> => {
     setIsLoading,
     handleError,
     unAuthorizedError,
-    setUnAuthorizedError
+    setUnAuthorizedError,
+    handleAppLinks,
+    authFormContent
   }
 }
 

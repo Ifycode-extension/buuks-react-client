@@ -7,11 +7,15 @@ export interface User {
 export interface AuthForm {
   email: string;
   password: string;
-  confirmPassword: string;
-  name: string;
+  confirmPassword: string | null;
+  name: string | null;
 }
 
-export interface AuthForm2 {
-  email: string;
-  password: string;
+export interface AuthFormContent {
+  formTitle: string;
+  buttonText: string;
+  spanText: string;
+  LinkText: string;
+  apiEndpoint: string;
+  destinationPage: string;
 }
