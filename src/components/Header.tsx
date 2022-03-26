@@ -1,10 +1,12 @@
 import { Fragment, ReactElement } from "react";
 import { Link } from "react-router-dom";
-import { useLocation } from 'react-router-dom';
+import { AuthContainer } from "../hooks/useAuth";
 
-const Header = (): ReactElement => {
-  const location = useLocation();
-  const homePage = location.pathname === '/' || location.pathname === '/home';
+const Header = (): ReactElement | null => {
+  const auth = AuthContainer.useContainer();
+  const homePage = auth.authPage === '/' || auth.authPage === '/home';
+  const isAuthenticated = auth.isAuthenticated;
+  if (isAuthenticated) return null;
   return (
     <header className="flex justify-between text-lg md:text-xl py-4">
       <div>
