@@ -56,16 +56,13 @@ export const useAuth = () => {
       navigate(destinationPage);
       resetForm(initialForm);
     }
-
     if (response.status === 400) {
       handleError(true, data[0].message);
     }
-
     if (response.status === 409) {
       if (data.error === 'Duplicate key') handleError(true, 'Email already exists. Use a different email.');
       if (data.error === 'ValidationError: name: Path `name` is required.') handleError(true, 'First name is required.');
     }
-
     if (response.status === 401) {
       handleError(true, data.error.message);
     }

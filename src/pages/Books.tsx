@@ -10,7 +10,6 @@ import BookForm from "../components/forms/BookForm";
 const Books = (): ReactElement => {
   const auth = AuthContainer.useContainer();
   const hook = useBooks();
-
   useEffect(() => {
     let abortController = new AbortController();
     const user = JSON.parse(localStorage.getItem('_user') as string);
@@ -31,12 +30,10 @@ const Books = (): ReactElement => {
           onClick={auth.handleLogout}
         >Logout</button>
       </div>
-
       <button
         className="rounded py-2 px-4 bg-white text-pink-800 text-lg md:text-xl p-2 border border-pink-800 hover:bg-pink-700 hover:text-white active:shadow-lg mouse shadow transition ease-in duration-100"
         onClick={(e) => hook.handlePostRequestForm(true, 'add', null)}
       >+ Add book</button>
-
       <Modal
         modal={hook.modal}
         handleModal={hook.handleModal}

@@ -19,7 +19,6 @@ export const fetchOptions = (method: string, form: PostForm) => {
       body: formData
     }
   }
-
   if (method === 'PUT') {
     let formData = new FormData();
     if (form.title !== '') formData.append('title', form.title);
@@ -30,6 +29,5 @@ export const fetchOptions = (method: string, form: PostForm) => {
       body: formData
     }
   }
-
   return options;
 }

@@ -3,7 +3,7 @@ import { AuthContainer } from "../hooks/useAuth";
 import AppLink from "./AppLink";
 
 const Header = (): ReactElement | null => {
-  const auth: Record<string, any> = AuthContainer.useContainer();
+  const auth = AuthContainer.useContainer();
   const homePage: boolean = auth.pageRoute === '/' || auth.pageRoute === '/home';
   const isAuthenticated: boolean = auth.isAuthenticated;
   if (isAuthenticated) return null;
