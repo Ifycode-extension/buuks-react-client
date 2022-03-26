@@ -6,7 +6,7 @@ const AppLink = ({ to, tailwindStyle, text }: { to: string, tailwindStyle: strin
   const auth = AuthContainer.useContainer();
   return (
     <Link
-      onClick={() => auth.handleError(false, '')}
+      onClick={() => auth.handleAppLinks(to)}
       to={to}
       className={tailwindStyle}
     >

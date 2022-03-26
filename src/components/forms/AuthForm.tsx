@@ -1,44 +1,54 @@
-import { ReactElement } from "react";
+import { ReactElement, useEffect } from "react";
 import { AuthContainer } from "../../hooks/useAuth";
 import AppLink from "../AppLink";
 import Error from "../Error";
 
 const AuthForm = (): ReactElement => {
   const auth = AuthContainer.useContainer();
+  useEffect(() => {
+    let abortController = new AbortController();
+    //TODO: set link destination to state so that it can be used here on page reload
+    auth.handleAppLinks(auth.pageRoute);
+    return () => {
+      abortController.abort();
+    }
+  }, []);
   return (
     <div className="rounded mx-auto my-4 py-10 max-w-sm md:max-w-md bg-white border border-pink-800">
-        <form onSubmit={(e) => auth.authenticateUser(e, 'users/login', '/books')}>
-          <div>
-            <h1 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-8 text-pink-800 mb-2">Login form</h1>
-            <input
-              type="text"
-              placeholder="Email"
-              name="email"
-              value={auth.form2.email}
-              onChange={(e) => auth.handleInputChange(e)}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              name="password"
-              value={auth.form2.password}
-              onChange={(e) => auth.handleInputChange(e)}
-            />
-            <button className="rounded bg-pink-800 text-white text-lg py-2 px-4 mt-2 mb-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200">
-              Login
-            </button>
-          </div>
-          <div>
-            <span>Don't have an account yet?</span>
-            <AppLink
-            to="/signup"
-            tailwindStyle="text-pink-800 underline ml-2"
-            text="Signup!"
+      <form onSubmit={(e) => auth.authenticateUser(e, 'users/login', '/books')}>
+        <div>
+          <h1 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-8 text-pink-800 mb-2">
+            {auth.authForm.formTitle}
+          </h1>
+          <input
+            type="text"
+            placeholder="Email"
+            name="email"
+            value={auth.form2.email}
+            onChange={(e) => auth.handleInputChange(e)}
           />
-          </div>
-          {auth.error && <Error />}
-        </form>
-      </div>
+          <input
+            type="password"
+            placeholder="Password"
+            name="password"
+            value={auth.form2.password}
+            onChange={(e) => auth.handleInputChange(e)}
+          />
+          <button className="rounded bg-pink-800 text-white text-lg py-2 px-4 mt-2 mb-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200">
+          {auth.authForm.buttonText}
+          </button>
+        </div>
+        <div>
+          <span>{auth.authForm.spanText}</span>
+          <AppLink
+            to={auth.pageRoute === '/login'? '/signup': '/login'}
+            tailwindStyle="text-pink-800 underline ml-2"
+            text={auth.authForm.LinkText}
+          />
+        </div>
+        {auth.error && <Error />}
+      </form>
+    </div>
   );
 }
 

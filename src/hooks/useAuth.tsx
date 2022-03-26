@@ -4,7 +4,7 @@ import { createContainer } from "unstated-next";
 import { AuthForm, AuthForm2, User } from "../interfaces/auth";
 import { formBody } from "../lib/auth";
 
-export const useAuth = (): Record<string, any> => {
+export const useAuth = () => {
   const navigate: NavigateFunction = useNavigate();
   const location: Location = useLocation();
   const pageRoute: string = location.pathname;
@@ -13,6 +13,12 @@ export const useAuth = (): Record<string, any> => {
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [unAuthorizedError, setUnAuthorizedError] = useState<boolean>(false);
+  const initialAuthForm = {
+    formTitle: '',
+    buttonText: '',
+    spanText: '',
+    LinkText: ''
+  };
   const initialUser = {
     email: '',
     name: '',
@@ -28,6 +34,7 @@ export const useAuth = (): Record<string, any> => {
     email: '',
     password: ''
   };
+  const [authForm, setAuthForm] = useState(initialAuthForm);
   const [user, setUser] = useState<User>(initialUser);
   const [form, setForm] = useState<AuthForm>(initialForm);
   const [form2, setForm2] = useState<AuthForm2>(initialForm2);
@@ -100,6 +107,29 @@ export const useAuth = (): Record<string, any> => {
     setErrorMessage(string);
   }
 
+  const handleAppLinks = (destination: string) => {
+    handleError(false, '');
+    console.log(destination);
+    if (destination === '/login') {
+      setAuthForm({
+        formTitle: 'Login form',
+        buttonText: 'Login',
+        spanText: 'Don\'t have an account yet?',
+        LinkText: 'Signup!'
+      });
+    }
+    else if (destination === '/signup') {
+      setAuthForm({
+        formTitle: 'Signup form',
+        buttonText: 'Signup',
+        spanText: 'Have an account already?',
+        LinkText: 'Login.'
+      });
+    } else {
+      setAuthForm(initialAuthForm);
+    }
+  }
+
   return {
     form,
     form2,
@@ -118,7 +148,9 @@ export const useAuth = (): Record<string, any> => {
     setIsLoading,
     handleError,
     unAuthorizedError,
-    setUnAuthorizedError
+    setUnAuthorizedError,
+    handleAppLinks,
+    authForm
   }
 }
 
