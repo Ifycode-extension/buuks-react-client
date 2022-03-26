@@ -1,6 +1,6 @@
 import { ReactElement } from "react";
-import { Link } from "react-router-dom";
 import { AuthContainer } from "../../hooks/useAuth";
+import AppLink from "../AppLink";
 import Error from "../Error";
 
 const AuthForm = (): ReactElement => {
@@ -30,13 +30,11 @@ const AuthForm = (): ReactElement => {
           </div>
           <div>
             <span>Don't have an account yet?</span>
-            <Link
-              onClick={() => auth.handleError(false, '')}
-              to="/signup"
-              className="text-pink-800 underline ml-2"
-            >
-              Signup!
-            </Link>
+            <AppLink
+            to="/signup"
+            tailwindStyle="text-pink-800 underline ml-2"
+            text="Signup!"
+          />
           </div>
           {auth.error && <Error />}
         </form>

@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { Link } from 'react-router-dom';
+import AppLink from '../components/AppLink';
 import Error from '../components/Error';
 import { AuthContainer } from '../hooks/useAuth';
 
@@ -45,13 +45,11 @@ const SignUp = (): ReactElement => {
           </div>
           <div>
             <span>Have an account already?</span>
-            <Link
-              onClick={() => auth.handleError(false, '')}
+            <AppLink
               to="/login"
-              className="text-pink-800 underline ml-2"
-            >
-              Login.
-            </Link>
+              tailwindStyle="text-pink-800 underline ml-2"
+              text="Login."
+            />
           </div>
           {auth.error && <Error />}
         </form>
