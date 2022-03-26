@@ -3,9 +3,9 @@ import Modal from "../components/Modal";
 import { useBooks } from "../hooks/useBooks";
 import { AuthContainer } from "../hooks/useAuth";
 import Loader from "../components/Loader";
-import Error from "../components/Error";
 import Toastr from "../components/Toastr";
 import BooksBody from "../components/BooksBody";
+import BookForm from "../components/forms/BookForm";
 
 const Books = (): ReactElement => {
   const auth = AuthContainer.useContainer();
@@ -41,39 +41,11 @@ const Books = (): ReactElement => {
         modal={hook.modal}
         handleModal={hook.handleModal}
       >
-        <form method="post" encType="multipart/form-data" onSubmit={(e) => hook.fetchBookData(e, hook.modalForm.method, hook.modalForm.endpoint, hook.modalForm.bookId)}>
-          <div>
-            <h1 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-8 text-pink-800 mb-2">
-              {hook.modalForm.title}
-            </h1>
-            <input
-              type="text"
-              placeholder="New book title"
-              name="title"
-              value={hook.form.title}
-              onChange={(e) => hook.handleInputChange(e)}
-            />
-            <input
-              type="text"
-              placeholder="New book description"
-              name="description"
-              value={hook.form.description}
-              onChange={(e) => hook.handleInputChange(e)}
-            />
-            <input
-              type="file"
-              name="pdf"
-              onChange={(e) => hook.handleInputChange(e)}
-            />
-            <button className="rounded bg-pink-800 text-white text-lg py-2 px-4 mt-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200">
-              {hook.modalForm.buttonText}
-            </button>
-            {auth.isLoading && <Loader />}
-            {auth.error && <Error />}
-          </div>
-        </form>
+        <BookForm
+          auth={auth}
+          hook={hook}
+        />
       </Modal>
-
       {auth.isLoading && <Loader />}
       <BooksBody
         auth={auth}
