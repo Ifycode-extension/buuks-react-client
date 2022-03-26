@@ -8,7 +8,6 @@ const AuthForm = (): ReactElement => {
   const loginDestination = auth.pageRoute === '/login';
   useEffect(() => {
     let abortController = new AbortController();
-    //TODO: set link destination to state so that it can be used here on page reload
     auth.handleAppLinks(auth.pageRoute);
     return () => {
       abortController.abort();
@@ -16,10 +15,10 @@ const AuthForm = (): ReactElement => {
   }, []);
   return (
     <div className="rounded mx-auto my-4 py-10 max-w-sm md:max-w-md bg-white border border-pink-800">
-      <form onSubmit={(e) => auth.authenticateUser(e, auth.authForm.endpoint, auth.authForm.authPageRoute)}>
+      <form onSubmit={(e) => auth.authenticateUser(e, auth.authFormContent.endpoint, auth.authFormContent.authPageRoute)}>
         <div>
           <h1 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-8 text-pink-800 mb-2">
-            {auth.authForm.formTitle}
+            {auth.authFormContent.formTitle}
           </h1>
           <input
             type="text"
@@ -54,15 +53,15 @@ const AuthForm = (): ReactElement => {
             </Fragment>
           )}
           <button className="rounded bg-pink-800 text-white text-lg py-2 px-4 mt-2 mb-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200">
-            {auth.authForm.buttonText}
+            {auth.authFormContent.buttonText}
           </button>
         </div>
         <div>
-          <span>{auth.authForm.spanText}</span>
+          <span>{auth.authFormContent.spanText}</span>
           <AppLink
             to={loginDestination ? '/signup' : '/login'}
             tailwindStyle="text-pink-800 underline ml-2"
-            text={auth.authForm.LinkText}
+            text={auth.authFormContent.LinkText}
           />
         </div>
         {auth.error && <Error />}

@@ -13,7 +13,7 @@ export const useAuth = () => {
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [unAuthorizedError, setUnAuthorizedError] = useState<boolean>(false);
-  const initialAuthForm = {
+  const initialAuthFormContent = {
     formTitle: '',
     buttonText: '',
     spanText: '',
@@ -32,7 +32,7 @@ export const useAuth = () => {
     confirmPassword: '',
     name: ''
   };
-  const [authForm, setAuthForm] = useState(initialAuthForm);
+  const [authFormContent, setAuthFormContent] = useState(initialAuthFormContent);
   const [user, setUser] = useState<User>(initialUser);
   const [form, setForm] = useState<AuthForm>(initialForm);
 
@@ -109,7 +109,7 @@ export const useAuth = () => {
         email: '',
         password: ''
       } as AuthForm);
-      setAuthForm({
+      setAuthFormContent({
         formTitle: 'Login form',
         buttonText: 'Login',
         spanText: 'Don\'t have an account yet?',
@@ -120,7 +120,7 @@ export const useAuth = () => {
     }
     else if (destination === '/signup') {
       setForm(initialForm);
-      setAuthForm({
+      setAuthFormContent({
         formTitle: 'Signup form',
         buttonText: 'Signup',
         spanText: 'Have an account already?',
@@ -130,7 +130,7 @@ export const useAuth = () => {
       });
     } else {
       setForm(initialForm);
-      setAuthForm(initialAuthForm);
+      setAuthFormContent(initialAuthFormContent);
     }
   }
 
@@ -153,7 +153,7 @@ export const useAuth = () => {
     unAuthorizedError,
     setUnAuthorizedError,
     handleAppLinks,
-    authForm
+    authFormContent
   }
 }
 
