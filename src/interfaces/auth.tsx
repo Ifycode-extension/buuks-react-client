@@ -4,14 +4,14 @@ export interface User {
   _id: string;
 }
 
-export interface AuthForm {
+export interface SignUpForm {
   email: string;
   password: string;
   confirmPassword: string;
   name: string;
 }
 
-export interface AuthForm2 {
+export interface LoginForm {
   email: string;
   password: string;
 }

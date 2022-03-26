@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { Location, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { createContainer } from "unstated-next";
-import { AuthForm, AuthForm2, User } from "../interfaces/auth";
+import { LoginForm, SignUpForm, User } from "../interfaces/auth";
 import { formBody } from "../lib/auth";
 
 export const useAuth = () => {
@@ -17,7 +17,9 @@ export const useAuth = () => {
     formTitle: '',
     buttonText: '',
     spanText: '',
-    LinkText: ''
+    LinkText: '',
+    endpoint: '',
+    authPageRoute: ''
   };
   const initialUser = {
     email: '',
@@ -30,14 +32,9 @@ export const useAuth = () => {
     confirmPassword: '',
     name: ''
   };
-  const initialForm2 = {
-    email: '',
-    password: ''
-  };
   const [authForm, setAuthForm] = useState(initialAuthForm);
   const [user, setUser] = useState<User>(initialUser);
-  const [form, setForm] = useState<AuthForm>(initialForm);
-  const [form2, setForm2] = useState<AuthForm2>(initialForm2);
+  const [form, setForm] = useState<SignUpForm | LoginForm>(initialForm);
 
   const authenticateUser = async (e: any, endpoint: string, authPageroute: string) => {
     e.preventDefault();
@@ -46,7 +43,7 @@ export const useAuth = () => {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(formBody({ form, form2, pageRoute }))
+      body: JSON.stringify(formBody({ form, pageRoute }))
     });
     const data = await response.json();
     if (data.user) {
@@ -57,7 +54,7 @@ export const useAuth = () => {
         setIsAuthenticated(true);
       }
       navigate(authPageroute);
-      resetForm(initialForm, initialForm2);
+      resetForm(initialForm);
     }
 
     if (response.status === 400) {
@@ -77,8 +74,8 @@ export const useAuth = () => {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (pageRoute === '/signup') setForm({ ...form, [name]: value } as Pick<AuthForm, keyof AuthForm>);
-    if (pageRoute === '/login') setForm2({ ...form2, [name]: value } as Pick<AuthForm2, keyof AuthForm2>);
+    if (pageRoute === '/signup') setForm({ ...form, [name]: value } as Pick<SignUpForm, keyof SignUpForm>);
+    //if (pageRoute === '/login') setForm2({ ...form2, [name]: value } as Pick<AuthForm2, keyof AuthForm2>);
     handleError(false, '');
   }
 
@@ -96,9 +93,8 @@ export const useAuth = () => {
     setUser(initialUser);
   }
 
-  const resetForm = (initialForm: AuthForm, initialForm2: AuthForm2) => {
+  const resetForm = (initialForm: SignUpForm | LoginForm) => {
     setForm(initialForm);
-    setForm2(initialForm2);
     handleError(false, '');
   }
 
@@ -115,7 +111,9 @@ export const useAuth = () => {
         formTitle: 'Login form',
         buttonText: 'Login',
         spanText: 'Don\'t have an account yet?',
-        LinkText: 'Signup!'
+        LinkText: 'Signup!',
+        endpoint: 'users/login',
+        authPageRoute: '/books'
       });
     }
     else if (destination === '/signup') {
@@ -123,7 +121,9 @@ export const useAuth = () => {
         formTitle: 'Signup form',
         buttonText: 'Signup',
         spanText: 'Have an account already?',
-        LinkText: 'Login.'
+        LinkText: 'Login.',
+        endpoint: 'users/signup',
+        authPageRoute: '/login'
       });
     } else {
       setAuthForm(initialAuthForm);
@@ -132,7 +132,6 @@ export const useAuth = () => {
 
   return {
     form,
-    form2,
     pageRoute,
     authenticateUser,
     handleInputChange,
