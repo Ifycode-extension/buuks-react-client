@@ -4,14 +4,9 @@ export interface User {
   _id: string;
 }
 
-export interface SignUpForm {
+export interface AuthForm {
   email: string;
   password: string;
-  confirmPassword: string;
-  name: string;
-}
-
-export interface LoginForm {
-  email: string;
-  password: string;
+  confirmPassword: string | null;
+  name: string | null;
 }

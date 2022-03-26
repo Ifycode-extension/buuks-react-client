@@ -41,14 +41,14 @@ const AuthForm = (): ReactElement => {
                 type="password"
                 placeholder="Confirm password"
                 name="confirmPassword"
-                // value={auth.form.confirmPassword}
+                value={auth.form.confirmPassword as string}
                 onChange={(e) => auth.handleInputChange(e)}
               />
               <input
                 type="text"
                 placeholder="First name"
                 name="name"
-                // value={auth.form.name}
+                value={auth.form.name as string}
                 onChange={(e) => auth.handleInputChange(e)}
               />
             </Fragment>

@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { Location, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { createContainer } from "unstated-next";
-import { LoginForm, SignUpForm, User } from "../interfaces/auth";
+import { AuthForm, User } from "../interfaces/auth";
 import { formBody } from "../lib/auth";
 
 export const useAuth = () => {
@@ -34,9 +34,9 @@ export const useAuth = () => {
   };
   const [authForm, setAuthForm] = useState(initialAuthForm);
   const [user, setUser] = useState<User>(initialUser);
-  const [form, setForm] = useState<SignUpForm | LoginForm>(initialForm);
+  const [form, setForm] = useState<AuthForm>(initialForm);
 
-  const authenticateUser = async (e: any, endpoint: string, authPageroute: string) => {
+  const authenticateUser = async (e: any, endpoint: string, destinationPage: string) => {
     e.preventDefault();
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, {
       method: 'POST',
@@ -53,7 +53,7 @@ export const useAuth = () => {
         setUser(JSON.parse(localStorage.getItem('_user') as string));
         setIsAuthenticated(true);
       }
-      navigate(authPageroute);
+      navigate(destinationPage);
       resetForm(initialForm);
     }
 
@@ -74,8 +74,7 @@ export const useAuth = () => {
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (pageRoute === '/signup') setForm({ ...form, [name]: value } as Pick<SignUpForm, keyof SignUpForm>);
-    //if (pageRoute === '/login') setForm2({ ...form2, [name]: value } as Pick<AuthForm2, keyof AuthForm2>);
+    setForm({ ...form, [name]: value } as Pick<AuthForm, keyof AuthForm>);
     handleError(false, '');
   }
 
@@ -93,7 +92,7 @@ export const useAuth = () => {
     setUser(initialUser);
   }
 
-  const resetForm = (initialForm: SignUpForm | LoginForm) => {
+  const resetForm = (initialForm: AuthForm) => {
     setForm(initialForm);
     handleError(false, '');
   }
@@ -105,8 +104,11 @@ export const useAuth = () => {
 
   const handleAppLinks = (destination: string) => {
     handleError(false, '');
-    console.log(destination);
     if (destination === '/login') {
+      setForm({
+        email: '',
+        password: ''
+      } as AuthForm);
       setAuthForm({
         formTitle: 'Login form',
         buttonText: 'Login',
@@ -117,6 +119,7 @@ export const useAuth = () => {
       });
     }
     else if (destination === '/signup') {
+      setForm(initialForm);
       setAuthForm({
         formTitle: 'Signup form',
         buttonText: 'Signup',
@@ -126,6 +129,7 @@ export const useAuth = () => {
         authPageRoute: '/login'
       });
     } else {
+      setForm(initialForm);
       setAuthForm(initialAuthForm);
     }
   }
