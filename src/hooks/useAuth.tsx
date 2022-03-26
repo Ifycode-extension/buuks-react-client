@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { Location, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { createContainer } from "unstated-next";
-import { AuthForm, User } from "../interfaces/auth";
+import { AuthForm, AuthFormContent, User } from "../interfaces/auth";
 import { formBody } from "../lib/auth";
 
 export const useAuth = () => {
@@ -18,8 +18,8 @@ export const useAuth = () => {
     buttonText: '',
     spanText: '',
     LinkText: '',
-    endpoint: '',
-    authPageRoute: ''
+    apiEndpoint: '',
+    destinationPage: ''
   };
   const initialUser = {
     email: '',
@@ -32,13 +32,13 @@ export const useAuth = () => {
     confirmPassword: '',
     name: ''
   };
-  const [authFormContent, setAuthFormContent] = useState(initialAuthFormContent);
+  const [authFormContent, setAuthFormContent] = useState<AuthFormContent>(initialAuthFormContent);
   const [user, setUser] = useState<User>(initialUser);
   const [form, setForm] = useState<AuthForm>(initialForm);
 
-  const authenticateUser = async (e: any, endpoint: string, destinationPage: string) => {
+  const authenticateUser = async (e: any, apiEndpoint: string, destinationPage: string) => {
     e.preventDefault();
-    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, {
+    const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${apiEndpoint}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -102,9 +102,9 @@ export const useAuth = () => {
     setErrorMessage(string);
   }
 
-  const handleAppLinks = (destination: string) => {
+  const handleAppLinks = (to: string) => {
     handleError(false, '');
-    if (destination === '/login') {
+    if (to === '/login') {
       setForm({
         email: '',
         password: ''
@@ -114,23 +114,23 @@ export const useAuth = () => {
         buttonText: 'Login',
         spanText: 'Don\'t have an account yet?',
         LinkText: 'Signup!',
-        endpoint: 'users/login',
-        authPageRoute: '/books'
+        apiEndpoint: 'users/login',
+        destinationPage: '/books'
       });
     }
-    else if (destination === '/signup') {
+    else if (to === '/signup') {
       setForm(initialForm);
       setAuthFormContent({
         formTitle: 'Signup form',
         buttonText: 'Signup',
         spanText: 'Have an account already?',
         LinkText: 'Login.',
-        endpoint: 'users/signup',
-        authPageRoute: '/login'
+        apiEndpoint: 'users/signup',
+        destinationPage: '/login'
       });
     } else {
-      setForm(initialForm);
-      setAuthFormContent(initialAuthFormContent);
+      setForm({} as AuthForm);
+      setAuthFormContent({} as AuthFormContent);
     }
   }
 

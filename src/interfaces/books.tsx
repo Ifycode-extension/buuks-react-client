@@ -16,6 +16,6 @@ export interface ModalForm {
   title: string;
   buttonText: string;
   method: string;
-  endpoint: string;
+  apiEndpoint: string;
   bookId: string | null;
 }

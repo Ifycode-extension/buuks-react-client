@@ -10,3 +10,12 @@ export interface AuthForm {
   confirmPassword: string | null;
   name: string | null;
 }
+
+export interface AuthFormContent {
+  formTitle: string;
+  buttonText: string;
+  spanText: string;
+  LinkText: string;
+  apiEndpoint: string;
+  destinationPage: string;
+}

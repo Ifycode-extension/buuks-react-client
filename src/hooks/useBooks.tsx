@@ -20,17 +20,17 @@ export const useBooks = (): Record<string, any> => {
     title: '',
     buttonText: '',
     method: '',
-    endpoint: '',
+    apiEndpoint: '',
     bookId: ''
   });
 
-  const fetchBookData = async (e: any, method: string, endpoint: string, bookId: string | null) => {
+  const fetchBookData = async (e: any, method: string, apiEndpoint: string, bookId: string | null) => {
     if (method === 'POST' || method === 'PUT') e.preventDefault();
     if (method === 'GET' && !auth.isLoading) setShowBooks(false);
     if (method !== 'GET' && !auth.isLoading) setShowBooks(null);
     trackProgress(true, false, '');
     let response: Response;
-    response = await fetch(`${process.env.REACT_APP_BASE_URL}/${endpoint}`, fetchOptions(method, form));
+    response = await fetch(`${process.env.REACT_APP_BASE_URL}/${apiEndpoint}`, fetchOptions(method, form));
     const data = await response.json();
     if (response.ok) {
       trackProgress(false, false, '');
@@ -104,7 +104,7 @@ export const useBooks = (): Record<string, any> => {
         title: 'New Book - Form',
         buttonText: 'Submit new book',
         method: 'POST',
-        endpoint: 'books',
+        apiEndpoint: 'books',
         bookId: bookId
       });
     }
@@ -113,7 +113,7 @@ export const useBooks = (): Record<string, any> => {
         title: 'Update Book - Form',
         buttonText: 'Update book',
         method: 'PUT',
-        endpoint: `books/${bookId}`,
+        apiEndpoint: `books/${bookId}`,
         bookId: bookId
       });
     }

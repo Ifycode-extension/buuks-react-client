@@ -15,7 +15,7 @@ const AuthForm = (): ReactElement => {
   }, []);
   return (
     <div className="rounded mx-auto my-4 py-10 max-w-sm md:max-w-md bg-white border border-pink-800">
-      <form onSubmit={(e) => auth.authenticateUser(e, auth.authFormContent.endpoint, auth.authFormContent.authPageRoute)}>
+      <form onSubmit={(e) => auth.authenticateUser(e, auth.authFormContent.apiEndpoint, auth.authFormContent.destinationPage)}>
         <div>
           <h1 className="font-medium leading-tight text-xl md:text-2xl mt-0 mb-8 text-pink-800 mb-2">
             {auth.authFormContent.formTitle}
