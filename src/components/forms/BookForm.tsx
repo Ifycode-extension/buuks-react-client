@@ -11,14 +11,14 @@ const BookForm = ({ auth, hook }: { auth: Record<string, any>, hook: Record<stri
         </h1>
         <input
           type="text"
-          placeholder="New book title"
+          placeholder={hook.modalForm.placeholderText.title}
           name="title"
           value={hook.form.title}
           onChange={(e) => hook.handleInputChange(e)}
         />
         <input
           type="text"
-          placeholder="New book description"
+          placeholder={hook.modalForm.placeholderText.description}
           name="description"
           value={hook.form.description}
           onChange={(e) => hook.handleInputChange(e)}

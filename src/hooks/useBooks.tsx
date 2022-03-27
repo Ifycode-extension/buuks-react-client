@@ -19,6 +19,10 @@ export const useBooks = (): Record<string, any> => {
   const [modalForm, setModalForm] = useState<ModalForm>({
     title: '',
     buttonText: '',
+    placeholderText: {
+      title: '',
+      description: ''
+    },
     method: '',
     apiEndpoint: '',
     bookId: ''
@@ -103,6 +107,10 @@ export const useBooks = (): Record<string, any> => {
       setModalForm({
         title: 'New Book - Form',
         buttonText: 'Submit new book',
+        placeholderText: {
+          title: 'New book title',
+          description: 'New book description'
+        },
         method: 'POST',
         apiEndpoint: 'books',
         bookId: bookId
@@ -112,6 +120,10 @@ export const useBooks = (): Record<string, any> => {
       setModalForm({
         title: 'Update Book - Form',
         buttonText: 'Update book',
+        placeholderText: {
+          title: 'Update book title',
+          description: 'Update book description'
+        },
         method: 'PUT',
         apiEndpoint: `books/${bookId}`,
         bookId: bookId

@@ -15,6 +15,10 @@ export interface PostForm {
 export interface ModalForm {
   title: string;
   buttonText: string;
+  placeholderText: {
+    title: string;
+    description: string;
+  }
   method: string;
   apiEndpoint: string;
   bookId: string | null;
