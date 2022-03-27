@@ -14,9 +14,13 @@ export const useBooks = (): Record<string, any> => {
     title: '',
     description: '',
     pdf: ''
-  }
-  const [form, setForm] = useState<PostForm>(initialForm);
-  const [modalForm, setModalForm] = useState<ModalForm>({
+  };
+  const initialModalform = {
+    persistInstruction: false,
+    persistFormBody: false,
+    persistTitle: false,
+    persistDescription: false,
+    persistFile: false,
     title: '',
     buttonText: '',
     placeholderText: {
@@ -26,7 +30,9 @@ export const useBooks = (): Record<string, any> => {
     method: '',
     apiEndpoint: '',
     bookId: ''
-  });
+  }
+  const [form, setForm] = useState<PostForm>(initialForm);
+  const [modalForm, setModalForm] = useState<ModalForm>(initialModalform);
 
   const fetchBookData = async (e: any, method: string, apiEndpoint: string, bookId: string | null) => {
     if (method === 'POST' || method === 'PUT') e.preventDefault();
@@ -81,10 +87,17 @@ export const useBooks = (): Record<string, any> => {
     // console.log('data: ', data);
   }
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value, files } = e.target;
-    if (name !== 'pdf') setForm({ ...form, [name]: value } as Pick<PostForm, keyof PostForm>);
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>, checkboxString: string) => { // checkboxString: string |  null
+    const { name, value, files, checked } = e.target;
+    if (name === 'title' || name === 'description') setForm({ ...form, [name]: value } as Pick<PostForm, keyof PostForm>);
     if (name === 'pdf') setForm({ ...form, [name]: files![0] } as Pick<PostForm, keyof PostForm>);
+    if (name === 'checkbox') {
+      if (checked) {
+        setModalForm({ ...modalForm, [checkboxString]: true });
+      } else {
+        setModalForm({ ...modalForm, [checkboxString]: false });
+      }
+    }
     trackProgress(false, false, '');
   }
 
@@ -96,6 +109,7 @@ export const useBooks = (): Record<string, any> => {
   const handleModal = (boolean: boolean) => {
     setModal(boolean);
     if (!boolean) {
+      setModalForm(initialModalform);
       auth.handleError(false, '');
       resetForm();
     }
@@ -105,6 +119,11 @@ export const useBooks = (): Record<string, any> => {
     handleModal(boolean);
     if (operation === 'add') {
       setModalForm({
+        persistInstruction: false,
+        persistFormBody: true,
+        persistTitle: true,
+        persistDescription: true,
+        persistFile: true,
         title: 'New Book - Form',
         buttonText: 'Submit new book',
         placeholderText: {
@@ -118,6 +137,11 @@ export const useBooks = (): Record<string, any> => {
     }
     if (operation === 'update') {
       setModalForm({
+        persistInstruction: true,
+        persistFormBody: true,
+        persistTitle: false,
+        persistDescription: false,
+        persistFile: false,
         title: 'Update Book - Form',
         buttonText: 'Update book',
         placeholderText: {
