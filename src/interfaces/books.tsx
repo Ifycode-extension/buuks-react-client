@@ -13,8 +13,17 @@ export interface PostForm {
 }
 
 export interface ModalForm {
+  persistInstruction: boolean,
+  persistFormBody: boolean,
+  persistTitle: boolean,
+  persistDescription: boolean,
+  persistFile: boolean,
   title: string;
   buttonText: string;
+  placeholderText: {
+    title: string;
+    description: string;
+  }
   method: string;
   apiEndpoint: string;
   bookId: string | null;

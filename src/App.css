@@ -1,4 +1,4 @@
-form input, 
+form input:not([type=checkbox]), 
 form textarea {
   display: block;
   width: 100%; /* w-full */
