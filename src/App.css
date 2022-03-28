@@ -8,6 +8,11 @@ form textarea {
   border-radius: 3px;
 }
 
+/* Using this as tailwind css break-words and break-all not giving me expected styling */
+.appcss-wordbreak { /* named like this to differentate from tailwind css */
+  word-break: break-word;
+}
+
 form > div {
   width: 90%;
   margin-left: auto;

@@ -2,7 +2,7 @@ import { ReactElement } from "react";
 import Error from "../Error";
 import Loader from "../Loader";
 
-const BookForm = ({ auth, hook }: { auth: Record<string, any>, hook: Record<string, any> }): ReactElement => {
+const BookForm = ({ hook }: { hook: Record<string, any> }): ReactElement => {
   const atLeastOneCheckboxIsTicked = hook.modalForm.persistTitle || hook.modalForm.persistDescription || hook.modalForm.persistFile;
   return (
     <form method="post" encType="multipart/form-data" onSubmit={(e) => hook.fetchBookData(e, hook.modalForm.method, hook.modalForm.apiEndpoint, hook.modalForm.bookId)}>
@@ -60,7 +60,6 @@ const BookForm = ({ auth, hook }: { auth: Record<string, any>, hook: Record<stri
                 onChange={(e) => hook.handleInputChange(e, null)}
               />
             }
-
             {hook.modalForm.persistDescription &&
               <input
                 type="text"
@@ -82,8 +81,8 @@ const BookForm = ({ auth, hook }: { auth: Record<string, any>, hook: Record<stri
             </button>
           </div>
         )}
-        {auth.isLoading && <Loader />}
-        {auth.error && <Error />}
+        <Loader />
+        <Error />
       </div>
     </form>
   );

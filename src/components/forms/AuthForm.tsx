@@ -64,7 +64,7 @@ const AuthForm = (): ReactElement => {
             text={auth.authFormContent.LinkText}
           />
         </div>
-        {auth.error && <Error />}
+        <Error />
       </form>
     </div>
   );

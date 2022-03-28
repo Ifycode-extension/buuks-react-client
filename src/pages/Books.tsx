@@ -38,16 +38,10 @@ const Books = (): ReactElement => {
         modal={hook.modal}
         handleModal={hook.handleModal}
       >
-        <BookForm
-          auth={auth}
-          hook={hook}
-        />
+        <BookForm hook={hook} />
       </Modal>
-      {auth.isLoading && <Loader />}
-      <BooksBody
-        auth={auth}
-        hook={hook}
-      />
+      <Loader />
+      <BooksBody hook={hook} />
       <Toastr
         success={hook.success}
         successMessage={hook.successMessage}
