@@ -10,8 +10,8 @@ const BooksBody= ({ auth, hook }: { auth: Record<string, any>, hook: Record<stri
               return (
                 <div key={book._id} className="grid grid-rows-1 shadow-sm">
                   <div className="bg-white rounded-tl rounded-tr p-4 border-x border-t border-gray-300">
-                    <h3 className="break-all font-medium leading-tight text-xl md:text-2xl mt-0 mb-2 text-pink-700 mb-2">{book.title}</h3>
-                    <p className="break-all mb-1">{book.description}</p>
+                    <h3 className="appcss-wordbreak font-medium leading-tight text-xl md:text-2xl mt-0 mb-2 text-pink-700 mb-2">{book.title}</h3>
+                    <p className="appcss-wordbreak mb-1">{book.description}</p>
                     <a
                       className="text-blue-700 underline"
                       href={book.pdf}
