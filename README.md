@@ -1,4 +1,9 @@
 # Buuks React Client
+<br/>
+
+> Hosted on Netlify: https://buuks.netlify.app
+
+#
 This is the (react) frontend client for the Buuks API.
 
 ## Run client app in development
