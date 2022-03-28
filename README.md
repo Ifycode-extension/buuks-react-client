@@ -7,7 +7,7 @@
 
 <img width="1680" alt="Screenshot 2022-03-28 at 11 55 03 PM" src="https://user-images.githubusercontent.com/45185388/160500282-d785cac1-b469-405f-826f-e48a1889d850.png">
 
-This is the frontend client for the [Buuks express API](https://github.com/Ifycode/buuks-express-api), built with react, typescript and tailwind css. Through the app's user interface, an (authenticated) user to interact with a database made for storing books. The app is able to do the following: 
+This is the frontend client for the [buuks-express-api](https://buuks-express-api.herokuapp.com/), built with react, typescript and tailwind css. Through the app's user interface, an (authenticated) user to interact with a database made for storing books. The app is able to do the following: 
 - User signup and login (authentication)
 - Create Read Update Delete operations for books which are saved in the database
 - PDF file upload to Cloudinary 
