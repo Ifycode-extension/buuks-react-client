@@ -1,4 +1,4 @@
-# Buuks React Client
+# @Ifycode/buuks-react-client
 <br/>
 
 > Hosted on Netlify: https://buuks.netlify.app
