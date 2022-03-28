@@ -9,7 +9,7 @@ export const useBooks = (): Record<string, any> => {
   const [modal, setModal] = useState(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>('');
-  const [showBooks, setShowBooks] = useState<boolean | null>(null);
+  const [booksLoading, setBooksLoading] = useState<boolean | null>(null);
   const initialForm = {
     title: '',
     description: '',
@@ -36,8 +36,8 @@ export const useBooks = (): Record<string, any> => {
 
   const fetchBookData = async (e: any, method: string, apiEndpoint: string, bookId: string | null) => {
     if (method === 'POST' || method === 'PUT') e.preventDefault();
-    if (method === 'GET' && !auth.isLoading) setShowBooks(false);
-    if (method !== 'GET' && !auth.isLoading) setShowBooks(null);
+    if (method === 'GET' && !auth.isLoading) setBooksLoading(false);
+    if (method !== 'GET' && !auth.isLoading) setBooksLoading(null);
     trackProgress(true, false, '');
     let response: Response;
     response = await fetch(`${process.env.REACT_APP_BASE_URL}/${apiEndpoint}`, fetchOptions(method, form));
@@ -174,7 +174,7 @@ export const useBooks = (): Record<string, any> => {
     handleInputChange,
     handlePostRequestForm,
     modalForm,
-    showBooks,
+    booksLoading,
     success,
     successMessage
   }
