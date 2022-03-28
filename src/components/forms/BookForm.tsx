@@ -1,8 +1,10 @@
 import { ReactElement } from "react";
+import { AuthContainer } from "../../hooks/useAuth";
 import Error from "../Error";
 import Loader from "../Loader";
 
-const BookForm = ({ auth, hook }: { auth: Record<string, any>, hook: Record<string, any> }): ReactElement => {
+const BookForm = ({ hook }: { hook: Record<string, any> }): ReactElement => {
+  const auth = AuthContainer.useContainer();
   const atLeastOneCheckboxIsTicked = hook.modalForm.persistTitle || hook.modalForm.persistDescription || hook.modalForm.persistFile;
   return (
     <form method="post" encType="multipart/form-data" onSubmit={(e) => hook.fetchBookData(e, hook.modalForm.method, hook.modalForm.apiEndpoint, hook.modalForm.bookId)}>

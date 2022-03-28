@@ -1,6 +1,8 @@
 import { Fragment, ReactElement } from 'react'
+import { AuthContainer } from '../hooks/useAuth';
 
-const BooksBody= ({ auth, hook }: { auth: Record<string, any>, hook: Record<string, any> }): ReactElement => {
+const BooksBody= ({ hook }: { hook: Record<string, any> }): ReactElement => {
+  const auth = AuthContainer.useContainer();
   return (
     <Fragment>
       {(!hook.showBooks) &&
