@@ -40,7 +40,7 @@ const Books = (): ReactElement => {
       >
         <BookForm hook={hook} />
       </Modal>
-      {auth.isLoading && <Loader />}
+      <Loader />
       <BooksBody hook={hook} />
       <Toastr
         success={hook.success}
