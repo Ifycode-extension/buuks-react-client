@@ -152,6 +152,12 @@ export const useBooks = (): Record<string, any> => {
         apiEndpoint: `books/${bookId}`,
         bookId: bookId
       });
+      const cardInfo = books.filter((book) => book._id === bookId)[0];
+      setForm({
+        title: cardInfo.title,
+        description: cardInfo.description,
+        pdf: ''
+      })
     }
   }
 
