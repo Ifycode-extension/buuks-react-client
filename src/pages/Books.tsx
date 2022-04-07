@@ -12,7 +12,7 @@ const Books = (): ReactElement => {
   const hook = useBooks();
   useEffect(() => {
     let abortController = new AbortController();
-    const user = JSON.parse(localStorage.getItem('_user') as string);
+    const user = JSON.parse(localStorage.getItem('buuks_user') as string);
     auth.setUser(user);
     hook.fetchBookData(null, 'GET', `books/user/${user._id}`, null);
     auth.handleLogIn();

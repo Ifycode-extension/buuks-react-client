@@ -63,9 +63,9 @@ export const useAuth = () => {
     const data = await response.json();
     if (data.user) {
       if (pageRoute === '/login') {
-        localStorage.setItem('accessToken', data.accessToken);
-        localStorage.setItem('_user', JSON.stringify(data.user));
-        setUser(JSON.parse(localStorage.getItem('_user') as string));
+        localStorage.setItem('buuks_accessToken', data.accessToken);
+        localStorage.setItem('buuks_user', JSON.stringify(data.user));
+        setUser(JSON.parse(localStorage.getItem('buuks_user') as string));
         setIsAuthenticated(true);
       }
       navigate(destinationPage);
@@ -92,15 +92,15 @@ export const useAuth = () => {
 
   const handleLogIn = () => {
     setIsAuthenticated(true);
-    localStorage.getItem('accessToken');
+    localStorage.getItem('buuks_accessToken');
   }
 
   const handleLogout = () => {
     setIsAuthenticated(false);
     setUnAuthorizedError(false);
     navigate('/login');
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('_user');
+    localStorage.removeItem('buuks_accessToken');
+    localStorage.removeItem('buuks_user');
     setUser(initialUser);
   }
 
