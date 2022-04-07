@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Location, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { createContainer } from "unstated-next";
 import { AuthForm, AuthFormContent, User } from "../interfaces/auth";
@@ -35,6 +35,21 @@ export const useAuth = () => {
   const [authFormContent, setAuthFormContent] = useState<AuthFormContent>(initialAuthFormContent);
   const [user, setUser] = useState<User>(initialUser);
   const [form, setForm] = useState<AuthForm>(initialForm);
+
+  // useEffect(() => { // Suggestions from Silas
+  //   // Set isloading to true
+
+  //   // read token from local storage
+  //   // if token exists, 
+  //       // read user data from local storage
+  //       // set the user variable
+  //       // set isAuthenticated to true
+
+  //   // if token doesn't exist, 
+  //       // set isAuthenticated to false
+
+  //   // set isLoading to false
+  // }, []);
 
   const authenticateUser = async (e: any, apiEndpoint: string, destinationPage: string) => {
     e.preventDefault();
