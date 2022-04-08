@@ -4,10 +4,11 @@ import { BooksObject, ModalForm, PostForm } from "../interfaces/books";
 // import { AuthContainer } from "./useAuth";
 
 export const useBooks = (
-  { user, isAuthenticated }: 
+  { user, isAuthenticated, handleLogout }: 
   {
     user: any,
-    isAuthenticated: boolean
+    isAuthenticated: boolean,
+    handleLogout: () => void
   }) => {
   // const auth = AuthContainer.useContainer();
   let [books, setBooks] = useState<BooksObject[]>([]);
@@ -87,6 +88,7 @@ export const useBooks = (
       // if (method === 'POST' && data[0].code === 'too_small') trackProgress(false, true, `${data[0].message}. All fields are required. Also, only PDF files are allowed.`);
     }
     if (response.status === 401) {
+      handleLogout();
       // trackProgress(false, true, 'Your session has expired, please login again');
       // auth.setUnAuthorizedError(true);
       // const removeError = () => auth.setUnAuthorizedError(false);

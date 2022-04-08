@@ -9,7 +9,7 @@ import BookForm from "../components/forms/BookForm";
 
 const Books = (): ReactElement => {
   const { user, isAuthenticated, handleLogout } = AuthContainer.useContainer();
-  const hook = useBooks({ user, isAuthenticated });
+  const hook = useBooks({ user, isAuthenticated, handleLogout });
 
   return (
     <section>
