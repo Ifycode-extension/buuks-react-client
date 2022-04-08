@@ -3,7 +3,12 @@ import { fetchOptions } from "../lib/books";
 import { BooksObject, ModalForm, PostForm } from "../interfaces/books";
 // import { AuthContainer } from "./useAuth";
 
-export const useBooks = ({ user, isAuthenticated }: { user: any, isAuthenticated: boolean }): Record<string, any> => {
+export const useBooks = (
+  { user, isAuthenticated }: 
+  {
+    user: any,
+    isAuthenticated: boolean
+  }) => {
   // const auth = AuthContainer.useContainer();
   let [books, setBooks] = useState<BooksObject[]>([]);
   const [modal, setModal] = useState(false);
@@ -34,7 +39,7 @@ export const useBooks = ({ user, isAuthenticated }: { user: any, isAuthenticated
   const [form, setForm] = useState<PostForm>(initialForm);
   const [modalForm, setModalForm] = useState<ModalForm>(initialModalform);
 
-    useEffect(() => {
+  useEffect(() => {
     if (isAuthenticated) getBooks();
   }, [isAuthenticated]);
 
@@ -48,7 +53,8 @@ export const useBooks = ({ user, isAuthenticated }: { user: any, isAuthenticated
     let response: Response;
     response = await fetch(`${process.env.REACT_APP_BASE_URL}/${apiEndpoint}`, fetchOptions(method, form));
     const data = await response.json();
-    console.log(apiEndpoint);
+    if (isAuthenticated) console.log(apiEndpoint);
+
     if (response.ok) {
       // trackProgress(false, false, '');
       if (method === 'GET') setBooks(data.books);
@@ -91,7 +97,7 @@ export const useBooks = ({ user, isAuthenticated }: { user: any, isAuthenticated
       // }
       // setTimeout(removeInterval, 200);
     }
-    console.log('data: ', data);
+    if (isAuthenticated) console.log('data: ', data);
   }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, checkboxString: string) => { // checkboxString: string |  null
