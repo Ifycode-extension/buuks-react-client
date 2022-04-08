@@ -3,6 +3,7 @@ import { Location, NavigateFunction, useLocation, useNavigate } from "react-rout
 import { createContainer } from "unstated-next";
 import { AuthForm, AuthFormContent, User } from "../interfaces/auth";
 import { formBody } from "../lib/auth";
+import { useBooks } from "./useBooks";
 
 export const useAuth = () => {
   const navigate: NavigateFunction = useNavigate();
@@ -35,6 +36,7 @@ export const useAuth = () => {
   const [authFormContent, setAuthFormContent] = useState<AuthFormContent>(initialAuthFormContent);
   const [user, setUser] = useState<User>(initialUser);
   const [form, setForm] = useState<AuthForm>(initialForm);
+  const usebooksHook = useBooks({ user, isAuthenticated });
 
   // useEffect(() => { // Suggestions from Silas
   //   // Set isloading to true
@@ -51,6 +53,17 @@ export const useAuth = () => {
   //   // set isLoading to false
   // }, []);
 
+  useEffect(() => {
+    setIsLoading(true);
+    const token = localStorage.getItem('buuks_accessToken');
+    if (token) {
+      handleLogIn();
+    } else {
+      handleLogout();
+    }
+    setIsLoading(false);
+  }, []);
+
   const authenticateUser = async (e: any, apiEndpoint: string, destinationPage: string) => {
     e.preventDefault();
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${apiEndpoint}`, {
@@ -65,8 +78,8 @@ export const useAuth = () => {
       if (pageRoute === '/login') {
         localStorage.setItem('buuks_accessToken', data.accessToken);
         localStorage.setItem('buuks_user', JSON.stringify(data.user));
-        setUser(JSON.parse(localStorage.getItem('buuks_user') as string));
-        setIsAuthenticated(true);
+        handleLogIn();
+        usebooksHook.getBooks();
       }
       navigate(destinationPage);
       resetForm(initialForm);
@@ -91,9 +104,13 @@ export const useAuth = () => {
   }
 
   const handleLogIn = () => {
+    const userLocal = localStorage.getItem('buuks_user');
+    setUser(JSON.parse(userLocal as string));
     setIsAuthenticated(true);
-    localStorage.getItem('buuks_accessToken');
-  }
+     console.log(user);
+    // console.log(isAuthenticated);
+    usebooksHook.fetchBookData(null, 'GET', `books/user/${user._id}`, null);
+  } // don't forget to cahange the hard coded user._id
 
   const handleLogout = () => {
     setIsAuthenticated(false);
