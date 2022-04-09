@@ -5,8 +5,8 @@ export const fetchOptions = (method: string, form: PostForm) => {
   options = {
     method: method,
     headers: {
-      'Authorization': `Bearer ${localStorage.accessToken}`,
-      'x-access-token': `${localStorage.accessToken}`
+      'Authorization': `Bearer ${localStorage.buuks_accessToken}`,
+      'x-access-token': `${localStorage.buuks_accessToken}`
     }
   }
   if (method === 'POST') {

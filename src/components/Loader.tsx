@@ -1,11 +1,17 @@
 import { ReactElement } from "react";
 import { AuthContainer } from "../hooks/useAuth";
+import { useLoader } from "../hooks/useLoader";
+import SvgAnimatedLoader from "./ui/SvgAnimatedLoader";
 
-const Loader = (): ReactElement | null => {
-  const auth = AuthContainer.useContainer();
-  if (!auth.isLoading) return null;
+const Loader = ({ fixed }: { fixed: boolean }): ReactElement | null => {
+  const { isLoading } = AuthContainer.useContainer();
+  const { loader } = useLoader({ fixed });
+  if (!isLoading) return null;
   return (
-    <div className="fixed bottom-6 right-6 text-pink-800 text-base py-2 px-3 md:text-lg md:px-4 rounded border border-pink-800 text-bold">Loading...</div>
+    <div className={`${loader.style} flex items-center w-fit`}>
+      <div className="text-base text-pink-800 w-fit">{loader.text}</div>
+      <SvgAnimatedLoader />
+    </div>
   );
 }
 

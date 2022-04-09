@@ -1,4 +1,4 @@
-import { ReactElement, useEffect } from "react";
+import { ReactElement } from "react";
 import Modal from "../components/Modal";
 import { useBooks } from "../hooks/useBooks";
 import { AuthContainer } from "../hooks/useAuth";
@@ -6,28 +6,19 @@ import Loader from "../components/Loader";
 import Toastr from "../components/Toastr";
 import BooksBody from "../components/BooksBody";
 import BookForm from "../components/forms/BookForm";
+import Skeleton from "../components/ui/Skeleton";
 
 const Books = (): ReactElement => {
-  const auth = AuthContainer.useContainer();
-  const hook = useBooks();
-  useEffect(() => {
-    let abortController = new AbortController();
-    const user = JSON.parse(localStorage.getItem('_user') as string);
-    auth.setUser(user);
-    hook.fetchBookData(null, 'GET', `books/user/${user._id}`, null);
-    auth.handleLogIn();
-    return () => {
-      abortController.abort();
-    }
-  }, []);
+  const { user, isAuthenticated, isLoading, handleLogout, setIsFetching, setGetRequest } = AuthContainer.useContainer();
+  const hook = useBooks({ user, isAuthenticated, handleLogout, setIsFetching, setGetRequest });
 
   return (
     <section>
       <div className="flex justify-between items-center py-4">
-        <p className="text-xl md:text-2xl ">{auth.user.name}</p>
+        <p className="text-xl md:text-2xl ">{user.name}</p>
         <button
           className="rounded bg-pink-800 text-white text-lg py-2 px-4 hover:bg-pink-700 active:shadow-lg mouse shadow transition ease-in duration-200"
-          onClick={auth.handleLogout}
+          onClick={handleLogout}
         >Logout</button>
       </div>
       <button
@@ -40,7 +31,9 @@ const Books = (): ReactElement => {
       >
         <BookForm hook={hook} />
       </Modal>
-      <Loader />
+      <Loader fixed={false} />
+      {!isLoading ? <div className="mt-5 text-base text-gray-500 w-fit">Total number of books: {hook.books.length}</div> : null}
+      <Skeleton />
       <BooksBody hook={hook} />
       <Toastr
         success={hook.success}

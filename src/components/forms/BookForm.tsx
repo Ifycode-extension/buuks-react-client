@@ -81,7 +81,7 @@ const BookForm = ({ hook }: { hook: Record<string, any> }): ReactElement => {
             </button>
           </div>
         )}
-        <Loader />
+        <Loader fixed={true} />
         <Error />
       </div>
     </form>

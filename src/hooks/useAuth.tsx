@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Location, NavigateFunction, useLocation, useNavigate } from "react-router-dom";
 import { createContainer } from "unstated-next";
 import { AuthForm, AuthFormContent, User } from "../interfaces/auth";
@@ -10,6 +10,8 @@ export const useAuth = () => {
   const pageRoute: string = location.pathname;
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [getRequest, setGetRequest] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [unAuthorizedError, setUnAuthorizedError] = useState<boolean>(false);
@@ -36,8 +38,16 @@ export const useAuth = () => {
   const [user, setUser] = useState<User>(initialUser);
   const [form, setForm] = useState<AuthForm>(initialForm);
 
+  useEffect(() => {
+    const token = localStorage.getItem('buuks_accessToken');
+    token ? handleLogIn() : handleLogout();
+    isFetching ? setIsLoading(true) : setIsLoading(false);
+    if (getRequest) setIsLoading(true);
+  }, [isFetching, getRequest]);
+
   const authenticateUser = async (e: any, apiEndpoint: string, destinationPage: string) => {
     e.preventDefault();
+    setIsFetching(true);
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${apiEndpoint}`, {
       method: 'POST',
       headers: {
@@ -48,10 +58,9 @@ export const useAuth = () => {
     const data = await response.json();
     if (data.user) {
       if (pageRoute === '/login') {
-        localStorage.setItem('accessToken', data.accessToken);
-        localStorage.setItem('_user', JSON.stringify(data.user));
-        setUser(JSON.parse(localStorage.getItem('_user') as string));
-        setIsAuthenticated(true);
+        localStorage.setItem('buuks_accessToken', data.accessToken);
+        localStorage.setItem('buuks_user', JSON.stringify(data.user));
+        handleLogIn();
       }
       navigate(destinationPage);
       resetForm(initialForm);
@@ -66,6 +75,7 @@ export const useAuth = () => {
     if (response.status === 401) {
       handleError(true, data.error.message);
     }
+    setIsFetching(false);
     // console.log(data)
   }
 
@@ -76,16 +86,17 @@ export const useAuth = () => {
   }
 
   const handleLogIn = () => {
+    const userLocal = localStorage.getItem('buuks_user');
+    setUser(JSON.parse(userLocal as string));
     setIsAuthenticated(true);
-    localStorage.getItem('accessToken');
   }
 
   const handleLogout = () => {
     setIsAuthenticated(false);
     setUnAuthorizedError(false);
     navigate('/login');
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('_user');
+    localStorage.removeItem('buuks_accessToken');
+    localStorage.removeItem('buuks_user');
     setUser(initialUser);
   }
 
@@ -143,9 +154,12 @@ export const useAuth = () => {
     user,
     setUser,
     isLoading,
+    getRequest,
     error,
     errorMessage,
     setIsLoading,
+    setIsFetching,
+    setGetRequest,
     handleError,
     unAuthorizedError,
     setUnAuthorizedError,

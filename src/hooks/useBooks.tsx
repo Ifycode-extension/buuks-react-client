@@ -1,15 +1,21 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { fetchOptions } from "../lib/books";
 import { BooksObject, ModalForm, PostForm } from "../interfaces/books";
-import { AuthContainer } from "./useAuth";
+import { User } from "../interfaces/auth";
 
-export const useBooks = (): Record<string, any> => {
-  const auth = AuthContainer.useContainer();
+export const useBooks = (
+  { user, isAuthenticated, handleLogout, setIsFetching, setGetRequest }: 
+  {
+    user: User,
+    isAuthenticated: boolean,
+    handleLogout: () => void,
+    setIsFetching: Dispatch<SetStateAction<boolean>>,
+    setGetRequest: Dispatch<SetStateAction<boolean>>
+  }) => {
   let [books, setBooks] = useState<BooksObject[]>([]);
-  const [modal, setModal] = useState(false);
+  const [modal, setModal] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>('');
-  const [booksLoading, setBooksLoading] = useState<boolean | null>(null);
   const initialForm = {
     title: '',
     description: '',
@@ -34,16 +40,24 @@ export const useBooks = (): Record<string, any> => {
   const [form, setForm] = useState<PostForm>(initialForm);
   const [modalForm, setModalForm] = useState<ModalForm>(initialModalform);
 
+  useEffect(() => {
+    if (isAuthenticated) getBooks();
+  }, [isAuthenticated]);
+
+  const getBooks = () => fetchBookData(null, 'GET', `books/user/${user._id}`, null);
+
   const fetchBookData = async (e: any, method: string, apiEndpoint: string, bookId: string | null) => {
     if (method === 'POST' || method === 'PUT') e.preventDefault();
-    if (method === 'GET' && !auth.isLoading) setBooksLoading(false);
-    if (method !== 'GET' && !auth.isLoading) setBooksLoading(null);
-    trackProgress(true, false, '');
+    setIsFetching(true);
+    if (method === 'GET') setGetRequest(true);
+    // trackProgress(true, false, '');
     let response: Response;
     response = await fetch(`${process.env.REACT_APP_BASE_URL}/${apiEndpoint}`, fetchOptions(method, form));
     const data = await response.json();
+    if (isAuthenticated) console.log(apiEndpoint);
+
     if (response.ok) {
-      trackProgress(false, false, '');
+      // trackProgress(false, false, '');
       if (method === 'GET') setBooks(data.books);
       if (method === 'DELETE') setBooks(books.filter(book => book._id !== bookId));
       if (method === 'POST') {
@@ -69,22 +83,25 @@ export const useBooks = (): Record<string, any> => {
       resetForm();
     }
     if (response.status === 400) {
-      if (method === 'POST') trackProgress(false, true, 'All fields are required. Also, only PDF files are allowed.');
-      if (method === 'PUT') trackProgress(false, true, 'Only PDF files are allowed.');
-      if (method === 'POST' && data[0].code === 'too_small') trackProgress(false, true, `${data[0].message}. All fields are required. Also, only PDF files are allowed.`);
+      // if (method === 'POST') trackProgress(false, true, 'All fields are required. Also, only PDF files are allowed.');
+      // if (method === 'PUT') trackProgress(false, true, 'Only PDF files are allowed.');
+      // if (method === 'POST' && data[0].code === 'too_small') trackProgress(false, true, `${data[0].message}. All fields are required. Also, only PDF files are allowed.`);
     }
     if (response.status === 401) {
-      trackProgress(false, true, 'Your session has expired, please login again');
-      auth.setUnAuthorizedError(true);
-      const removeError = () => auth.setUnAuthorizedError(false);
-      const interval = setInterval(removeError, 200);
-      const removeInterval = () => {
-        auth.handleLogout();
-        clearInterval(interval);
-      }
-      setTimeout(removeInterval, 200);
+      handleLogout();
+      // trackProgress(false, true, 'Your session has expired, please login again');
+      // auth.setUnAuthorizedError(true);
+      // const removeError = () => auth.setUnAuthorizedError(false);
+      // const interval = setInterval(removeError, 200);
+      // const removeInterval = () => {
+      //   auth.handleLogout();
+      //   clearInterval(interval);
+      // }
+      // setTimeout(removeInterval, 200);
     }
-    // console.log('data: ', data);
+    setIsFetching(false);
+    setGetRequest(false);
+    if (isAuthenticated) console.log('data: ', data);
   }
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>, checkboxString: string) => { // checkboxString: string |  null
@@ -98,19 +115,19 @@ export const useBooks = (): Record<string, any> => {
         setModalForm({ ...modalForm, [checkboxString]: false });
       }
     }
-    trackProgress(false, false, '');
+    // trackProgress(false, false, '');
   }
 
-  const trackProgress = (loading: boolean, errBool: boolean, errString: string) => {
-    auth.setIsLoading(loading);
-    auth.handleError(errBool, errString);
-  }
+  // const trackProgress = (loading: boolean, errBool: boolean, errString: string) => {
+  //   auth.setIsLoading(loading);
+  //   auth.handleError(errBool, errString);
+  // }
 
   const handleModal = (boolean: boolean) => {
     setModal(boolean);
     if (!boolean) {
       setModalForm(initialModalform);
-      auth.handleError(false, '');
+      // auth.handleError(false, '');
       resetForm();
     }
   }
@@ -171,10 +188,10 @@ export const useBooks = (): Record<string, any> => {
     form,
     handleModal,
     fetchBookData,
+    getBooks,
     handleInputChange,
     handlePostRequestForm,
     modalForm,
-    booksLoading,
     success,
     successMessage
   }
