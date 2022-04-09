@@ -3,13 +3,7 @@ import { AuthContainer } from '../hooks/useAuth';
 
 const BooksBody = ({ hook }: { hook: Record<string, any> }): ReactElement | null => {
   const { isLoading } = AuthContainer.useContainer();
-  // if (!hook.books.length && !auth.isLoading) {
-  //   return (
-  //     <div className="mt-4">You have not added any book yet. Click on the add button to begin.</div>
-  //   );
-  // }
-  if (isLoading) return null;
-  // if (hook.booksLoading) return null;
+  if (isLoading && hook.getRequest) return null;
   return (
     <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-6 my-6">
       {

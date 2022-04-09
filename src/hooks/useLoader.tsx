@@ -13,7 +13,7 @@ export const useLoader = ({ fixed }: { fixed: boolean }) => {
       });
     } else {
       setLoader({
-        text: 'Fetching all books...',
+        text: 'Updating books count...',
         style: 'mt-4'
       });
     }

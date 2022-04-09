@@ -16,7 +16,7 @@ export const useBooks = (
   const [modal, setModal] = useState(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>('');
-  const [booksLoading, setBooksLoading] = useState<boolean | null>(null);
+  const [getRequest, setGetRequest] = useState<boolean>(false);
   const initialForm = {
     title: '',
     description: '',
@@ -50,6 +50,7 @@ export const useBooks = (
   const fetchBookData = async (e: any, method: string, apiEndpoint: string, bookId: string | null) => {
     if (method === 'POST' || method === 'PUT') e.preventDefault();
     setIsFetching(true);
+    if (method === 'GET') setGetRequest(true);
     // if (method === 'GET' && !auth.isLoading) setBooksLoading(false);
     // if (method !== 'GET' && !auth.isLoading) setBooksLoading(null);
     // trackProgress(true, false, '');
@@ -102,6 +103,7 @@ export const useBooks = (
       // setTimeout(removeInterval, 200);
     }
     setIsFetching(false);
+    setGetRequest(false);
     if (isAuthenticated) console.log('data: ', data);
   }
 
@@ -192,8 +194,8 @@ export const useBooks = (
     getBooks,
     handleInputChange,
     handlePostRequestForm,
+    getRequest,
     modalForm,
-    booksLoading,
     success,
     successMessage
   }
