@@ -9,7 +9,7 @@ export const useAuth = () => {
   const location: Location = useLocation();
   const pageRoute: string = location.pathname;
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [unAuthorizedError, setUnAuthorizedError] = useState<boolean>(false);
@@ -52,14 +52,14 @@ export const useAuth = () => {
   // }, []);
 
   useEffect(() => {
-    setIsLoading(true);
+    // setIsLoading(true);
     const token = localStorage.getItem('buuks_accessToken');
     if (token) {
       handleLogIn();
     } else {
       handleLogout();
     }
-    setIsLoading(false);
+    // setIsLoading(false);
   }, []);
 
   const authenticateUser = async (e: any, apiEndpoint: string, destinationPage: string) => {

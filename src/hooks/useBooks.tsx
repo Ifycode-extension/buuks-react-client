@@ -1,14 +1,15 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { fetchOptions } from "../lib/books";
 import { BooksObject, ModalForm, PostForm } from "../interfaces/books";
 // import { AuthContainer } from "./useAuth";
 
 export const useBooks = (
-  { user, isAuthenticated, handleLogout }: 
+  { user, isAuthenticated, handleLogout, setIsLoading }: 
   {
     user: any,
     isAuthenticated: boolean,
-    handleLogout: () => void
+    handleLogout: () => void,
+    setIsLoading: Dispatch<SetStateAction<boolean>>
   }) => {
   // const auth = AuthContainer.useContainer();
   let [books, setBooks] = useState<BooksObject[]>([]);
@@ -41,8 +42,10 @@ export const useBooks = (
   const [modalForm, setModalForm] = useState<ModalForm>(initialModalform);
 
   useEffect(() => {
+    // setIsLoading(true);
     if (isAuthenticated) getBooks();
-  }, [isAuthenticated]);
+    // setIsLoading(false);
+  }, [isAuthenticated, setIsLoading]);
 
   const getBooks = () => fetchBookData(null, 'GET', `books/user/${user._id}`, null);
 

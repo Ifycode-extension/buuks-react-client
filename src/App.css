@@ -13,6 +13,20 @@ form textarea {
   word-break: break-word;
 }
 
+.appcss-pulse {
+  animation: loading 1.4s infinite;
+}
+
+@keyframes loading {
+  50% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
 form > div {
   width: 90%;
   margin-left: auto;

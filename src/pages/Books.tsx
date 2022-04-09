@@ -6,10 +6,11 @@ import Loader from "../components/Loader";
 import Toastr from "../components/Toastr";
 import BooksBody from "../components/BooksBody";
 import BookForm from "../components/forms/BookForm";
+import Skeleton from "../components/ui/Skeleton";
 
 const Books = (): ReactElement => {
-  const { user, isAuthenticated, handleLogout } = AuthContainer.useContainer();
-  const hook = useBooks({ user, isAuthenticated, handleLogout });
+  const { user, isAuthenticated, handleLogout, setIsLoading } = AuthContainer.useContainer();
+  const hook = useBooks({ user, isAuthenticated, handleLogout, setIsLoading });
 
   return (
     <section>
@@ -30,7 +31,8 @@ const Books = (): ReactElement => {
       >
         <BookForm hook={hook} />
       </Modal>
-      <Loader />
+      <Loader fixed={false} />
+      <Skeleton />
       <BooksBody hook={hook} />
       <Toastr
         success={hook.success}

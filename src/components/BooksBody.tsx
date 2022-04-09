@@ -2,12 +2,18 @@ import { ReactElement } from 'react'
 import { AuthContainer } from '../hooks/useAuth';
 
 const BooksBody = ({ hook }: { hook: Record<string, any> }): ReactElement | null => {
-  const auth = AuthContainer.useContainer();
-  if (hook.booksLoading) return null;
+  const { isLoading } = AuthContainer.useContainer();
+  // if (!hook.books.length && !auth.isLoading) {
+  //   return (
+  //     <div className="mt-4">You have not added any book yet. Click on the add button to begin.</div>
+  //   );
+  // }
+  if (isLoading) return null;
+  // if (hook.booksLoading) return null;
   return (
-    <div className={hook.books.length ? 'grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-6 my-6' : 'mt-4'}>
+    <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-6 my-6">
       {
-        hook.books.length ? hook.books.map(((book: any) => {
+        hook.books.map(((book: any) => {
           return (
             <div key={book._id} className="grid grid-rows-1 shadow-sm">
               <div className="bg-white rounded-tl rounded-tr p-4 border-x border-t border-gray-300">
@@ -33,8 +39,7 @@ const BooksBody = ({ hook }: { hook: Record<string, any> }): ReactElement | null
               </div>
             </div>
           )
-        })) :
-          <div className={auth.isLoading ? 'hidden' : ''}>You have not added any book yet. Click on the add button to begin.</div>
+        }))
       }
     </div>
   )
