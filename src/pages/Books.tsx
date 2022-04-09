@@ -9,8 +9,8 @@ import BookForm from "../components/forms/BookForm";
 import Skeleton from "../components/ui/Skeleton";
 
 const Books = (): ReactElement => {
-  const { user, isAuthenticated, handleLogout, setIsLoading } = AuthContainer.useContainer();
-  const hook = useBooks({ user, isAuthenticated, handleLogout, setIsLoading });
+  const { user, isAuthenticated, handleLogout, setIsLoading, setIsFetching } = AuthContainer.useContainer();
+  const hook = useBooks({ user, isAuthenticated, handleLogout, setIsLoading, setIsFetching });
 
   return (
     <section>

@@ -4,12 +4,13 @@ import { BooksObject, ModalForm, PostForm } from "../interfaces/books";
 // import { AuthContainer } from "./useAuth";
 
 export const useBooks = (
-  { user, isAuthenticated, handleLogout, setIsLoading }: 
+  { user, isAuthenticated, handleLogout, setIsLoading, setIsFetching }: 
   {
     user: any,
     isAuthenticated: boolean,
     handleLogout: () => void,
-    setIsLoading: Dispatch<SetStateAction<boolean>>
+    setIsLoading: Dispatch<SetStateAction<boolean>>,
+    setIsFetching: Dispatch<SetStateAction<boolean>>
   }) => {
   // const auth = AuthContainer.useContainer();
   let [books, setBooks] = useState<BooksObject[]>([]);
@@ -51,6 +52,7 @@ export const useBooks = (
 
   const fetchBookData = async (e: any, method: string, apiEndpoint: string, bookId: string | null) => {
     if (method === 'POST' || method === 'PUT') e.preventDefault();
+    setIsFetching(true);
     // if (method === 'GET' && !auth.isLoading) setBooksLoading(false);
     // if (method !== 'GET' && !auth.isLoading) setBooksLoading(null);
     // trackProgress(true, false, '');
@@ -102,6 +104,7 @@ export const useBooks = (
       // }
       // setTimeout(removeInterval, 200);
     }
+    setIsFetching(false);
     if (isAuthenticated) console.log('data: ', data);
   }
 

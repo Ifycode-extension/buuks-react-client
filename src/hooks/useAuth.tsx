@@ -9,7 +9,8 @@ export const useAuth = () => {
   const location: Location = useLocation();
   const pageRoute: string = location.pathname;
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [unAuthorizedError, setUnAuthorizedError] = useState<boolean>(false);
@@ -52,18 +53,14 @@ export const useAuth = () => {
   // }, []);
 
   useEffect(() => {
-    // setIsLoading(true);
     const token = localStorage.getItem('buuks_accessToken');
-    if (token) {
-      handleLogIn();
-    } else {
-      handleLogout();
-    }
-    // setIsLoading(false);
-  }, []);
+    token ? handleLogIn() : handleLogout();
+    isFetching ? setIsLoading(true) : setIsLoading(false);
+  }, [isFetching]);
 
   const authenticateUser = async (e: any, apiEndpoint: string, destinationPage: string) => {
     e.preventDefault();
+    setIsFetching(true);
     const response = await fetch(`${process.env.REACT_APP_BASE_URL}/${apiEndpoint}`, {
       method: 'POST',
       headers: {
@@ -91,6 +88,7 @@ export const useAuth = () => {
     if (response.status === 401) {
       handleError(true, data.error.message);
     }
+    setIsFetching(false);
     // console.log(data)
   }
 
@@ -172,6 +170,7 @@ export const useAuth = () => {
     error,
     errorMessage,
     setIsLoading,
+    setIsFetching,
     handleError,
     unAuthorizedError,
     setUnAuthorizedError,
