@@ -38,21 +38,6 @@ export const useAuth = () => {
   const [user, setUser] = useState<User>(initialUser);
   const [form, setForm] = useState<AuthForm>(initialForm);
 
-  // useEffect(() => { // Suggestions from Silas
-  //   // Set isloading to true
-
-  //   // read token from local storage
-  //   // if token exists, 
-  //       // read user data from local storage
-  //       // set the user variable
-  //       // set isAuthenticated to true
-
-  //   // if token doesn't exist, 
-  //       // set isAuthenticated to false
-
-  //   // set isLoading to false
-  // }, []);
-
   useEffect(() => {
     const token = localStorage.getItem('buuks_accessToken');
     token ? handleLogIn() : handleLogout();

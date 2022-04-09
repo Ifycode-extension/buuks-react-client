@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from 'react';
 
 export const useLoader = ({ fixed }: { fixed: boolean }) => {
-  const [loader, setLoader] = useState({
+  const [loader, setLoader] = useState<{ text: string; style: string;}>({
     text: '',
     style: ''
   });
