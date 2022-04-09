@@ -9,8 +9,8 @@ import BookForm from "../components/forms/BookForm";
 import Skeleton from "../components/ui/Skeleton";
 
 const Books = (): ReactElement => {
-  const { user, isAuthenticated, isLoading, handleLogout, setIsFetching } = AuthContainer.useContainer();
-  const hook = useBooks({ user, isAuthenticated, handleLogout, setIsFetching });
+  const { user, isAuthenticated, isLoading, handleLogout, setIsFetching, setGetRequest } = AuthContainer.useContainer();
+  const hook = useBooks({ user, isAuthenticated, handleLogout, setIsFetching, setGetRequest });
 
   return (
     <section>
@@ -33,7 +33,7 @@ const Books = (): ReactElement => {
       </Modal>
       <Loader fixed={false} />
       {!isLoading ? <div className="mt-5 text-base text-gray-500 w-fit">Total number of books: {hook.books.length}</div> : null}
-      <Skeleton hook={hook}/>
+      <Skeleton />
       <BooksBody hook={hook} />
       <Toastr
         success={hook.success}

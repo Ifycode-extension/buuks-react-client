@@ -2,8 +2,8 @@ import { ReactElement } from 'react'
 import { AuthContainer } from '../hooks/useAuth';
 
 const BooksBody = ({ hook }: { hook: Record<string, any> }): ReactElement | null => {
-  const { isLoading } = AuthContainer.useContainer();
-  if (isLoading && hook.getRequest) return null;
+  const { isLoading, getRequest } = AuthContainer.useContainer();
+  if (isLoading && getRequest) return null;
   return (
     <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-6 my-6">
       {

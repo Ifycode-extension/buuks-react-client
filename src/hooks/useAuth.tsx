@@ -11,6 +11,7 @@ export const useAuth = () => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [getRequest, setGetRequest] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [unAuthorizedError, setUnAuthorizedError] = useState<boolean>(false);
@@ -56,7 +57,8 @@ export const useAuth = () => {
     const token = localStorage.getItem('buuks_accessToken');
     token ? handleLogIn() : handleLogout();
     isFetching ? setIsLoading(true) : setIsLoading(false);
-  }, [isFetching]);
+    if (getRequest) setIsLoading(true);
+  }, [isFetching, getRequest]);
 
   const authenticateUser = async (e: any, apiEndpoint: string, destinationPage: string) => {
     e.preventDefault();
@@ -167,10 +169,12 @@ export const useAuth = () => {
     user,
     setUser,
     isLoading,
+    getRequest,
     error,
     errorMessage,
     setIsLoading,
     setIsFetching,
+    setGetRequest,
     handleError,
     unAuthorizedError,
     setUnAuthorizedError,

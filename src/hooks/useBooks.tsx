@@ -4,19 +4,19 @@ import { BooksObject, ModalForm, PostForm } from "../interfaces/books";
 // import { AuthContainer } from "./useAuth";
 
 export const useBooks = (
-  { user, isAuthenticated, handleLogout, setIsFetching }: 
+  { user, isAuthenticated, handleLogout, setIsFetching, setGetRequest }: 
   {
     user: any,
     isAuthenticated: boolean,
     handleLogout: () => void,
-    setIsFetching: Dispatch<SetStateAction<boolean>>
+    setIsFetching: Dispatch<SetStateAction<boolean>>,
+    setGetRequest: Dispatch<SetStateAction<boolean>>
   }) => {
   // const auth = AuthContainer.useContainer();
   let [books, setBooks] = useState<BooksObject[]>([]);
   const [modal, setModal] = useState(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [successMessage, setSuccessMessage] = useState<string>('');
-  const [getRequest, setGetRequest] = useState<boolean>(false);
   const initialForm = {
     title: '',
     description: '',
@@ -194,7 +194,6 @@ export const useBooks = (
     getBooks,
     handleInputChange,
     handlePostRequestForm,
-    getRequest,
     modalForm,
     success,
     successMessage

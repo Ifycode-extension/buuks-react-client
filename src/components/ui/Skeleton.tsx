@@ -1,9 +1,9 @@
 import { ReactElement } from "react";
 import { AuthContainer } from "../../hooks/useAuth";
 
-const Skeleton = ({hook}: {hook: any}): ReactElement | null => {
-  const { isLoading } = AuthContainer.useContainer();
-  if (isLoading && hook.getRequest) {
+const Skeleton = (): ReactElement | null => {
+  const { isLoading, getRequest } = AuthContainer.useContainer();
+  if (isLoading && getRequest) {
     return (
       <div className="cursor-progress grid lg:grid-cols-3 md:grid-cols-2 gap-y-6 md:gap-6 my-6">
         {
