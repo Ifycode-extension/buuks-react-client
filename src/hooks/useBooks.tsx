@@ -4,12 +4,11 @@ import { BooksObject, ModalForm, PostForm } from "../interfaces/books";
 // import { AuthContainer } from "./useAuth";
 
 export const useBooks = (
-  { user, isAuthenticated, handleLogout, setIsLoading, setIsFetching }: 
+  { user, isAuthenticated, handleLogout, setIsFetching }: 
   {
     user: any,
     isAuthenticated: boolean,
     handleLogout: () => void,
-    setIsLoading: Dispatch<SetStateAction<boolean>>,
     setIsFetching: Dispatch<SetStateAction<boolean>>
   }) => {
   // const auth = AuthContainer.useContainer();
@@ -43,10 +42,8 @@ export const useBooks = (
   const [modalForm, setModalForm] = useState<ModalForm>(initialModalform);
 
   useEffect(() => {
-    // setIsLoading(true);
     if (isAuthenticated) getBooks();
-    // setIsLoading(false);
-  }, [isAuthenticated, setIsLoading]);
+  }, [isAuthenticated]);
 
   const getBooks = () => fetchBookData(null, 'GET', `books/user/${user._id}`, null);
 
