@@ -2,6 +2,7 @@ import { Fragment, ReactElement, useEffect } from "react";
 import { AuthContainer } from "../../hooks/useAuth";
 import AppLink from "../AppLink";
 import Error from "../Error";
+import Loader from "../Loader";
 
 const AuthForm = (): ReactElement => {
   const auth = AuthContainer.useContainer();
@@ -64,6 +65,7 @@ const AuthForm = (): ReactElement => {
             text={auth.authFormContent.LinkText}
           />
         </div>
+        <Loader fixed={true} />
         <Error />
       </form>
     </div>
